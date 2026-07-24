@@ -83,12 +83,48 @@ Offizielle Quellen:
 
 ## Phase D – npm
 
-- [ ] npm-Account anlegen (2FA)
-- [ ] Erstveröffentlichung: `npm publish --access public`
-- [ ] Owner hinzufügen (ioBroker-Anforderung), typischerweise:
+- [ ] npm-Account anlegen (2FA empfohlen/pflichtig für Publish)
+- [ ] Erstveröffentlichung manuell: `npm publish --access public`
+- [ ] Owner hinzufügen (ioBroker-Anforderung):
   - `npm owner add bluefox iobroker.tractive-next`
-- [ ] Trusted Publishing für GitHub Actions einrichten **oder** `NPM_TOKEN` Secret
-- [ ] Prüfen: Paket enthält `build/`, `admin/`, `io-package.json`, README, LICENSE (`files` in `package.json`)
+- [ ] Trusted Publishing auf npmjs.com einrichten (für spätere Tag-Releases)
+- [x] CI Deploy-Job bereit (`id-token: write`, Node 24, kein `npm-token`)
+- [x] Paketinhalt geprüft (`npm pack --dry-run`: `build/`, `admin/`, `io-package.json`, README, LICENSE)
+
+### Erstpublish (manuell, einmalig)
+
+Trusted Publishing greift erst, wenn das Paket auf npm existiert. Der erste Publish läuft deshalb lokal:
+
+```bash
+cd ~/Documents/Coding/ioBroker.tractive-next
+npm login                 # Browser/OTP
+npm run build
+npm publish --access public
+npm owner add bluefox iobroker.tractive-next
+npm view iobroker.tractive-next version
+```
+
+### Trusted Publishing (für künftige `v*`-Tags)
+
+1. https://www.npmjs.com/package/iobroker.tractive-next → **Settings** → **Publishing access**
+2. Trusted Publisher / GitHub Actions hinzufügen:
+   - Repository owner: `Fraese73`
+   - Repository name: `ioBroker.tractive-next`
+   - Workflow filename: `test-and-release.yml` (exakt, case-sensitive)
+   - Environment: leer lassen
+3. Speichern
+4. Ab dann: Version erhöhen → committen → Tag `vX.Y.Z` pushen → Deploy-Job veröffentlicht automatisch
+
+Offizielle Doku: https://docs.npmjs.com/trusted-publishers/  
+ioBroker-Hinweis: Deploy mit Node.js 24 (bereits so konfiguriert).
+
+### Optional: GitHub Release
+
+Nach erfolgreichem npm-Publish für 0.2.9:
+
+```bash
+gh release create v0.2.9 --title "0.2.9" --notes "Adapter-checker fixes: nogit, news translations, deploy Node 24."
+```
 
 ## Phase E – Latest Repository
 
