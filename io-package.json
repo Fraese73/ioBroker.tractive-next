@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "titleLang": {
       "en": "Tractive Next",
       "de": "Tractive Next"
@@ -40,7 +40,8 @@
     "password": "",
     "interval": 60
   },
-  "objects": [
+  "objects": [],
+  "instanceObjects": [
     {
       "_id": "info",
       "type": "channel",
@@ -88,6 +89,5 @@
       },
       "native": {}
     }
-  ],
-  "instanceObjects": []
+  ]
 }

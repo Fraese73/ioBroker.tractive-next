@@ -39,6 +39,7 @@ class TractiveNext extends utils.Adapter {
     }
 
     private async onReady(): Promise<void> {
+        await this.ensureInstanceObjects();
         await this.setStateAsync("info.connection", false, true);
 
         if (!this.config.email || !this.config.password) {
@@ -52,6 +53,50 @@ class TractiveNext extends utils.Adapter {
         } catch (error) {
             this.log.error(`Startup failed: ${this.errorText(error)}`);
         }
+    }
+
+    private async ensureInstanceObjects(): Promise<void> {
+        await this.setObjectNotExistsAsync("info", {
+            type: "channel",
+            common: { name: "Information" },
+            native: {},
+        });
+        await this.setObjectNotExistsAsync("info.connection", {
+            type: "state",
+            common: {
+                name: "Connection",
+                type: "boolean",
+                role: "indicator.connected",
+                read: true,
+                write: false,
+                def: false,
+            },
+            native: {},
+        });
+        await this.setObjectNotExistsAsync("info.lastUpdate", {
+            type: "state",
+            common: {
+                name: "Last successful update",
+                type: "number",
+                role: "value.time",
+                read: true,
+                write: false,
+                def: 0,
+            },
+            native: {},
+        });
+        await this.setObjectNotExistsAsync("rawJson", {
+            type: "state",
+            common: {
+                name: "Complete API response",
+                type: "string",
+                role: "json",
+                read: true,
+                write: false,
+                def: "{}",
+            },
+            native: {},
+        });
     }
 
     private async authenticate(): Promise<void> {
