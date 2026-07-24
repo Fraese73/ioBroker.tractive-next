@@ -1,15 +1,48 @@
-/* global socket provided by Admin tab iframe */
 /* eslint-disable no-undef */
-
 const ADAPTER = "tractive-next";
 const maps = {};
+let socket = null;
+
+function setStatus(text, kind) {
+    const el = document.getElementById("connection-status");
+    if (!el) {
+        return;
+    }
+    el.textContent = text;
+    el.className = "connection-status" + (kind ? ` ${kind}` : "");
+}
+
+function getQuery() {
+    const query = {};
+    (window.location.search || "")
+        .replace(/^\?/, "")
+        .split("&")
+        .forEach((part) => {
+            if (!part) {
+                return;
+            }
+            const [key, value] = part.split("=");
+            query[decodeURIComponent(key)] = value === undefined ? true : decodeURIComponent(value);
+        });
+    return query;
+}
 
 function getInstance() {
-    const match = (window.location.search || "").match(/[?&]instance=(\d+)/);
-    if (match) {
-        return Number(match[1]);
+    const query = getQuery();
+    if (query.instance !== undefined && query.instance !== true) {
+        return Number(query.instance) || 0;
     }
     return 0;
+}
+
+function getSocketUrl() {
+    const query = getQuery();
+    const port = parseInt(window.location.port, 10);
+    // Admin/dev-server often proxies tabs on ports 3000-3020 while socket stays on 8081.
+    if (port >= 3000 && port <= 3020) {
+        return `${window.location.protocol}//${query.host || window.location.hostname}:${query.port || 8081}`;
+    }
+    return undefined;
 }
 
 function formatTime(ms) {
@@ -41,6 +74,34 @@ function val(states, id) {
     return state ? state.val : null;
 }
 
+function connectSocket(callback) {
+    if (typeof io === "undefined") {
+        setStatus("Socket.io konnte nicht geladen werden.", "bad");
+        return;
+    }
+
+    const url = getSocketUrl();
+    socket = url ? io.connect(url) : io.connect();
+
+    const timeout = setTimeout(() => {
+        setStatus("Keine Antwort vom ioBroker-Socket.", "bad");
+    }, 8000);
+
+    socket.on("connect", () => {
+        clearTimeout(timeout);
+        callback();
+    });
+
+    socket.on("connect_error", (error) => {
+        clearTimeout(timeout);
+        setStatus(`Socket-Fehler: ${error && error.message ? error.message : error}`, "bad");
+    });
+
+    socket.on("reconnect", () => {
+        refresh();
+    });
+}
+
 function loadTrackers(callback) {
     const instance = getInstance();
     const prefix = `${ADAPTER}.${instance}.`;
@@ -52,7 +113,50 @@ function loadTrackers(callback) {
         {
             startkey: prefix,
             endkey: `${prefix}\u9999`,
-            include_docs: true,
+        },
+        (err, result) => {
+            if (err) {
+                console.error(err);
+                // Fallback: overview channels
+                loadTrackersFromOverviewChannels(callback);
+                return;
+            }
+
+            const devices = (result && result.rows ? result.rows : [])
+                .map((row) => row.value)
+                .filter(Boolean)
+                .map((obj) => {
+                    const id = obj._id || "";
+                    const trackerId = id.slice(prefix.length).split(".")[0];
+                    return {
+                        id,
+                        trackerId,
+                        name: (obj.common && obj.common.name) || trackerId,
+                    };
+                })
+                .filter((device) => device.trackerId && device.trackerId !== "info");
+
+            if (!devices.length) {
+                loadTrackersFromOverviewChannels(callback);
+                return;
+            }
+
+            callback(devices);
+        },
+    );
+}
+
+function loadTrackersFromOverviewChannels(callback) {
+    const instance = getInstance();
+    const prefix = `${ADAPTER}.${instance}.`;
+
+    socket.emit(
+        "getObjectView",
+        "system",
+        "channel",
+        {
+            startkey: prefix,
+            endkey: `${prefix}\u9999`,
         },
         (err, result) => {
             if (err) {
@@ -62,15 +166,15 @@ function loadTrackers(callback) {
             }
 
             const devices = (result && result.rows ? result.rows : [])
-                .map((row) => row.value || row.doc)
-                .filter(Boolean)
+                .map((row) => row.value)
+                .filter((obj) => obj && obj._id && /\.overview$/.test(obj._id))
                 .map((obj) => {
-                    const id = obj._id || "";
-                    const trackerId = id.slice(prefix.length);
+                    const rest = obj._id.slice(prefix.length);
+                    const trackerId = rest.replace(/\.overview$/, "");
                     return {
-                        id,
+                        id: `${prefix}${trackerId}`,
                         trackerId,
-                        name: (obj.common && obj.common.name) || trackerId,
+                        name: trackerId,
                     };
                 });
 
@@ -111,6 +215,7 @@ function loadOverviewStates(devices, callback) {
     socket.emit("getStates", ids, (err, states) => {
         if (err) {
             console.error(err);
+            setStatus(`States konnten nicht geladen werden: ${err}`, "bad");
             callback({});
             return;
         }
@@ -122,14 +227,11 @@ function renderConnection(states) {
     const instance = getInstance();
     const connected = val(states, `${ADAPTER}.${instance}.info.connection`);
     const lastUpdate = val(states, `${ADAPTER}.${instance}.info.lastUpdate`);
-    const el = document.getElementById("connection-status");
 
     if (connected) {
-        el.textContent = `Verbunden · letzter Update: ${formatTime(lastUpdate)}`;
-        el.className = "connection-status ok";
+        setStatus(`Verbunden · letzter Update: ${formatTime(lastUpdate)}`, "ok");
     } else {
-        el.textContent = "Nicht verbunden";
-        el.className = "connection-status bad";
+        setStatus("Adapter meldet: nicht verbunden", "bad");
     }
 }
 
@@ -143,7 +245,7 @@ function ensureMap(mapId, lat, lon, accuracy) {
         maps[mapId].marker.setLatLng([lat, lon]);
         if (maps[mapId].circle) {
             maps[mapId].circle.setLatLng([lat, lon]);
-            maps[mapId].circle.setRadius(typeof accuracy === "number" ? accuracy : 30);
+            maps[mapId].circle.setRadius(typeof accuracy === "number" && accuracy > 0 ? accuracy : 30);
         }
         setTimeout(() => maps[mapId].invalidateSize(), 50);
         return;
@@ -258,33 +360,30 @@ function escapeAttr(text) {
 }
 
 function refresh() {
+    if (!socket || !socket.connected) {
+        setStatus("Socket nicht verbunden.", "bad");
+        return;
+    }
+
+    setStatus("Lade Tracker…");
     loadTrackers((devices) => {
         loadOverviewStates(devices, (states) => {
             renderConnection(states);
             renderCards(devices, states);
+            if (!devices.length) {
+                setStatus("Verbunden, aber keine Tracker-Objekte gefunden.", "bad");
+            }
         });
     });
 }
 
 function init() {
     $("#refresh-btn").on("click", refresh);
-    refresh();
-    setInterval(refresh, 30000);
+    connectSocket(() => {
+        setStatus("Socket verbunden, lade Daten…", "ok");
+        refresh();
+        setInterval(refresh, 30000);
+    });
 }
 
-if (typeof systemLang === "undefined") {
-    // optional
-}
-
-if (typeof socket !== "undefined") {
-    init();
-} else {
-    // Wait briefly for Admin to inject socket
-    const timer = setInterval(() => {
-        if (typeof socket !== "undefined") {
-            clearInterval(timer);
-            init();
-        }
-    }, 100);
-    setTimeout(() => clearInterval(timer), 10000);
-}
+$(init);

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 – Admin-Tab Socket-Fix
+
+- Socket-Verbindung im Admin-Tab für Admin 7 korrigiert
+- Fallback-Erkennung über `overview`-Channels
+- `materializeTab: true` gesetzt
+
 ## 0.2.0 – Admin-Übersichtstab
 
 - Admin-Tab „Tractive Next“ in der linken Seitenleiste (`adminTab`)

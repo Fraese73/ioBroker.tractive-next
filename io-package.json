@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "titleLang": {
       "en": "Tractive Next",
       "de": "Tractive Next"
@@ -24,6 +24,7 @@
     "connectionType": "cloud",
     "dataSource": "poll",
     "materialize": true,
+    "materializeTab": true,
     "adminUI": {
       "config": "json",
       "tab": "materialize"
