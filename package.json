@@ -1,9 +1,28 @@
 {
   "name": "iobroker.tractive-next",
-  "version": "0.2.2",
-  "description": "Modern unofficial Tractive GPS adapter for ioBroker with dynamic object creation.",
-  "author": "Michael Fraessdorf",
+  "version": "0.2.3",
+  "description": "Unofficial Tractive GPS adapter for ioBroker with automatic state discovery and an admin overview tab.",
+  "author": "Michael Fraessdorf <coding@michael-fr.eu>",
+  "contributors": [
+    "Michael Fraessdorf <coding@michael-fr.eu>"
+  ],
+  "homepage": "https://github.com/Fraese73/ioBroker.tractive-next",
   "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "tractive",
+    "gps",
+    "geoposition",
+    "pet",
+    "tracker"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fraese73/ioBroker.tractive-next.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Fraese73/ioBroker.tractive-next/issues"
+  },
   "main": "build/main.js",
   "engines": {
     "node": ">=20"

@@ -28,7 +28,7 @@ Offizielle Quellen:
 | npm-Paket | **fehlt** |
 | GitHub Actions / Release-Pipeline | **fehlt** |
 | Adapter-Checker / ESLint / Tests | **fehlt bzw. unvollständig** |
-| Metadaten (`news`, `author`, Keywords, …) | **unvollständig** |
+| Metadaten (`news`, `author`, Keywords, …) | erledigt (0.2.3) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
 | Eintrag Latest/Stable | **fehlt** |
 
@@ -39,24 +39,24 @@ Offizielle Quellen:
 - [ ] GitHub-Repository **öffentlich** schalten
 - [ ] Repo-Name bleibt `ioBroker.tractive-next` (großes **B**)
 - [ ] GitHub **Topics** setzen (`iobroker`, `tractive`, `gps`, `geoposition`, …)
-- [ ] `package.json` ergänzen:
-  - [ ] `repository`, `bugs`, `homepage`
-  - [ ] `keywords`
-  - [ ] `author` im Format `Name <email>`
+- [x] `package.json` ergänzen:
+  - [x] `repository`, `bugs`, `homepage`
+  - [x] `keywords`
+  - [x] `author` im Format `Name <email>`
   - [ ] sinnvolle Scripts (`lint`, `test:integration`, `release`, …)
-- [ ] `io-package.json` ergänzen:
-  - [ ] `common.author` (Singular) und `common.authors` mit E-Mail
-  - [ ] `common.title` (kurz, Englisch; ohne „ioBroker“/„Adapter“)
-  - [ ] `common.news` für Releases
-  - [ ] `common.licenseInformation` (modernes Lizenzformat)
-  - [ ] `common.readme` / `common.extIcon` (öffentliche Raw-URLs)
-  - [ ] ggf. `tier`
-- [ ] README auf Veröffentlichungsniveau:
+- [x] `io-package.json` ergänzen:
+  - [x] `common.author` (Singular) und `common.authors` mit E-Mail
+  - [x] `common.title` (kurz, Englisch; ohne „ioBroker“/„Adapter“)
+  - [x] `common.news` für Releases
+  - [x] `common.licenseInformation` (modernes Lizenzformat)
+  - [x] `common.readme` / `common.extIcon` (öffentliche Raw-URLs)
+  - [x] ggf. `tier`
+- [x] README auf Veröffentlichungsniveau:
   - [ ] Englisch verpflichtend, Deutsch willkommen
-  - [ ] Link zur Herstellerseite (Tractive)
+  - [x] Link zur Herstellerseite (Tractive)
   - [ ] Installation über Admin beschreiben
   - [ ] Changelog einbinden oder verlinken
-  - [ ] klarer Hinweis: **inoffizielle API**
+  - [x] klarer Hinweis: **inoffizielle API**
 - [ ] Datenschutz-/Sicherheitshinweise (Zugangsdaten, Token, Logging)
 
 ## Phase B – Sicherheit und Objektqualität

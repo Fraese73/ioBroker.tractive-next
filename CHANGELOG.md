@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3 – Metadaten
+
+- `package.json`: Author mit E-Mail, Keywords, repository/bugs/homepage
+- `io-package.json`: `title`, `author`, `news`, `keywords`, `licenseInformation`, `readme`, `tier`
+- README: Link zur Herstellerseite Tractive
+
 ## 0.2.2 – Passwort-Verschlüsselung
 
 - Tractive-Passwort in `encryptedNative` / `protectedNative` (js-Controller verschlüsselt automatisch)

@@ -1,25 +1,79 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.2",
+    "version": "0.2.3",
+    "news": {
+      "0.2.3": {
+        "en": "Metadata completed for upcoming repository publication (author, keywords, news, license info).",
+        "de": "Metadaten für die spätere Repository-Veröffentlichung ergänzt (Autor, Keywords, News, Lizenzinfo)."
+      },
+      "0.2.2": {
+        "en": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "de": "Tractive-Passwort wird über encryptedNative/protectedNative verschlüsselt gespeichert."
+      },
+      "0.2.1": {
+        "en": "Fixed admin tab socket connection under Admin 7.",
+        "de": "Socket-Verbindung im Admin-Tab unter Admin 7 korrigiert."
+      },
+      "0.2.0": {
+        "en": "Added admin sidebar overview tab with OpenStreetMap cards per tracker.",
+        "de": "Admin-Übersichtstab mit OpenStreetMap-Karten pro Tracker hinzugefügt."
+      }
+    },
+    "title": "Tractive Next",
     "titleLang": {
       "en": "Tractive Next",
-      "de": "Tractive Next"
+      "de": "Tractive Next",
+      "ru": "Tractive Next",
+      "pt": "Tractive Next",
+      "nl": "Tractive Next",
+      "fr": "Tractive Next",
+      "it": "Tractive Next",
+      "es": "Tractive Next",
+      "pl": "Tractive Next",
+      "uk": "Tractive Next",
+      "zh-cn": "Tractive Next"
     },
     "desc": {
       "en": "Unofficial Tractive GPS integration with automatic state discovery.",
-      "de": "Inoffizielle Tractive-GPS-Integration mit automatischer Datenpunkterkennung."
+      "de": "Inoffizielle Tractive-GPS-Integration mit automatischer Datenpunkterkennung.",
+      "ru": "Неофициальная интеграция Tractive GPS с автоматическим обнаружением состояний.",
+      "pt": "Integração não oficial do Tractive GPS com descoberta automática de estados.",
+      "nl": "Onofficiële Tractive GPS-integratie met automatische statusdetectie.",
+      "fr": "Intégration GPS Tractive non officielle avec découverte automatique des états.",
+      "it": "Integrazione GPS Tractive non ufficiale con rilevamento automatico degli stati.",
+      "es": "Integración no oficial de Tractive GPS con descubrimiento automático de estados.",
+      "pl": "Nieoficjalna integracja Tractive GPS z automatycznym wykrywaniem stanów.",
+      "uk": "Неофіційна інтеграція Tractive GPS з автоматичним виявленням станів.",
+      "zh-cn": "非官方 Tractive GPS 集成，支持自动状态发现。"
     },
     "authors": [
-      "Michael Fraessdorf"
+      "Michael Fraessdorf <coding@michael-fr.eu>"
     ],
-    "license": "MIT",
+    "author": {
+      "name": "Michael Fraessdorf",
+      "email": "coding@michael-fr.eu"
+    },
+    "keywords": [
+      "tractive",
+      "gps",
+      "geoposition",
+      "pet",
+      "tracker"
+    ],
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
     "mode": "daemon",
     "compact": true,
     "enabled": true,
     "icon": "tractive-next.png",
     "extIcon": "https://raw.githubusercontent.com/Fraese73/ioBroker.tractive-next/main/admin/tractive-next.png",
+    "readme": "https://github.com/Fraese73/ioBroker.tractive-next/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
     "type": "geoposition",
     "connectionType": "cloud",
     "dataSource": "poll",

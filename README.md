@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.2.2
+## Features in 0.2.3
 
 - Tractive account login
 - Automatic token renewal
@@ -23,6 +23,8 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - Password stored encrypted via `encryptedNative` / `protectedNative`
 
 ## Important
+
+Manufacturer website: [https://tractive.com/](https://tractive.com/)
 
 Tractive does not provide a documented public consumer API for these trackers. This adapter uses the unofficial endpoint used by existing open-source integrations. Tractive can change it at any time.
 
