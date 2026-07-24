@@ -217,13 +217,16 @@ class TractiveNext extends utils.Adapter {
             }
 
             const id = `${baseId}.${this.sanitizeId(key)}`;
-            const normalized = this.normalizeValue(value);
+            const normalized = this.normalizeValue(key, value);
             await this.ensureState(id, key, normalized);
             await this.setStateAsync(id, { val: normalized.value, ack: true });
         }
     }
 
-    private normalizeValue(value: unknown): { value: ioBroker.StateValue; type: ioBroker.CommonType; role: string } {
+    private normalizeValue(
+        key: string,
+        value: unknown,
+    ): { value: ioBroker.StateValue; type: ioBroker.CommonType; role: string } {
         if (value === null || value === undefined) {
             // API fields such as temperature_state can legitimately be null.
             // A nullable unknown field is represented as string until a concrete value arrives.
@@ -233,12 +236,45 @@ class TractiveNext extends utils.Adapter {
             return { value, type: "boolean", role: "indicator" };
         }
         if (typeof value === "number") {
+            if (this.isUnixTimestampField(key, value)) {
+                return {
+                    value: this.toMilliseconds(value),
+                    type: "number",
+                    role: "value.time",
+                };
+            }
             return { value, type: "number", role: "value" };
         }
         if (typeof value === "string") {
             return { value, type: "string", role: "text" };
         }
         return { value: JSON.stringify(value), type: "string", role: "json" };
+    }
+
+    private isUnixTimestampField(key: string, value: number): boolean {
+        if (!Number.isFinite(value) || value <= 0) {
+            return false;
+        }
+
+        const keyHint =
+            /(?:^|_)(time|timestamp|date|expires|created|updated|last_seen|time_pos|time_rcvd)(?:_|$)/i.test(key) ||
+            /_(at|ts)$/i.test(key) ||
+            /^(time|timestamp|date)$/i.test(key);
+
+        if (!keyHint) {
+            return false;
+        }
+
+        // Unix seconds (~2001–2286) or milliseconds in the same era.
+        return (
+            (value >= 1_000_000_000 && value < 10_000_000_000) ||
+            (value >= 1_000_000_000_000 && value < 10_000_000_000_000)
+        );
+    }
+
+    private toMilliseconds(value: number): number {
+        // Tractive timestamps are typically Unix seconds; ioBroker value.time expects ms.
+        return value < 10_000_000_000 ? Math.round(value * 1000) : Math.round(value);
     }
 
     private async ensureState(
@@ -263,12 +299,19 @@ class TractiveNext extends utils.Adapter {
             return;
         }
 
-        // If a field was initially null and later becomes a concrete type, update the generated object.
-        if (existing.type === "state" && normalized.value !== null && existing.common.type !== normalized.type) {
+        if (existing.type !== "state" || normalized.value === null) {
+            return;
+        }
+
+        const typeChanged = existing.common.type !== normalized.type;
+        const roleChanged = existing.common.role !== normalized.role;
+
+        // Update when a null field becomes concrete, or when a timestamp role is inferred later.
+        if (typeChanged || roleChanged) {
             existing.common.type = normalized.type;
             existing.common.role = normalized.role;
             await this.setObjectAsync(id, existing);
-            this.log.info(`Updated inferred type of ${id} to ${normalized.type}.`);
+            this.log.info(`Updated inferred type/role of ${id} to ${normalized.type}/${normalized.role}.`);
         }
     }
 

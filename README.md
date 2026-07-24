@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.1.2
+## Features in 0.1.3
 
 - Tractive account login
 - Automatic token renewal
@@ -13,6 +13,7 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - Current position report
 - Automatic ioBroker object creation
 - Automatic data-type inference for new API fields
+- Unix timestamp fields converted to milliseconds with role `value.time` for readable display
 - `temperature_state` and future API fields no longer require a hard-coded definition
 - Raw JSON state for diagnostics
 

@@ -19,6 +19,7 @@
 - [ ] Token-Ablaufzeit und Antwortformat validieren
 - [ ] Fehlende Endpunkte tolerant behandeln
 - [ ] Objekttypen bei `null`-Werten verbessern
+- [x] Unix-Zeitstempel als `value.time` (ms) für lesbare Anzeige
 - [ ] strukturierte Debug-Protokolle
 - [ ] Unit-Tests für Datentyp-Erkennung
 - [ ] Adapter-Checker und Linting ergänzen

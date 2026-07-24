@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 – Zeitstempel-Anzeige
+
+- erkannte Unix-Zeitfelder (z. B. `time_pos`, `*_at`) werden in Millisekunden umgerechnet
+- Rolle `value.time`, damit Admin und Visualisierungen normale Datum/Uhrzeit anzeigen
+- bestehende Objekte aktualisieren Typ/Rolle automatisch nach
+
 ## 0.1.2 – Admin jsonConfig
 
 - `i18n: false` in `admin/jsonConfig.json` gesetzt (behebt Admin-Warnung wegen fehlendem Pflichtfeld)
