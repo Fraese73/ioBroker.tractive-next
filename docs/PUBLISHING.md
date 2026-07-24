@@ -27,8 +27,8 @@ Offizielle Quellen:
 | Öffentliches GitHub-Repo | erledigt (öffentlich) |
 | npm-Paket | **fehlt** |
 | GitHub Actions / Release-Pipeline | CI inkl. Deploy-Job und Node 22/24 |
-| Adapter-Checker / ESLint / Tests | behebbar Fehler in 0.2.8 adressiert; nach Push erneut prüfen |
-| Metadaten (`news`, `author`, Keywords, …) | erledigt (`noGit`, max. 7 news, aktuelle) |
+| Adapter-Checker / ESLint / Tests | behebbar Fehler in 0.2.9 adressiert; nach Push erneut prüfen |
+| Metadaten (`news`, `author`, Keywords, …) | erledigt (`nogit`, max. 7 news, Übersetzungen) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
 | Eintrag Latest/Stable | **fehlt** |
 
