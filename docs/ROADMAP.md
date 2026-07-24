@@ -29,7 +29,7 @@
 - [ ] Aktivitätsdaten
 - [ ] Gesundheitsdaten
 - [ ] Batteriestatus und Ladezustand
-- [ ] Kartenlink zu OpenStreetMap
+- [x] Kartenlink zu OpenStreetMap
 - [ ] Positionshistorie
 - [ ] Geofence-Informationen
 - [ ] Live-Tracking-Status

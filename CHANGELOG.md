@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 – OpenStreetMap-Link
+
+- pro Tracker wird `device_pos_report.osmMapUrl` aus `latlong` erzeugt (Rolle `text.url`)
+
 ## 0.1.3 – Zeitstempel-Anzeige
 
 - erkannte Unix-Zeitfelder (z. B. `time_pos`, `*_at`) werden in Millisekunden umgerechnet

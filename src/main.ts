@@ -171,6 +171,7 @@ class TractiveNext extends utils.Adapter {
                 await this.fetchSection(trackerId, "tracker", `/tracker/${trackerId}`, deviceData);
                 await this.fetchSection(trackerId, "device_hw_report", `/device_hw_report/${trackerId}`, deviceData);
                 await this.fetchSection(trackerId, "device_pos_report", `/device_pos_report/${trackerId}`, deviceData);
+                await this.writeOsmMapLink(trackerId, deviceData.device_pos_report);
                 (raw.devices as Record<string, unknown>)[trackerId] = deviceData;
             }
 
@@ -206,6 +207,29 @@ class TractiveNext extends utils.Adapter {
             }
             throw error;
         }
+    }
+
+    private async writeOsmMapLink(trackerId: string, posReport: unknown): Promise<void> {
+        if (!posReport || typeof posReport !== "object") {
+            return;
+        }
+
+        const latlong = (posReport as ApiRecord).latlong;
+        if (!Array.isArray(latlong) || latlong.length < 2) {
+            return;
+        }
+
+        const lat = Number(latlong[0]);
+        const lon = Number(latlong[1]);
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+            return;
+        }
+
+        const url = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=17/${lat}/${lon}`;
+        const id = `${trackerId}.device_pos_report.osmMapUrl`;
+        await this.ensureObject(`${trackerId}.device_pos_report`, "channel", "device_pos_report");
+        await this.ensureState(id, "osmMapUrl", { value: url, type: "string", role: "text.url" });
+        await this.setStateAsync(id, { val: url, ack: true });
     }
 
     private async writeRecord(baseId: string, record: ApiRecord): Promise<void> {
