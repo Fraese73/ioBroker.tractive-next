@@ -25,6 +25,11 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
 Tractive does not provide a documented public consumer API for these trackers. This adapter uses the unofficial endpoint used by existing open-source integrations. Tractive can change it at any time.
 
+## Publishing (ioBroker Latest / npm)
+
+This project is not yet in the official ioBroker adapter repository.  
+See the checklist in [`docs/PUBLISHING.md`](docs/PUBLISHING.md) for everything still required before other users can install and update it normally via the Admin UI.
+
 ## Update on the Raspberry Pi
 
 From the git clone on the Pi (not from `/opt/iobroker/...`):

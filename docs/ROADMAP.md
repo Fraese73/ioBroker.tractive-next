@@ -45,9 +45,15 @@
 
 ## Phase 5 – Veröffentlichung
 
-- [ ] vollständige Dokumentation
-- [ ] Datenschutz- und Sicherheitshinweise
-- [ ] Tests auf aktuellem ioBroker
-- [ ] GitHub Actions
-- [ ] Release-Paket
-- [ ] Vorbereitung für npm/ioBroker-Repository
+Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
+
+- [ ] Passwort in `encryptedNative` / `protectedNative`
+- [ ] Metadaten vervollständigen (`author`, `news`, Keywords, repository-Felder)
+- [ ] GitHub-Repo öffentlich + Topics
+- [ ] ESLint und Adapter-Checker grün
+- [ ] GitHub Actions (Tests + Release)
+- [ ] npm-Paket veröffentlichen + Owner `bluefox`
+- [ ] Eintrag ins Latest-Repository
+- [ ] Forum-Testthread
+- [ ] vollständige Dokumentation (EN/DE) inkl. Hersteller-Link und API-Hinweis
+- [ ] später Stable nach Feedback

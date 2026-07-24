@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Checkliste zur offiziellen Veröffentlichung ergänzt (`docs/PUBLISHING.md`)
+
 ## 0.2.1 – Admin-Tab Socket-Fix
 
 - Socket-Verbindung im Admin-Tab für Admin 7 korrigiert
