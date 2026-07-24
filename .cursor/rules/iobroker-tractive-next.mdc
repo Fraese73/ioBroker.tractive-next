@@ -1,0 +1,23 @@
+---
+description: Entwicklungsregeln für ioBroker.tractive-next
+globs:
+  - "src/**/*.ts"
+  - "admin/**/*.json"
+  - "io-package.json"
+  - "package.json"
+alwaysApply: true
+---
+
+# Projektregeln
+
+- Verwende TypeScript mit aktiviertem Strict Mode.
+- Bevorzuge kleine, klar benannte Methoden.
+- Fange Axios-Fehler strukturiert ab und protokolliere HTTP-Status sowie sichere Antwortdaten.
+- Gib niemals Passwort, Access-Token oder Authorization-Header im Log aus.
+- Verwende asynchrone ioBroker-Methoden mit `Async`-Suffix.
+- Neue Zustände müssen mit `ack: true` geschrieben werden.
+- Erzeuge Datenpunkte nur unter der jeweiligen Tracker-ID.
+- Behandele `null`, Arrays und verschachtelte Objekte robust.
+- Ändere keine existierenden Datenpunkt-IDs ohne Migrationsstrategie.
+- Führe nach Änderungen `npm run build` aus.
+- Ergänze bei neuen Funktionen README, CHANGELOG und ROADMAP.

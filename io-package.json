@@ -1,0 +1,93 @@
+{
+  "common": {
+    "name": "tractive-next",
+    "version": "0.1.0",
+    "titleLang": {
+      "en": "Tractive Next",
+      "de": "Tractive Next"
+    },
+    "desc": {
+      "en": "Unofficial Tractive GPS integration with automatic state discovery.",
+      "de": "Inoffizielle Tractive-GPS-Integration mit automatischer Datenpunkterkennung."
+    },
+    "authors": [
+      "Michael Fraessdorf"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "compact": true,
+    "enabled": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "materialize": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.19"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.17.14"
+      }
+    ]
+  },
+  "native": {
+    "email": "",
+    "password": "",
+    "interval": 60
+  },
+  "objects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "name": "Connection",
+        "type": "boolean",
+        "role": "indicator.connected",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.lastUpdate",
+      "type": "state",
+      "common": {
+        "name": "Last successful update",
+        "type": "number",
+        "role": "value.time",
+        "read": true,
+        "write": false,
+        "def": 0
+      },
+      "native": {}
+    },
+    {
+      "_id": "rawJson",
+      "type": "state",
+      "common": {
+        "name": "Complete API response",
+        "type": "string",
+        "role": "json",
+        "read": true,
+        "write": false,
+        "def": "{}"
+      },
+      "native": {}
+    }
+  ],
+  "instanceObjects": []
+}

@@ -1,0 +1,32 @@
+{
+  "name": "iobroker.tractive-next",
+  "version": "0.1.0",
+  "description": "Modern unofficial Tractive GPS adapter for ioBroker with dynamic object creation.",
+  "author": "Michael Fraessdorf",
+  "license": "MIT",
+  "main": "build/main.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.3.2",
+    "axios": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "rimraf": "^6.0.0",
+    "typescript": "^5.9.0"
+  },
+  "scripts": {
+    "clean": "rimraf build",
+    "build": "npm run clean && tsc -p src/tsconfig.json",
+    "test": "npm run build"
+  },
+  "files": [
+    "admin",
+    "build",
+    "io-package.json",
+    "README.md",
+    "LICENSE"
+  ]
+}

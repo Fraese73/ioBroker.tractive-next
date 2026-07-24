@@ -1,0 +1,40 @@
+{
+  "type": "panel",
+  "items": {
+    "email": {
+      "type": "text",
+      "label": {
+        "en": "Tractive email address",
+        "de": "Tractive-E-Mail-Adresse"
+      },
+      "newLine": true
+    },
+    "password": {
+      "type": "password",
+      "label": {
+        "en": "Tractive password",
+        "de": "Tractive-Passwort"
+      },
+      "newLine": true
+    },
+    "interval": {
+      "type": "number",
+      "label": {
+        "en": "Polling interval (seconds)",
+        "de": "Abfrageintervall (Sekunden)"
+      },
+      "min": 30,
+      "max": 3600,
+      "default": 60,
+      "newLine": true
+    },
+    "_notice": {
+      "type": "staticText",
+      "text": {
+        "en": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "de": "Dieser Adapter verwendet eine inoffizielle Tractive-API. Tractive kann sie jederzeit \u00e4ndern."
+      },
+      "newLine": true
+    }
+  }
+}
