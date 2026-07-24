@@ -50,7 +50,7 @@ Offizielle Quellen:
   - [x] `common.news` für Releases (max. 7, alle Sprachen)
   - [x] `common.licenseInformation` (modernes Lizenzformat)
   - [x] `common.readme` / `common.extIcon` (öffentliche Raw-URLs)
-  - [x] `common.noGit: true` (Build lokal, kein `build/` im Repo)
+  - [x] `common.nogit: true` (Build lokal, kein `build/` im Repo; Schema-Name kleingeschrieben)
   - [x] ggf. `tier`
 - [x] README auf Veröffentlichungsniveau:
   - [ ] Englisch verpflichtend, Deutsch willkommen

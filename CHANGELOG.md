@@ -1,10 +1,16 @@
 # Changelog
 
+## 0.2.9 – Checker-Nachbesserungen
+
+- `common.nogit` (Schema-Name) statt ungültigem `noGit`
+- echte Übersetzungen für `common.news`
+- Deploy-Job auf Node.js 24
+- `@iobroker/adapter-core` auf `^3.4.1`
+
 ## 0.2.8 – Adapter-Checker-Fixes
 
 - Node.js `>=22`, js-controller `>=6.0.11`, admin `>=7.6.20`
-- `common.noGit: true`, news auf 7 Einträge begrenzt, Übersetzungen ergänzt
-- jsonConfig: Größenattribute und fehlende Sprachen
+- news auf 7 Einträge begrenzt, jsonConfig Größen/Sprachen
 - README: `## Changelog` und `## License`
 - CI: Node 24 in der Test-Matrix, Deploy-Job ergänzt
 - `.commitinfo` in `.gitignore`, `mocha` aus package.json entfernt

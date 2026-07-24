@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.2.8
+## Features in 0.2.9
 
 - Tractive account login
 - Automatic token renewal
@@ -83,6 +83,9 @@ This is an initial development build. Read-only API access is implemented. Live 
 
 ## Changelog
 
+### 0.2.9
+* (Michael Fraessdorf) Fixed `common.nogit`, news translations and deploy Node.js 24
+
 ### 0.2.8
 * (Michael Fraessdorf) Fixed adapter-checker findings (deps, jsonConfig, README, CI)
 
@@ -110,8 +113,11 @@ This is an initial development build. Read-only API access is implemented. Live 
 ### 0.2.0
 * (Michael Fraessdorf) Added admin overview tab with OpenStreetMap cards
 
-### 0.1.x
-* (Michael Fraessdorf) Initial adapter foundation, polling, dynamic states, Pi update script
+### 0.1.5
+* (Michael Fraessdorf) Added Pi update script and OSM map URL
+
+### 0.1.0
+* (Michael Fraessdorf) Initial adapter foundation, polling and dynamic states
 
 ## License
 
