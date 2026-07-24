@@ -22,7 +22,7 @@
 - [x] Unix-Zeitstempel als `value.time` (ms) für lesbare Anzeige
 - [ ] strukturierte Debug-Protokolle
 - [ ] Unit-Tests für Datentyp-Erkennung
-- [ ] Adapter-Checker und Linting ergänzen
+- [x] Adapter-Checker-Befunde (0.2.8) und Linting ergänzt
 
 ## Phase 3 – Zusätzliche Daten
 
@@ -50,8 +50,9 @@ Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 - [x] Passwort in `encryptedNative` / `protectedNative`
 - [x] Metadaten vervollständigen (`author`, `news`, Keywords, repository-Felder)
 - [x] GitHub-Repo öffentlich + Topics
-- [x] ESLint und Adapter-Checker grün
-- [x] GitHub Actions (Tests + Release-Workflow-Gerüst)
+- [x] ESLint und Adapter-Checker-Fixes (0.2.8)
+- [x] GitHub Actions (Tests Node 22/24 + Deploy-Job)
+- [ ] Version taggen (`v0.2.8`) und Checker erneut laufen lassen
 - [ ] npm-Paket veröffentlichen + Owner `bluefox`
 - [ ] Eintrag ins Latest-Repository
 - [ ] Forum-Testthread

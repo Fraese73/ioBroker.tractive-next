@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.8 – Adapter-Checker-Fixes
+
+- Node.js `>=22`, js-controller `>=6.0.11`, admin `>=7.6.20`
+- `common.noGit: true`, news auf 7 Einträge begrenzt, Übersetzungen ergänzt
+- jsonConfig: Größenattribute und fehlende Sprachen
+- README: `## Changelog` und `## License`
+- CI: Node 24 in der Test-Matrix, Deploy-Job ergänzt
+- `.commitinfo` in `.gitignore`, `mocha` aus package.json entfernt
+
 ## 0.2.7 – Schema-Bereinigung
 
 - ungültiges `common.author` aus `io-package.json` entfernt (nur `authors` ist erlaubt)
@@ -32,10 +41,6 @@
 
 - Tractive-Passwort in `encryptedNative` / `protectedNative` (js-Controller verschlüsselt automatisch)
 - nach dem Update Passwort in der Instanzkonfiguration einmal neu speichern
-
-## Unreleased
-
-- Checkliste zur offiziellen Veröffentlichung ergänzt (`docs/PUBLISHING.md`)
 
 ## 0.2.1 – Admin-Tab Socket-Fix
 

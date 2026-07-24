@@ -26,9 +26,9 @@ Offizielle Quellen:
 | Funktionaler Adapter (Auth, Polling, Objekte, Tab) | weitgehend vorhanden |
 | Öffentliches GitHub-Repo | erledigt (öffentlich) |
 | npm-Paket | **fehlt** |
-| GitHub Actions / Release-Pipeline | CI vorhanden (Deploy später) |
-| Adapter-Checker / ESLint / Tests | ESLint + Package-Tests vorhanden; Checker online noch manuell |
-| Metadaten (`news`, `author`, Keywords, …) | erledigt (0.2.3) |
+| GitHub Actions / Release-Pipeline | CI inkl. Deploy-Job und Node 22/24 |
+| Adapter-Checker / ESLint / Tests | behebbar Fehler in 0.2.8 adressiert; nach Push erneut prüfen |
+| Metadaten (`news`, `author`, Keywords, …) | erledigt (`noGit`, max. 7 news, aktuelle) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
 | Eintrag Latest/Stable | **fehlt** |
 
@@ -45,24 +45,25 @@ Offizielle Quellen:
   - [x] `author` im Format `Name <email>`
   - [x] sinnvolle Scripts (`lint`, `test:package`, `check`; Release/Deploy später)
 - [x] `io-package.json` ergänzen:
-  - [x] `common.author` (Singular) und `common.authors` mit E-Mail
-  - [x] `common.title` (kurz, Englisch; ohne „ioBroker“/„Adapter“)
-  - [x] `common.news` für Releases
+  - [x] `common.authors` mit E-Mail (kein ungültiges `common.author`)
+  - [x] `common.titleLang` (ohne veraltetes `common.title`)
+  - [x] `common.news` für Releases (max. 7, alle Sprachen)
   - [x] `common.licenseInformation` (modernes Lizenzformat)
   - [x] `common.readme` / `common.extIcon` (öffentliche Raw-URLs)
+  - [x] `common.noGit: true` (Build lokal, kein `build/` im Repo)
   - [x] ggf. `tier`
 - [x] README auf Veröffentlichungsniveau:
   - [ ] Englisch verpflichtend, Deutsch willkommen
   - [x] Link zur Herstellerseite (Tractive)
   - [ ] Installation über Admin beschreiben
-  - [ ] Changelog einbinden oder verlinken
+  - [x] `## Changelog` und `## License` in README
   - [x] klarer Hinweis: **inoffizielle API**
 - [ ] Datenschutz-/Sicherheitshinweise (Zugangsdaten, Token, Logging)
 
 ## Phase B – Sicherheit und Objektqualität
 
 - [x] `password` in `encryptedNative` + `protectedNative`
-- [ ] Abhängigkeiten prüfen (`js-controller` / `admin` für Encryption)
+- [x] Abhängigkeiten: `js-controller >=6.0.11`, `admin >=7.6.20`, Node `>=22`
 - [ ] Rollen prüfen: keine „faulen“ Rollen wie reines `state`, wo vermeidbar
 - [ ] `null`-Behandlung und Typwechsel final absichern
 - [ ] Compact Mode testen (Start / Lauf / Stop ohne hängende Timer)
@@ -75,10 +76,10 @@ Offizielle Quellen:
 - [x] GitHub Actions:
   - [x] Package-/Adapter-Tests
   - [x] Integrationstests (Skript vorhanden)
-  - [x] `test-and-release` Workflow (Deploy noch auskommentiert)
-- [ ] Release-Script (`@iobroker/adapter-dev` / Release per Kommentar)
-- [ ] https://adapter-check.iobroker.in/ gegen das öffentliche Repo laufen lassen
-- [ ] **alle** Checker-Fehler beheben (Warnungen nach Möglichkeit auch)
+  - [x] `test-and-release` Workflow inkl. Deploy-Job (Tag `v*`)
+- [ ] Release-Script (`@alcalzone/release-script` / `@iobroker/adapter-dev`)
+- [ ] https://adapter-check.iobroker.in/ nach Push von 0.2.8 erneut laufen lassen
+- [x] behebbar Checker-Fehler aus 0.2.7-Lauf adressiert (npm-Publish/Tag bleiben offen)
 
 ## Phase D – npm
 

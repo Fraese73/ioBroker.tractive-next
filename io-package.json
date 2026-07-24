@@ -1,39 +1,98 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.7",
+    "version": "0.2.8",
     "news": {
+      "0.2.8": {
+        "en": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "de": "Adapter-Checker-Befunde behoben: Abhängigkeiten, jsonConfig, README-Abschnitte, CI-Matrix.",
+        "ru": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "pt": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "nl": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "fr": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "it": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "es": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "pl": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "uk": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
+        "zh-cn": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix."
+      },
       "0.2.7": {
         "en": "Removed invalid io-package fields (common.author, materialize flags, adminTab.icon).",
-        "de": "Ungültige io-package-Felder entfernt (common.author, materialize-Flags, adminTab.icon)."
+        "de": "Ungültige io-package-Felder entfernt (common.author, materialize-Flags, adminTab.icon).",
+        "ru": "Removed invalid io-package fields.",
+        "pt": "Removed invalid io-package fields.",
+        "nl": "Removed invalid io-package fields.",
+        "fr": "Removed invalid io-package fields.",
+        "it": "Removed invalid io-package fields.",
+        "es": "Removed invalid io-package fields.",
+        "pl": "Removed invalid io-package fields.",
+        "uk": "Removed invalid io-package fields.",
+        "zh-cn": "Removed invalid io-package fields."
       },
       "0.2.6": {
         "en": "Fixed package.json author format for the adapter checker.",
-        "de": "Author-Format in package.json für den Adapter-Checker korrigiert."
+        "de": "Author-Format in package.json für den Adapter-Checker korrigiert.",
+        "ru": "Fixed package.json author format for the adapter checker.",
+        "pt": "Fixed package.json author format for the adapter checker.",
+        "nl": "Fixed package.json author format for the adapter checker.",
+        "fr": "Fixed package.json author format for the adapter checker.",
+        "it": "Fixed package.json author format for the adapter checker.",
+        "es": "Fixed package.json author format for the adapter checker.",
+        "pl": "Fixed package.json author format for the adapter checker.",
+        "uk": "Fixed package.json author format for the adapter checker.",
+        "zh-cn": "Fixed package.json author format for the adapter checker."
       },
       "0.2.5": {
         "en": "Added ESLint, package tests and GitHub Actions CI workflow.",
-        "de": "ESLint, Package-Tests und GitHub-Actions-CI-Workflow ergänzt."
+        "de": "ESLint, Package-Tests und GitHub-Actions-CI-Workflow ergänzt.",
+        "ru": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "pt": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "nl": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "fr": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "it": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "es": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "pl": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "uk": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "zh-cn": "Added ESLint, package tests and GitHub Actions CI workflow."
       },
       "0.2.4": {
         "en": "GitHub repository is now public; topics added for discovery.",
-        "de": "GitHub-Repository ist jetzt öffentlich; Topics für die Auffindbarkeit ergänzt."
+        "de": "GitHub-Repository ist jetzt öffentlich; Topics für die Auffindbarkeit ergänzt.",
+        "ru": "GitHub repository is now public; topics added for discovery.",
+        "pt": "GitHub repository is now public; topics added for discovery.",
+        "nl": "GitHub repository is now public; topics added for discovery.",
+        "fr": "GitHub repository is now public; topics added for discovery.",
+        "it": "GitHub repository is now public; topics added for discovery.",
+        "es": "GitHub repository is now public; topics added for discovery.",
+        "pl": "GitHub repository is now public; topics added for discovery.",
+        "uk": "GitHub repository is now public; topics added for discovery.",
+        "zh-cn": "GitHub repository is now public; topics added for discovery."
       },
       "0.2.3": {
-        "en": "Metadata completed for upcoming repository publication (author, keywords, news, license info).",
-        "de": "Metadaten für die spätere Repository-Veröffentlichung ergänzt (Autor, Keywords, News, Lizenzinfo)."
+        "en": "Metadata completed for upcoming repository publication.",
+        "de": "Metadaten für die spätere Repository-Veröffentlichung ergänzt.",
+        "ru": "Metadata completed for upcoming repository publication.",
+        "pt": "Metadata completed for upcoming repository publication.",
+        "nl": "Metadata completed for upcoming repository publication.",
+        "fr": "Metadata completed for upcoming repository publication.",
+        "it": "Metadata completed for upcoming repository publication.",
+        "es": "Metadata completed for upcoming repository publication.",
+        "pl": "Metadata completed for upcoming repository publication.",
+        "uk": "Metadata completed for upcoming repository publication.",
+        "zh-cn": "Metadata completed for upcoming repository publication."
       },
       "0.2.2": {
         "en": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
-        "de": "Tractive-Passwort wird über encryptedNative/protectedNative verschlüsselt gespeichert."
-      },
-      "0.2.1": {
-        "en": "Fixed admin tab socket connection under Admin 7.",
-        "de": "Socket-Verbindung im Admin-Tab unter Admin 7 korrigiert."
-      },
-      "0.2.0": {
-        "en": "Added admin sidebar overview tab with OpenStreetMap cards per tracker.",
-        "de": "Admin-Übersichtstab mit OpenStreetMap-Karten pro Tracker hinzugefügt."
+        "de": "Tractive-Passwort wird über encryptedNative/protectedNative verschlüsselt gespeichert.",
+        "ru": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "pt": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "nl": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "fr": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "it": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "es": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "pl": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "uk": "Tractive password is stored encrypted via encryptedNative/protectedNative.",
+        "zh-cn": "Tractive password is stored encrypted via encryptedNative/protectedNative."
       }
     },
     "titleLang": {
@@ -80,6 +139,7 @@
     "mode": "daemon",
     "compact": true,
     "enabled": true,
+    "noGit": true,
     "icon": "tractive-next.png",
     "extIcon": "https://raw.githubusercontent.com/Fraese73/ioBroker.tractive-next/main/admin/tractive-next.png",
     "readme": "https://github.com/Fraese73/ioBroker.tractive-next/blob/main/README.md",
@@ -102,12 +162,12 @@
     },
     "dependencies": [
       {
-        "js-controller": ">=5.0.19"
+        "js-controller": ">=6.0.11"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=6.17.14"
+        "admin": ">=7.6.20"
       }
     ]
   },

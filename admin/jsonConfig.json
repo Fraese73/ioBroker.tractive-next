@@ -4,25 +4,67 @@
   "items": {
     "email": {
       "type": "text",
+      "xs": 12,
+      "sm": 12,
+      "md": 6,
+      "lg": 6,
+      "xl": 6,
       "label": {
         "en": "Tractive email address",
-        "de": "Tractive-E-Mail-Adresse"
+        "de": "Tractive-E-Mail-Adresse",
+        "ru": "Tractive email address",
+        "pt": "Tractive email address",
+        "nl": "Tractive email address",
+        "fr": "Tractive email address",
+        "it": "Tractive email address",
+        "es": "Tractive email address",
+        "pl": "Tractive email address",
+        "uk": "Tractive email address",
+        "zh-cn": "Tractive email address"
       },
       "newLine": true
     },
     "password": {
       "type": "password",
+      "xs": 12,
+      "sm": 12,
+      "md": 6,
+      "lg": 6,
+      "xl": 6,
       "label": {
         "en": "Tractive password",
-        "de": "Tractive-Passwort"
+        "de": "Tractive-Passwort",
+        "ru": "Tractive password",
+        "pt": "Tractive password",
+        "nl": "Tractive password",
+        "fr": "Tractive password",
+        "it": "Tractive password",
+        "es": "Tractive password",
+        "pl": "Tractive password",
+        "uk": "Tractive password",
+        "zh-cn": "Tractive password"
       },
       "newLine": true
     },
     "interval": {
       "type": "number",
+      "xs": 12,
+      "sm": 12,
+      "md": 6,
+      "lg": 4,
+      "xl": 4,
       "label": {
         "en": "Polling interval (seconds)",
-        "de": "Abfrageintervall (Sekunden)"
+        "de": "Abfrageintervall (Sekunden)",
+        "ru": "Polling interval (seconds)",
+        "pt": "Polling interval (seconds)",
+        "nl": "Polling interval (seconds)",
+        "fr": "Polling interval (seconds)",
+        "it": "Polling interval (seconds)",
+        "es": "Polling interval (seconds)",
+        "pl": "Polling interval (seconds)",
+        "uk": "Polling interval (seconds)",
+        "zh-cn": "Polling interval (seconds)"
       },
       "min": 30,
       "max": 3600,
@@ -31,9 +73,23 @@
     },
     "_notice": {
       "type": "staticText",
+      "xs": 12,
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12,
       "text": {
         "en": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "de": "Dieser Adapter verwendet eine inoffizielle Tractive-API. Tractive kann sie jederzeit \u00e4ndern."
+        "de": "Dieser Adapter verwendet eine inoffizielle Tractive-API. Tractive kann sie jederzeit ändern.",
+        "ru": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "pt": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "nl": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "fr": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "it": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "es": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "pl": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "uk": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
+        "zh-cn": "This adapter uses an unofficial Tractive API. Tractive may change it without notice."
       },
       "newLine": true
     }
