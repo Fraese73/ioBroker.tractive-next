@@ -25,7 +25,7 @@ Offizielle Quellen:
 | --- | --- |
 | Funktionaler Adapter (Auth, Polling, Objekte, Tab) | weitgehend vorhanden |
 | Öffentliches GitHub-Repo | erledigt (öffentlich) |
-| npm-Paket | **fehlt** |
+| npm-Paket | erledigt (`0.2.9`, Owner `bluefox`) |
 | GitHub Actions / Release-Pipeline | CI inkl. Deploy-Job und Node 22/24 |
 | Adapter-Checker / ESLint / Tests | behebbar Fehler in 0.2.9 adressiert; nach Push erneut prüfen |
 | Metadaten (`news`, `author`, Keywords, …) | erledigt (`nogit`, max. 7 news, Übersetzungen) |
@@ -83,9 +83,9 @@ Offizielle Quellen:
 
 ## Phase D – npm
 
-- [ ] npm-Account anlegen (2FA empfohlen/pflichtig für Publish)
-- [ ] Erstveröffentlichung manuell: `npm publish --access public`
-- [ ] Owner hinzufügen (ioBroker-Anforderung):
+- [x] npm-Account anlegen (2FA empfohlen/pflichtig für Publish)
+- [x] Erstveröffentlichung manuell: `npm publish --access public` (`0.2.9`)
+- [x] Owner hinzufügen (ioBroker-Anforderung):
   - `npm owner add bluefox iobroker.tractive-next`
 - [ ] Trusted Publishing auf npmjs.com einrichten (für spätere Tag-Releases)
 - [x] CI Deploy-Job bereit (`id-token: write`, Node 24, kein `npm-token`)
@@ -149,7 +149,7 @@ Voraussetzungen: öffentliches Repo, npm-Paket, grüner Checker, CI grün.
 1. Passwort-Verschlüsselung + Metadaten nachziehen  
 2. Repo öffentlich + Topics  
 3. ESLint + GitHub Actions + Adapter-Checker  
-4. npm publish + Owner  
+4. npm publish + Owner  ✅
 5. ADD TO LATEST  
 6. Forum-Tests → irgendwann Stable  
 

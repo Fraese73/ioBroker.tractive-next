@@ -52,8 +52,8 @@ Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 - [x] GitHub-Repo öffentlich + Topics
 - [x] ESLint und Adapter-Checker-Fixes (0.2.8)
 - [x] GitHub Actions (Tests Node 22/24 + Deploy-Job)
-- [ ] Version taggen (`v0.2.8`) und Checker erneut laufen lassen
-- [ ] npm-Paket veröffentlichen + Owner `bluefox`
+- [x] Version taggen (`v0.2.9`) und Checker erneut laufen lassen
+- [x] npm-Paket veröffentlichen + Owner `bluefox`
 - [ ] Eintrag ins Latest-Repository
 - [ ] Forum-Testthread
 - [ ] vollständige Dokumentation (EN/DE) inkl. Hersteller-Link und API-Hinweis
