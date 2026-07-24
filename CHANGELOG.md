@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5 – Update-Skript für den Pi
+
+- `UPDATE_ON_PI.sh`: `git pull`, Kopie nach ioBroker, `npm install`/`build`, Upload und Restart
+
 ## 0.1.4 – OpenStreetMap-Link
 
 - pro Tracker wird `device_pos_report.osmMapUrl` aus `latlong` erzeugt (Rolle `text.url`)

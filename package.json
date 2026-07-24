@@ -1,6 +1,6 @@
 {
   "name": "iobroker.tractive-next",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Modern unofficial Tractive GPS adapter for ioBroker with dynamic object creation.",
   "author": "Michael Fraessdorf",
   "license": "MIT",

@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.1.4
+## Features in 0.1.5
 
 - Tractive account login
 - Automatic token renewal
@@ -17,10 +17,23 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - Unix timestamp fields converted to milliseconds with role `value.time` for readable display
 - `temperature_state` and future API fields no longer require a hard-coded definition
 - Raw JSON state for diagnostics
+- Pi update script (`UPDATE_ON_PI.sh`) for pull, install, build and restart
 
 ## Important
 
 Tractive does not provide a documented public consumer API for these trackers. This adapter uses the unofficial endpoint used by existing open-source integrations. Tractive can change it at any time.
+
+## Update on the Raspberry Pi
+
+From the git clone on the Pi (not from `/opt/iobroker/...`):
+
+```bash
+cd ~/ioBroker.tractive-next
+chmod +x UPDATE_ON_PI.sh
+./UPDATE_ON_PI.sh
+```
+
+The script runs `git pull`, copies into `/opt/iobroker/node_modules/iobroker.tractive-next`, runs `npm install` + `npm run build`, uploads the admin UI and restarts `tractive-next.0`.
 
 ## Build on the Raspberry Pi
 

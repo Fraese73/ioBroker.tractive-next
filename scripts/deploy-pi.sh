@@ -17,8 +17,12 @@ rsync -av --delete \
 
 echo
 echo "Übertragung abgeschlossen."
-echo "Installation auf dem Pi:"
+echo "Update auf dem Pi (bestehende Instanz):"
 echo "  ssh ${PI_USER}@${PI_HOST}"
 echo "  cd ${PI_TARGET}"
+echo "  chmod +x UPDATE_ON_PI.sh"
+echo "  ./UPDATE_ON_PI.sh"
+echo
+echo "Erstinstallation auf dem Pi:"
 echo "  chmod +x INSTALL_ON_PI.sh"
 echo "  ./INSTALL_ON_PI.sh"
