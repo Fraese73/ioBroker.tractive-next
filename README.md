@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.1.1
+## Features in 0.1.2
 
 - Tractive account login
 - Automatic token renewal

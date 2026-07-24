@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 – Admin jsonConfig
+
+- `i18n: false` in `admin/jsonConfig.json` gesetzt (behebt Admin-Warnung wegen fehlendem Pflichtfeld)
+
 ## 0.1.1 – Instanzobjekte
 
 - `info`, `info.connection`, `info.lastUpdate` und `rawJson` als `instanceObjects` definiert
