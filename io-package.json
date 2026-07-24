@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "news": {
+      "0.2.5": {
+        "en": "Added ESLint, package tests and GitHub Actions CI workflow.",
+        "de": "ESLint, Package-Tests und GitHub-Actions-CI-Workflow ergänzt."
+      },
       "0.2.4": {
         "en": "GitHub repository is now public; topics added for discovery.",
         "de": "GitHub-Repository ist jetzt öffentlich; Topics für die Auffindbarkeit ergänzt."

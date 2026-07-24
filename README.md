@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.2.4
+## Features in 0.2.5
 
 - Tractive account login
 - Automatic token renewal
@@ -21,6 +21,7 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - Raw JSON state for diagnostics
 - Pi update script (`UPDATE_ON_PI.sh`) for pull, install, build and restart
 - Password stored encrypted via `encryptedNative` / `protectedNative`
+- ESLint (`npm run lint`), package tests and GitHub Actions CI
 
 ## Important
 

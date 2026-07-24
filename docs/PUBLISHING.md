@@ -26,8 +26,8 @@ Offizielle Quellen:
 | Funktionaler Adapter (Auth, Polling, Objekte, Tab) | weitgehend vorhanden |
 | Öffentliches GitHub-Repo | erledigt (öffentlich) |
 | npm-Paket | **fehlt** |
-| GitHub Actions / Release-Pipeline | **fehlt** |
-| Adapter-Checker / ESLint / Tests | **fehlt bzw. unvollständig** |
+| GitHub Actions / Release-Pipeline | CI vorhanden (Deploy später) |
+| Adapter-Checker / ESLint / Tests | ESLint + Package-Tests vorhanden; Checker online noch manuell |
 | Metadaten (`news`, `author`, Keywords, …) | erledigt (0.2.3) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
 | Eintrag Latest/Stable | **fehlt** |
@@ -43,7 +43,7 @@ Offizielle Quellen:
   - [x] `repository`, `bugs`, `homepage`
   - [x] `keywords`
   - [x] `author` im Format `Name <email>`
-  - [ ] sinnvolle Scripts (`lint`, `test:integration`, `release`, …)
+  - [x] sinnvolle Scripts (`lint`, `test:package`, `check`; Release/Deploy später)
 - [x] `io-package.json` ergänzen:
   - [x] `common.author` (Singular) und `common.authors` mit E-Mail
   - [x] `common.title` (kurz, Englisch; ohne „ioBroker“/„Adapter“)
@@ -71,11 +71,11 @@ Offizielle Quellen:
 ## Phase C – Qualitätssicherung (Pflicht für Latest)
 
 - [ ] Adapter an Creator-/Template-Standard annähern (`npx @iobroker/create-adapter` als Referenz)
-- [ ] ESLint einrichten und grün fahren
-- [ ] GitHub Actions:
-  - [ ] Package-/Adapter-Tests
-  - [ ] Integrationstests (mindestens Install/Run)
-  - [ ] `test-and-release` Workflow
+- [x] ESLint einrichten und grün fahren
+- [x] GitHub Actions:
+  - [x] Package-/Adapter-Tests
+  - [x] Integrationstests (Skript vorhanden)
+  - [x] `test-and-release` Workflow (Deploy noch auskommentiert)
 - [ ] Release-Script (`@iobroker/adapter-dev` / Release per Kommentar)
 - [ ] https://adapter-check.iobroker.in/ gegen das öffentliche Repo laufen lassen
 - [ ] **alle** Checker-Fehler beheben (Warnungen nach Möglichkeit auch)

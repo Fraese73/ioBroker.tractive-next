@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.5 – CI und ESLint
+
+- `@iobroker/eslint-config` und `npm run lint`
+- Package-Tests mit `@iobroker/testing`
+- GitHub Actions Workflow `.github/workflows/test-and-release.yml`
+- TypeScript-Check-Script `npm run check`
+
 ## 0.2.4 – Öffentliches Repository
 
 - GitHub-Repository auf öffentlich gestellt

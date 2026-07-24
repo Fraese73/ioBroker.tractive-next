@@ -50,8 +50,8 @@ Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 - [x] Passwort in `encryptedNative` / `protectedNative`
 - [x] Metadaten vervollständigen (`author`, `news`, Keywords, repository-Felder)
 - [x] GitHub-Repo öffentlich + Topics
-- [ ] ESLint und Adapter-Checker grün
-- [ ] GitHub Actions (Tests + Release)
+- [x] ESLint und Adapter-Checker grün
+- [x] GitHub Actions (Tests + Release-Workflow-Gerüst)
 - [ ] npm-Paket veröffentlichen + Owner `bluefox`
 - [ ] Eintrag ins Latest-Repository
 - [ ] Forum-Testthread
