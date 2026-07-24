@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.6",
+    "version": "0.2.7",
     "news": {
+      "0.2.7": {
+        "en": "Removed invalid io-package fields (common.author, materialize flags, adminTab.icon).",
+        "de": "Ungültige io-package-Felder entfernt (common.author, materialize-Flags, adminTab.icon)."
+      },
       "0.2.6": {
         "en": "Fixed package.json author format for the adapter checker.",
         "de": "Author-Format in package.json für den Adapter-Checker korrigiert."
@@ -32,7 +36,6 @@
         "de": "Admin-Übersichtstab mit OpenStreetMap-Karten pro Tracker hinzugefügt."
       }
     },
-    "title": "Tractive Next",
     "titleLang": {
       "en": "Tractive Next",
       "de": "Tractive Next",
@@ -62,10 +65,6 @@
     "authors": [
       "Michael Fraessdorf <coding@michael-fr.eu>"
     ],
-    "author": {
-      "name": "Michael Fraessdorf",
-      "email": "coding@michael-fr.eu"
-    },
     "keywords": [
       "tractive",
       "gps",
@@ -89,8 +88,6 @@
     "type": "geoposition",
     "connectionType": "cloud",
     "dataSource": "poll",
-    "materialize": true,
-    "materializeTab": true,
     "adminUI": {
       "config": "json",
       "tab": "materialize"
@@ -101,8 +98,7 @@
         "en": "Tractive Next",
         "de": "Tractive Next"
       },
-      "link": "",
-      "icon": "tractive-next.png"
+      "link": ""
     },
     "dependencies": [
       {

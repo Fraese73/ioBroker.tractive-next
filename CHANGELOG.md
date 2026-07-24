@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.7 – Schema-Bereinigung
+
+- ungültiges `common.author` aus `io-package.json` entfernt (nur `authors` ist erlaubt)
+- veraltete `materialize`/`materializeTab` und `adminTab.icon` entfernt
+- `common.title` entfernt (nur `titleLang`)
+
 ## 0.2.6 – Adapter-Checker Author-Fix
 
 - `package.json` `author` als Objekt (`name`/`email`) statt String – behebt Checker-Fehler E999
