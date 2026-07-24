@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "news": {
+      "0.2.6": {
+        "en": "Fixed package.json author format for the adapter checker.",
+        "de": "Author-Format in package.json für den Adapter-Checker korrigiert."
+      },
       "0.2.5": {
         "en": "Added ESLint, package tests and GitHub Actions CI workflow.",
         "de": "ESLint, Package-Tests und GitHub-Actions-CI-Workflow ergänzt."

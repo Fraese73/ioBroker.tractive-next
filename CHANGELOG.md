@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.6 – Adapter-Checker Author-Fix
+
+- `package.json` `author` als Objekt (`name`/`email`) statt String – behebt Checker-Fehler E999
+
 ## 0.2.5 – CI und ESLint
 
 - `@iobroker/eslint-config` und `npm run lint`
