@@ -24,7 +24,7 @@ Offizielle Quellen:
 | Bereich | Status |
 | --- | --- |
 | Funktionaler Adapter (Auth, Polling, Objekte, Tab) | weitgehend vorhanden |
-| Öffentliches GitHub-Repo | **fehlt** (aktuell privat) |
+| Öffentliches GitHub-Repo | erledigt (öffentlich) |
 | npm-Paket | **fehlt** |
 | GitHub Actions / Release-Pipeline | **fehlt** |
 | Adapter-Checker / ESLint / Tests | **fehlt bzw. unvollständig** |
@@ -36,9 +36,9 @@ Offizielle Quellen:
 
 ## Phase A – Repo und Basis-Metadaten
 
-- [ ] GitHub-Repository **öffentlich** schalten
-- [ ] Repo-Name bleibt `ioBroker.tractive-next` (großes **B**)
-- [ ] GitHub **Topics** setzen (`iobroker`, `tractive`, `gps`, `geoposition`, …)
+- [x] GitHub-Repository **öffentlich** schalten
+- [x] Repo-Name bleibt `ioBroker.tractive-next` (großes **B**)
+- [x] GitHub **Topics** setzen (`iobroker`, `tractive`, `gps`, `geoposition`, `pet`, `tracker`)
 - [x] `package.json` ergänzen:
   - [x] `repository`, `bugs`, `homepage`
   - [x] `keywords`

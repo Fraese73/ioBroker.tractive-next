@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4 – Öffentliches Repository
+
+- GitHub-Repository auf öffentlich gestellt
+- Topics: `iobroker`, `tractive`, `gps`, `geoposition`, `pet`, `tracker`
+
 ## 0.2.3 – Metadaten
 
 - `package.json`: Author mit E-Mail, Keywords, repository/bugs/homepage

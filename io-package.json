@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "news": {
+      "0.2.4": {
+        "en": "GitHub repository is now public; topics added for discovery.",
+        "de": "GitHub-Repository ist jetzt öffentlich; Topics für die Auffindbarkeit ergänzt."
+      },
       "0.2.3": {
         "en": "Metadata completed for upcoming repository publication (author, keywords, news, license info).",
         "de": "Metadaten für die spätere Repository-Veröffentlichung ergänzt (Autor, Keywords, News, Lizenzinfo)."

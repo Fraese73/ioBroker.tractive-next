@@ -49,7 +49,7 @@ Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 
 - [x] Passwort in `encryptedNative` / `protectedNative`
 - [x] Metadaten vervollständigen (`author`, `news`, Keywords, repository-Felder)
-- [ ] GitHub-Repo öffentlich + Topics
+- [x] GitHub-Repo öffentlich + Topics
 - [ ] ESLint und Adapter-Checker grün
 - [ ] GitHub Actions (Tests + Release)
 - [ ] npm-Paket veröffentlichen + Owner `bluefox`
