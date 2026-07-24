@@ -28,8 +28,9 @@
 
 - [ ] Aktivitätsdaten
 - [ ] Gesundheitsdaten
-- [ ] Batteriestatus und Ladezustand
+- [x] Batteriestatus und Ladezustand
 - [x] Kartenlink zu OpenStreetMap
+- [x] Admin-Übersichtstab mit Karte (erste Version)
 - [ ] Positionshistorie
 - [ ] Geofence-Informationen
 - [ ] Live-Tracking-Status

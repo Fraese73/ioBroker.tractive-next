@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 – Admin-Übersichtstab
+
+- Admin-Tab „Tractive Next“ in der linken Seitenleiste (`adminTab`)
+- Kartenübersicht pro Tracker (Leaflet/OpenStreetMap)
+- stabile Overview-Datenpunkte: Name, Lat/Lon, Genauigkeit, LastSeen, Batterie, Sensor, Adresse, OSM-Link
+- Latitude/Longitude zusätzlich unter `device_pos_report`
+
 ## 0.1.5 – Update-Skript für den Pi
 
 - `UPDATE_ON_PI.sh`: `git pull`, Kopie nach ioBroker, `npm install`/`build`, Upload und Restart

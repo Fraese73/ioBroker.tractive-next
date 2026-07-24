@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css"/>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" type="text/css" href="tab.css"/>
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body class="tab-body">
+<div class="tab-header">
+    <img class="tab-logo" src="tractive-next.png" alt="Tractive Next"/>
+    <div>
+        <h4 class="tab-title">Tractive Next</h4>
+        <div id="connection-status" class="connection-status">Verbindung wird geprüft…</div>
+    </div>
+    <button id="refresh-btn" class="btn waves-effect waves-light">Aktualisieren</button>
+</div>
+<div id="tracker-grid" class="tracker-grid"></div>
+<div id="empty-state" class="empty-state hide">
+    Keine Tracker gefunden. Prüfe Anmeldung und Instanz-Log.
+</div>
+<script type="text/javascript" src="tab.js"></script>
+</body>
+</html>

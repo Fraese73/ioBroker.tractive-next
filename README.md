@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.1.5
+## Features in 0.2.0
 
 - Tractive account login
 - Automatic token renewal
@@ -12,6 +12,8 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - Hardware report
 - Current position report
 - OpenStreetMap link per tracker (`device_pos_report.osmMapUrl`)
+- Admin sidebar tab with map cards per tracker
+- Overview states (`…overview.*`) for name, position, battery, sensor and address
 - Automatic ioBroker object creation
 - Automatic data-type inference for new API fields
 - Unix timestamp fields converted to milliseconds with role `value.time` for readable display

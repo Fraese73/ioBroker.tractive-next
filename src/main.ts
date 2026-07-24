@@ -172,6 +172,7 @@ class TractiveNext extends utils.Adapter {
                 await this.fetchSection(trackerId, "device_hw_report", `/device_hw_report/${trackerId}`, deviceData);
                 await this.fetchSection(trackerId, "device_pos_report", `/device_pos_report/${trackerId}`, deviceData);
                 await this.writeOsmMapLink(trackerId, deviceData.device_pos_report);
+                await this.writeOverview(trackerId, String(tracker.name ?? trackerId), deviceData);
                 (raw.devices as Record<string, unknown>)[trackerId] = deviceData;
             }
 
@@ -230,6 +231,78 @@ class TractiveNext extends utils.Adapter {
         await this.ensureObject(`${trackerId}.device_pos_report`, "channel", "device_pos_report");
         await this.ensureState(id, "osmMapUrl", { value: url, type: "string", role: "text.url" });
         await this.setStateAsync(id, { val: url, ack: true });
+
+        await this.ensureState(`${trackerId}.device_pos_report.latitude`, "latitude", {
+            value: lat,
+            type: "number",
+            role: "value.gps.latitude",
+        });
+        await this.setStateAsync(`${trackerId}.device_pos_report.latitude`, { val: lat, ack: true });
+
+        await this.ensureState(`${trackerId}.device_pos_report.longitude`, "longitude", {
+            value: lon,
+            type: "number",
+            role: "value.gps.longitude",
+        });
+        await this.setStateAsync(`${trackerId}.device_pos_report.longitude`, { val: lon, ack: true });
+    }
+
+    private async writeOverview(
+        trackerId: string,
+        fallbackName: string,
+        deviceData: Record<string, unknown>,
+    ): Promise<void> {
+        const pos = this.asRecord(deviceData.device_pos_report);
+        const hw = this.asRecord(deviceData.device_hw_report);
+        const tracker = this.asRecord(deviceData.tracker);
+        const base = `${trackerId}.overview`;
+
+        await this.ensureObject(base, "channel", "overview");
+
+        const latlong = pos?.latlong;
+        const lat = Array.isArray(latlong) ? Number(latlong[0]) : NaN;
+        const lon = Array.isArray(latlong) ? Number(latlong[1]) : NaN;
+        const lastSeenRaw = Number(pos?.time ?? pos?.time_pos ?? 0);
+        const lastSeen = lastSeenRaw > 0 ? this.toMilliseconds(lastSeenRaw) : 0;
+        const accuracy = Number(pos?.pos_uncertainty ?? 0);
+        const batteryLevel = Number(hw?.battery_level ?? tracker?.battery_level ?? NaN);
+        const sensorUsed = String(pos?.sensor_used ?? "");
+        const batteryState = String(tracker?.battery_state ?? hw?.battery_state ?? "");
+        const charging = Boolean(tracker?.charging_state ?? false);
+        const addressObj = this.asRecord(pos?.address);
+        const address = String(addressObj?.full_address ?? "");
+        const name = String(tracker?.name ?? fallbackName);
+        const osmMapUrl =
+            Number.isFinite(lat) && Number.isFinite(lon)
+                ? `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=17/${lat}/${lon}`
+                : "";
+
+        const states: Array<{ id: string; name: string; value: ioBroker.StateValue; type: ioBroker.CommonType; role: string }> = [
+            { id: `${base}.name`, name: "name", value: name, type: "string", role: "text" },
+            { id: `${base}.latitude`, name: "latitude", value: Number.isFinite(lat) ? lat : null, type: "number", role: "value.gps.latitude" },
+            { id: `${base}.longitude`, name: "longitude", value: Number.isFinite(lon) ? lon : null, type: "number", role: "value.gps.longitude" },
+            { id: `${base}.accuracy`, name: "accuracy", value: Number.isFinite(accuracy) ? accuracy : null, type: "number", role: "value" },
+            { id: `${base}.lastSeen`, name: "lastSeen", value: lastSeen || null, type: "number", role: "value.time" },
+            { id: `${base}.batteryLevel`, name: "batteryLevel", value: Number.isFinite(batteryLevel) ? batteryLevel : null, type: "number", role: "value.battery" },
+            { id: `${base}.batteryState`, name: "batteryState", value: batteryState || null, type: "string", role: "text" },
+            { id: `${base}.charging`, name: "charging", value: charging, type: "boolean", role: "indicator" },
+            { id: `${base}.sensorUsed`, name: "sensorUsed", value: sensorUsed || null, type: "string", role: "text" },
+            { id: `${base}.address`, name: "address", value: address || null, type: "string", role: "text" },
+            { id: `${base}.osmMapUrl`, name: "osmMapUrl", value: osmMapUrl || null, type: "string", role: "text.url" },
+        ];
+
+        for (const state of states) {
+            await this.ensureState(state.id, state.name, {
+                value: state.value,
+                type: state.type,
+                role: state.role,
+            });
+            await this.setStateAsync(state.id, { val: state.value, ack: true });
+        }
+    }
+
+    private asRecord(value: unknown): ApiRecord | undefined {
+        return value && typeof value === "object" && !Array.isArray(value) ? (value as ApiRecord) : undefined;
     }
 
     private async writeRecord(baseId: string, record: ApiRecord): Promise<void> {

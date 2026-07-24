@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.1.5",
+    "version": "0.2.0",
     "titleLang": {
       "en": "Tractive Next",
       "de": "Tractive Next"
@@ -18,11 +18,24 @@
     "mode": "daemon",
     "compact": true,
     "enabled": true,
+    "icon": "tractive-next.png",
+    "extIcon": "https://raw.githubusercontent.com/Fraese73/ioBroker.tractive-next/main/admin/tractive-next.png",
+    "type": "geoposition",
     "connectionType": "cloud",
     "dataSource": "poll",
     "materialize": true,
     "adminUI": {
-      "config": "json"
+      "config": "json",
+      "tab": "materialize"
+    },
+    "adminTab": {
+      "singleton": true,
+      "name": {
+        "en": "Tractive Next",
+        "de": "Tractive Next"
+      },
+      "link": "",
+      "icon": "tractive-next.png"
     },
     "dependencies": [
       {
