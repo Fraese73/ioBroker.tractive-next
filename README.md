@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.2.1
+## Features in 0.2.2
 
 - Tractive account login
 - Automatic token renewal
@@ -20,6 +20,7 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - `temperature_state` and future API fields no longer require a hard-coded definition
 - Raw JSON state for diagnostics
 - Pi update script (`UPDATE_ON_PI.sh`) for pull, install, build and restart
+- Password stored encrypted via `encryptedNative` / `protectedNative`
 
 ## Important
 
@@ -70,6 +71,8 @@ iobroker add tractive-next
 ```
 
 Then open the instance configuration and enter the Tractive email address and password.
+
+After updating to 0.2.2 or newer, open the instance settings once and save the password again so it is stored encrypted.
 
 ## Development status
 

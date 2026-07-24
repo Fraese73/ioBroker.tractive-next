@@ -29,7 +29,7 @@ Offizielle Quellen:
 | GitHub Actions / Release-Pipeline | **fehlt** |
 | Adapter-Checker / ESLint / Tests | **fehlt bzw. unvollständig** |
 | Metadaten (`news`, `author`, Keywords, …) | **unvollständig** |
-| Passwort-Verschlüsselung (`encryptedNative`) | **fehlt** |
+| Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
 | Eintrag Latest/Stable | **fehlt** |
 
 ---
@@ -61,7 +61,7 @@ Offizielle Quellen:
 
 ## Phase B – Sicherheit und Objektqualität
 
-- [ ] `password` in `encryptedNative` + `protectedNative`
+- [x] `password` in `encryptedNative` + `protectedNative`
 - [ ] Abhängigkeiten prüfen (`js-controller` / `admin` für Encryption)
 - [ ] Rollen prüfen: keine „faulen“ Rollen wie reines `state`, wo vermeidbar
 - [ ] `null`-Behandlung und Typwechsel final absichern

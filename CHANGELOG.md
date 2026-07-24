@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 – Passwort-Verschlüsselung
+
+- Tractive-Passwort in `encryptedNative` / `protectedNative` (js-Controller verschlüsselt automatisch)
+- nach dem Update Passwort in der Instanzkonfiguration einmal neu speichern
+
 ## Unreleased
 
 - Checkliste zur offiziellen Veröffentlichung ergänzt (`docs/PUBLISHING.md`)

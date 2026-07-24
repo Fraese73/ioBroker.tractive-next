@@ -47,7 +47,7 @@
 
 Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 
-- [ ] Passwort in `encryptedNative` / `protectedNative`
+- [x] Passwort in `encryptedNative` / `protectedNative`
 - [ ] Metadaten vervollständigen (`author`, `news`, Keywords, repository-Felder)
 - [ ] GitHub-Repo öffentlich + Topics
 - [ ] ESLint und Adapter-Checker grün

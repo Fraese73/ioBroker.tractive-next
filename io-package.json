@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "titleLang": {
       "en": "Tractive Next",
       "de": "Tractive Next"
@@ -54,6 +54,12 @@
     "password": "",
     "interval": 60
   },
+  "encryptedNative": [
+    "password"
+  ],
+  "protectedNative": [
+    "password"
+  ],
   "objects": [],
   "instanceObjects": [
     {
