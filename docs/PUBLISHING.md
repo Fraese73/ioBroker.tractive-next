@@ -30,7 +30,7 @@ Offizielle Quellen:
 | Adapter-Checker / ESLint / Tests | Errors bis auf E2000 erledigt; nach npm erneut prüfen |
 | Metadaten (`news`, `author`, Keywords, …) | erledigt (`nogit`, max. 7 news, Übersetzungen) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
-| Eintrag Latest/Stable | ADD TO LATEST ausgelöst – PR/Review abwarten |
+| Eintrag Latest/Stable | PR [#6370](https://github.com/ioBroker/ioBroker.repositories/pull/6370) offen (Review ~1–2 Wochen) |
 
 ---
 
@@ -143,9 +143,21 @@ Voraussetzungen: öffentliches Repo ✅, npm-Paket ✅, Owner `bluefox` ✅, Che
 PR an https://github.com/ioBroker/ioBroker.repositories mit Eintrag in `sources-dist.json`, Typ `geoposition`, Verweis auf GitHub-Repo und npm-Paket.
 
 - [x] Über [iobroker.dev](https://www.iobroker.dev/) → Manage → **ADD TO LATEST** ausgelöst  
-  **oder** PR an `ioBroker.repositories` (`sources-dist.json`, Typ `geoposition`)
+  → PR: https://github.com/ioBroker/ioBroker.repositories/pull/6370 (`auto-checked ✔`, keine Errors)
+- [ ] **Objektstruktur-Dump** an PR #6370 anhängen (Review-Pflicht, siehe unten)
 - [ ] Nach Merge: im eigenen ioBroker **Latest**-Repo aktivieren und Installation testen
 - [ ] Forum-Thread im [Tester-Bereich](https://forum.iobroker.net/category/91/tester) anlegen
+
+### Objektstruktur für den Review exportieren
+
+Anleitung: https://github.com/ioBroker/ioBroker.repochecker/blob/master/OBJECTDUMP.md
+
+1. Adapter auf dem Pi laufen lassen (verbunden, typische States vorhanden)
+2. Admin → Expertenmodus (grünes Gesicht)
+3. Objekte → `tractive-next.0` markieren
+4. Download → Defaults belassen → **Only selected**
+5. Wegen Login-Daten: ggf. **Do not export values of states** aktivieren (Passwort/Token nicht mit exportieren)
+6. Datei (z. B. `tractive-next.0.json`) an PR #6370 als Kommentar/Anhang hochladen
 
 ## Phase F – Stable (später)
 
