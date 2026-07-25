@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.10 – Trusted Publishing / Latest-Vorbereitung
+
+- `common.news` nur noch für auf npm existierende Versionen (`0.2.10`, `0.2.9`)
+- Release über GitHub Actions + Trusted Publishing (Provenance)
+- behebt iobroker.dev-Fehler E2004, E2008 und ersetzt fehlgeschlagenen Tag-Deploy von 0.2.9
+
 ## 0.2.9 – Checker-Nachbesserungen
 
 - `common.nogit` (Schema-Name) statt ungültigem `noGit`

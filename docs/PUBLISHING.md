@@ -87,7 +87,7 @@ Offizielle Quellen:
 - [x] Erstveröffentlichung manuell: `npm publish --access public` (`0.2.9`)
 - [x] Owner hinzufügen (ioBroker-Anforderung):
   - `npm owner add bluefox iobroker.tractive-next` (angenommen: `bluefox` + `fraese_73`)
-- [ ] Trusted Publishing auf npmjs.com einrichten (für spätere Tag-Releases) ← **jetzt**
+- [x] Trusted Publishing auf npmjs.com eingerichtet
 - [x] CI Deploy-Job bereit (`id-token: write`, Node 24, kein `npm-token`)
 - [x] Paketinhalt geprüft (`npm pack --dry-run`: `build/`, `admin/`, `io-package.json`, README, LICENSE)
 

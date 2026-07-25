@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.2.9
+## Features in 0.2.10
 
 - Tractive account login
 - Automatic token renewal
@@ -82,6 +82,9 @@ After updating to 0.2.2 or newer, open the instance settings once and save the p
 This is an initial development build. Read-only API access is implemented. Live tracking, history, virtual fences, LED and sound commands are intentionally not yet enabled.
 
 ## Changelog
+
+### 0.2.10
+* (Michael Fraessdorf) Trusted Publishing release with provenance; news limited to npm versions
 
 ### 0.2.9
 * (Michael Fraessdorf) Fixed `common.nogit`, news translations and deploy Node.js 24

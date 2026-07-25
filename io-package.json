@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.9",
+    "version": "0.2.10",
     "news": {
+      "0.2.10": {
+        "en": "Published via Trusted Publishing with provenance; news limited to npm versions for Latest.",
+        "de": "Veröffentlichung über Trusted Publishing mit Provenance; News auf npm-Versionen für Latest begrenzt.",
+        "ru": "Публикация через Trusted Publishing с provenance; новости ограничены версиями npm для Latest.",
+        "pt": "Publicado via Trusted Publishing com provenance; notícias limitadas às versões npm para Latest.",
+        "nl": "Gepubliceerd via Trusted Publishing met provenance; nieuws beperkt tot npm-versies voor Latest.",
+        "fr": "Publié via Trusted Publishing avec provenance; news limitées aux versions npm pour Latest.",
+        "it": "Pubblicato via Trusted Publishing con provenance; news limitate alle versioni npm per Latest.",
+        "es": "Publicado vía Trusted Publishing con provenance; noticias limitadas a versiones npm para Latest.",
+        "pl": "Opublikowano przez Trusted Publishing z provenance; news ograniczone do wersji npm dla Latest.",
+        "uk": "Опубліковано через Trusted Publishing з provenance; новини обмежено версіями npm для Latest.",
+        "zh-cn": "通过 Trusted Publishing 发布并带有 provenance；新闻条目仅保留 npm 上的版本以加入 Latest。"
+      },
       "0.2.9": {
         "en": "Fixed nogit flag, news translations and deploy Node.js 24 for the adapter checker.",
         "de": "nogit-Flag, News-Übersetzungen und Deploy mit Node.js 24 für den Adapter-Checker korrigiert.",
@@ -15,84 +28,6 @@
         "pl": "Poprawiono flagę nogit, tłumaczenia news oraz Node.js 24 w deploy dla checkera.",
         "uk": "Виправлено прапорець nogit, переклади новин і Node.js 24 для deploy у перевірці адаптера.",
         "zh-cn": "修复了适配器检查器的 nogit 标志、新闻翻译以及部署使用的 Node.js 24。"
-      },
-      "0.2.8": {
-        "en": "Fixed adapter-checker findings: dependencies, jsonConfig, README sections, CI matrix.",
-        "de": "Adapter-Checker-Befunde behoben: Abhängigkeiten, jsonConfig, README-Abschnitte, CI-Matrix.",
-        "ru": "Исправлены замечания проверки адаптера: зависимости, jsonConfig, разделы README, матрица CI.",
-        "pt": "Corrigidos achados do verificador: dependências, jsonConfig, seções do README e matriz de CI.",
-        "nl": "Bevindingen van de adapter-checker opgelost: afhankelijkheden, jsonConfig, README-secties, CI-matrix.",
-        "fr": "Corrections du checker: dépendances, jsonConfig, sections README et matrice CI.",
-        "it": "Corretti i rilievi del checker: dipendenze, jsonConfig, sezioni README e matrice CI.",
-        "es": "Corregidos hallazgos del checker: dependencias, jsonConfig, secciones README y matriz CI.",
-        "pl": "Poprawiono uwagi checkera: zależności, jsonConfig, sekcje README i macierz CI.",
-        "uk": "Виправлено зауваження перевірки: залежності, jsonConfig, розділи README та матриця CI.",
-        "zh-cn": "修复了适配器检查问题：依赖、jsonConfig、README 章节与 CI 矩阵。"
-      },
-      "0.2.7": {
-        "en": "Removed invalid io-package fields (common.author, materialize flags, adminTab.icon).",
-        "de": "Ungültige io-package-Felder entfernt (common.author, materialize-Flags, adminTab.icon).",
-        "ru": "Удалены недопустимые поля io-package (common.author, флаги materialize, adminTab.icon).",
-        "pt": "Removidos campos inválidos do io-package (common.author, flags materialize, adminTab.icon).",
-        "nl": "Ongeldige io-package-velden verwijderd (common.author, materialize-flags, adminTab.icon).",
-        "fr": "Suppression des champs io-package invalides (common.author, indicateurs materialize, adminTab.icon).",
-        "it": "Rimossi campi io-package non validi (common.author, flag materialize, adminTab.icon).",
-        "es": "Eliminados campos inválidos de io-package (common.author, flags materialize, adminTab.icon).",
-        "pl": "Usunięto nieprawidłowe pola io-package (common.author, flagi materialize, adminTab.icon).",
-        "uk": "Видалено недійсні поля io-package (common.author, прапорці materialize, adminTab.icon).",
-        "zh-cn": "移除了无效的 io-package 字段（common.author、materialize 标志、adminTab.icon）。"
-      },
-      "0.2.6": {
-        "en": "Fixed package.json author format for the adapter checker.",
-        "de": "Author-Format in package.json für den Adapter-Checker korrigiert.",
-        "ru": "Исправлен формат author в package.json для проверки адаптера.",
-        "pt": "Corrigido o formato de author em package.json para o verificador.",
-        "nl": "Author-formaat in package.json voor de adapter-checker gecorrigeerd.",
-        "fr": "Format author de package.json corrigé pour le checker d'adaptateur.",
-        "it": "Corretto il formato author in package.json per il checker.",
-        "es": "Corregido el formato de author en package.json para el checker.",
-        "pl": "Poprawiono format author w package.json dla checkera adaptera.",
-        "uk": "Виправлено формат author у package.json для перевірки адаптера.",
-        "zh-cn": "修复了 package.json 中 author 格式以通过适配器检查。"
-      },
-      "0.2.5": {
-        "en": "Added ESLint, package tests and GitHub Actions CI workflow.",
-        "de": "ESLint, Package-Tests und GitHub-Actions-CI-Workflow ergänzt.",
-        "ru": "Добавлены ESLint, пакетные тесты и CI-процесс GitHub Actions.",
-        "pt": "Adicionados ESLint, testes de pacote e workflow CI do GitHub Actions.",
-        "nl": "ESLint, pakkettests en GitHub Actions CI-workflow toegevoegd.",
-        "fr": "Ajout d'ESLint, des tests de paquet et du workflow CI GitHub Actions.",
-        "it": "Aggiunti ESLint, test di package e workflow CI di GitHub Actions.",
-        "es": "Añadidos ESLint, pruebas de paquete y workflow CI de GitHub Actions.",
-        "pl": "Dodano ESLint, testy pakietu oraz workflow CI GitHub Actions.",
-        "uk": "Додано ESLint, пакетні тести та CI-процес GitHub Actions.",
-        "zh-cn": "添加了 ESLint、包测试和 GitHub Actions CI 工作流。"
-      },
-      "0.2.4": {
-        "en": "GitHub repository is now public; topics added for discovery.",
-        "de": "GitHub-Repository ist jetzt öffentlich; Topics für die Auffindbarkeit ergänzt.",
-        "ru": "Репозиторий GitHub теперь публичный; добавлены темы для обнаружения.",
-        "pt": "O repositório GitHub agora é público; tópicos adicionados para descoberta.",
-        "nl": "GitHub-repository is nu openbaar; topics toegevoegd voor vindbaarheid.",
-        "fr": "Le dépôt GitHub est désormais public; sujets ajoutés pour la découvrabilité.",
-        "it": "Il repository GitHub è ora pubblico; aggiunti topic per la scoperta.",
-        "es": "El repositorio de GitHub ya es público; se añadieron topics para el descubrimiento.",
-        "pl": "Repozytorium GitHub jest teraz publiczne; dodano tematy ułatwiające odkrywanie.",
-        "uk": "Репозиторій GitHub тепер публічний; додано теми для виявлення.",
-        "zh-cn": "GitHub 仓库现已公开；并添加了便于发现的主题标签。"
-      },
-      "0.2.3": {
-        "en": "Metadata completed for upcoming repository publication.",
-        "de": "Metadaten für die spätere Repository-Veröffentlichung ergänzt.",
-        "ru": "Метаданные дополнены для предстоящей публикации в репозитории.",
-        "pt": "Metadados concluídos para a futura publicação no repositório.",
-        "nl": "Metadata aangevuld voor de komende repository-publicatie.",
-        "fr": "Métadonnées complétées pour la prochaine publication dans le dépôt.",
-        "it": "Metadati completati per la prossima pubblicazione nel repository.",
-        "es": "Metadatos completados para la próxima publicación en el repositorio.",
-        "pl": "Uzupełniono metadane pod nadchodzącą publikację w repozytorium.",
-        "uk": "Метадані доповнено для майбутньої публікації в репозиторії.",
-        "zh-cn": "已完善元数据，为后续仓库发布做准备。"
       }
     },
     "titleLang": {

@@ -54,7 +54,7 @@ Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 - [x] GitHub Actions (Tests Node 22/24 + Deploy-Job)
 - [x] Version taggen (`v0.2.9`) und Checker erneut laufen lassen
 - [x] npm-Paket veröffentlichen + Owner `bluefox` (Einladung angenommen)
-- [ ] Trusted Publishing auf npmjs.com
+- [x] Trusted Publishing auf npmjs.com
 - [ ] Eintrag ins Latest-Repository
 - [ ] Forum-Testthread
 - [ ] vollständige Dokumentation (EN/DE) inkl. Hersteller-Link und API-Hinweis
