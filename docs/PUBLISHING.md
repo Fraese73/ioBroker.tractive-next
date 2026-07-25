@@ -27,10 +27,10 @@ Offizielle Quellen:
 | Öffentliches GitHub-Repo | erledigt (öffentlich) |
 | npm-Paket | erledigt (`0.2.9`, Owner `bluefox`) |
 | GitHub Actions / Release-Pipeline | CI inkl. Deploy-Job und Node 22/24 |
-| Adapter-Checker / ESLint / Tests | behebbar Fehler in 0.2.9 adressiert; nach Push erneut prüfen |
+| Adapter-Checker / ESLint / Tests | Errors bis auf E2000 erledigt; nach npm erneut prüfen |
 | Metadaten (`news`, `author`, Keywords, …) | erledigt (`nogit`, max. 7 news, Übersetzungen) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
-| Eintrag Latest/Stable | **fehlt** |
+| Eintrag Latest/Stable | **fehlt** (nächster Schritt nach Trusted Publishing) |
 
 ---
 
@@ -78,16 +78,16 @@ Offizielle Quellen:
   - [x] Integrationstests (Skript vorhanden)
   - [x] `test-and-release` Workflow inkl. Deploy-Job (Tag `v*`)
 - [ ] Release-Script (`@alcalzone/release-script` / `@iobroker/adapter-dev`)
-- [ ] https://adapter-check.iobroker.in/ nach Push von 0.2.8 erneut laufen lassen
-- [x] behebbar Checker-Fehler aus 0.2.7-Lauf adressiert (npm-Publish/Tag bleiben offen)
+- [ ] https://adapter-check.iobroker.in/ bzw. `npx @iobroker/repochecker` nach npm-Publish erneut (E2000 sollte weg sein)
+- [x] behebbar Checker-Fehler aus 0.2.7/0.2.9-Lauf adressiert
 
 ## Phase D – npm
 
 - [x] npm-Account anlegen (2FA empfohlen/pflichtig für Publish)
 - [x] Erstveröffentlichung manuell: `npm publish --access public` (`0.2.9`)
 - [x] Owner hinzufügen (ioBroker-Anforderung):
-  - `npm owner add bluefox iobroker.tractive-next`
-- [ ] Trusted Publishing auf npmjs.com einrichten (für spätere Tag-Releases)
+  - `npm owner add bluefox iobroker.tractive-next` (angenommen: `bluefox` + `fraese_73`)
+- [ ] Trusted Publishing auf npmjs.com einrichten (für spätere Tag-Releases) ← **jetzt**
 - [x] CI Deploy-Job bereit (`id-token: write`, Node 24, kein `npm-token`)
 - [x] Paketinhalt geprüft (`npm pack --dry-run`: `build/`, `admin/`, `io-package.json`, README, LICENSE)
 
@@ -128,7 +128,19 @@ gh release create v0.2.9 --title "0.2.9" --notes "Adapter-checker fixes: nogit, 
 
 ## Phase E – Latest Repository
 
-Voraussetzungen: öffentliches Repo, npm-Paket, grüner Checker, CI grün.
+Voraussetzungen: öffentliches Repo ✅, npm-Paket ✅, Owner `bluefox` ✅, Checker ohne kritische Errors, CI grün.
+
+### Über iobroker.dev (empfohlen)
+
+1. https://www.iobroker.dev/ mit GitHub-Account `Fraese73` anmelden
+2. Adapter `tractive-next` sollte gelistet sein
+3. **ADD TO LATEST** auslösen (öffnet/erstellt PR an `ioBroker.repositories`)
+4. PR-Checks und Review abwarten; bei Nachfragen im PR antworten
+5. Nach Merge: im eigenen ioBroker unter Adapter-Repos **Latest** aktivieren und `tractive-next` installieren
+
+### Manuell (Alternative)
+
+PR an https://github.com/ioBroker/ioBroker.repositories mit Eintrag in `sources-dist.json`, Typ `geoposition`, Verweis auf GitHub-Repo und npm-Paket.
 
 - [ ] Über [iobroker.dev](https://www.iobroker.dev/) → Manage → **ADD TO LATEST**  
   **oder** PR an `ioBroker.repositories` (`sources-dist.json`, Typ `geoposition`)
@@ -149,9 +161,10 @@ Voraussetzungen: öffentliches Repo, npm-Paket, grüner Checker, CI grün.
 1. Passwort-Verschlüsselung + Metadaten nachziehen  
 2. Repo öffentlich + Topics  
 3. ESLint + GitHub Actions + Adapter-Checker  
-4. npm publish + Owner  ✅
-5. ADD TO LATEST  
-6. Forum-Tests → irgendwann Stable  
+4. npm publish + Owner  ✅ (`bluefox` angenommen)
+5. Trusted Publishing auf npmjs.com  
+6. ADD TO LATEST über iobroker.dev  
+7. Forum-Tests → irgendwann Stable  
 
 Feature-Arbeit (Aktivität, Live-Tracking, …) kann parallel laufen, sollte die Veröffentlichung aber nicht blockieren, sobald der Adapter stabil und checker-grün ist.
 
