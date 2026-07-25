@@ -30,7 +30,7 @@ Offizielle Quellen:
 | Adapter-Checker / ESLint / Tests | Errors bis auf E2000 erledigt; nach npm erneut prüfen |
 | Metadaten (`news`, `author`, Keywords, …) | erledigt (`nogit`, max. 7 news, Übersetzungen) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
-| Eintrag Latest/Stable | **fehlt** (nächster Schritt nach Trusted Publishing) |
+| Eintrag Latest/Stable | ADD TO LATEST ausgelöst – PR/Review abwarten |
 
 ---
 
@@ -142,7 +142,7 @@ Voraussetzungen: öffentliches Repo ✅, npm-Paket ✅, Owner `bluefox` ✅, Che
 
 PR an https://github.com/ioBroker/ioBroker.repositories mit Eintrag in `sources-dist.json`, Typ `geoposition`, Verweis auf GitHub-Repo und npm-Paket.
 
-- [ ] Über [iobroker.dev](https://www.iobroker.dev/) → Manage → **ADD TO LATEST**  
+- [x] Über [iobroker.dev](https://www.iobroker.dev/) → Manage → **ADD TO LATEST** ausgelöst  
   **oder** PR an `ioBroker.repositories` (`sources-dist.json`, Typ `geoposition`)
 - [ ] Nach Merge: im eigenen ioBroker **Latest**-Repo aktivieren und Installation testen
 - [ ] Forum-Thread im [Tester-Bereich](https://forum.iobroker.net/category/91/tester) anlegen
@@ -162,9 +162,9 @@ PR an https://github.com/ioBroker/ioBroker.repositories mit Eintrag in `sources-
 2. Repo öffentlich + Topics  
 3. ESLint + GitHub Actions + Adapter-Checker  
 4. npm publish + Owner  ✅ (`bluefox` angenommen)
-5. Trusted Publishing auf npmjs.com  
-6. ADD TO LATEST über iobroker.dev  
-7. Forum-Tests → irgendwann Stable  
+5. Trusted Publishing auf npmjs.com  ✅
+6. ADD TO LATEST über iobroker.dev  ✅ (PR/Review)
+7. Nach Merge: Latest im Admin aktivieren + Forum-Tests → irgendwann Stable  
 
 Feature-Arbeit (Aktivität, Live-Tracking, …) kann parallel laufen, sollte die Veröffentlichung aber nicht blockieren, sobald der Adapter stabil und checker-grün ist.
 

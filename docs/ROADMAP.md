@@ -55,7 +55,7 @@ Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 - [x] Version taggen (`v0.2.9`) und Checker erneut laufen lassen
 - [x] npm-Paket veröffentlichen + Owner `bluefox` (Einladung angenommen)
 - [x] Trusted Publishing auf npmjs.com
-- [ ] Eintrag ins Latest-Repository
+- [x] Eintrag ins Latest-Repository (ADD TO LATEST ausgelöst; Merge abwarten)
 - [ ] Forum-Testthread
 - [ ] vollständige Dokumentation (EN/DE) inkl. Hersteller-Link und API-Hinweis
 - [ ] später Stable nach Feedback
