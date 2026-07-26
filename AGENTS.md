@@ -42,9 +42,7 @@ Der Adapter soll:
 
 ## Aktuelle Prioritäten
 
-1. Anmeldung und Token-Verwaltung stabilisieren
-2. Tracker-Liste und Statusdaten testen
-3. Positionsdaten validieren
-4. Objekterzeugung für `null`-Werte verbessern
-5. Aktivitäts- und Gesundheitsdaten ergänzen
-6. Schreibende Funktionen erst danach hinzufügen
+1. Aktivitäts-/Gesundheitsdaten im Betrieb validieren
+2. Geofence-Endpunkte und Historie-Formate gegen reale Konten prüfen
+3. Schreibende Funktionen (Live-Tracking, Licht, Ton) bewusst danach
+4. Dokumentation EN/DE und Forum-Testthread

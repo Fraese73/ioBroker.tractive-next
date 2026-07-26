@@ -2,7 +2,7 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.2.11
+## Features in 0.3.0
 
 - Tractive account login
 - Automatic token renewal
@@ -11,6 +11,10 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - Tracker details
 - Hardware report
 - Current position report
+- Activity and health overview (`…health.*`, overview minutes)
+- 24h position history (`…history.*`)
+- Live-tracking / LED / buzzer status (`…controls.*`, read-only)
+- Geofence payload as JSON when the API provides it
 - OpenStreetMap link per tracker (`device_pos_report.osmMapUrl`)
 - Admin sidebar tab with map cards per tracker
 - Overview states (`…overview.*`) for name, position, battery, sensor and address
@@ -21,7 +25,7 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - Raw JSON state for diagnostics
 - Pi update script (`UPDATE_ON_PI.sh`) for pull, install, build and restart
 - Password stored encrypted via `encryptedNative` / `protectedNative`
-- ESLint (`npm run lint`), package tests and GitHub Actions CI
+- ESLint (`npm run lint`), package/unit tests and GitHub Actions CI
 
 ## Important
 
@@ -82,6 +86,9 @@ After updating to 0.2.2 or newer, open the instance settings once and save the p
 This is an initial development build. Read-only API access is implemented. Live tracking, history, virtual fences, LED and sound commands are intentionally not yet enabled.
 
 ## Changelog
+
+### 0.3.0
+* (Michael Fraessdorf) Activity/health overview, 24h history, live-tracking status, geofence JSON (read-only)
 
 ### 0.2.11
 * (Michael Fraessdorf) Stabilization: null type hints, tolerant API sections, unit tests, redacted logs

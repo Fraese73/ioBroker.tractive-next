@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.11",
+    "version": "0.3.0",
     "news": {
+      "0.3.0": {
+        "en": "Added activity/health overview, 24h position history, live-tracking status and geofence JSON (read-only).",
+        "de": "Aktivitäts-/Gesundheitsübersicht, 24h-Positionshistorie, Live-Tracking-Status und Geofence-JSON ergänzt (nur lesen).",
+        "ru": "Добавлены обзор активности/здоровья, история позиций за 24ч, статус live-tracking и JSON геозон (только чтение).",
+        "pt": "Adicionados resumo de atividade/saúde, histórico de posições 24h, estado de live tracking e JSON de geofences (somente leitura).",
+        "nl": "Activiteit-/gezondheidsoverzicht, 24u-positieshistorie, live-trackingstatus en geofence-JSON toegevoegd (alleen-lezen).",
+        "fr": "Ajout de l’aperçu activité/santé, historique 24h, statut live tracking et JSON geofence (lecture seule).",
+        "it": "Aggiunti riepilogo attività/salute, cronologia posizioni 24h, stato live tracking e JSON geofence (sola lettura).",
+        "es": "Añadidos resumen actividad/salud, historial de posiciones 24h, estado live tracking y JSON de geofences (solo lectura).",
+        "pl": "Dodano przegląd aktywności/zdrowia, historię pozycji 24h, status live tracking i JSON geofence (tylko odczyt).",
+        "uk": "Додано огляд активності/здоров’я, історію позицій за 24 год, статус live tracking і JSON geofence (лише читання).",
+        "zh-cn": "新增活动/健康概览、24小时位置历史、实时追踪状态以及围栏 JSON（只读）。"
+      },
       "0.2.11": {
         "en": "Stabilization: safer null typing, tolerant API sections, unit tests and redacted error logs.",
         "de": "Stabilisierung: robustere Null-Typen, tolerante API-Abschnitte, Unit-Tests und bereinigte Fehlerlogs.",
@@ -15,19 +28,6 @@
         "pl": "Stabilizacja: bezpieczniejsze typy null, tolerancyjne sekcje API, testy jednostkowe i ocenzurowane logi błędów.",
         "uk": "Стабілізація: надійніші null-типи, толерантні секції API, юніт-тести та безпечні логи помилок.",
         "zh-cn": "稳定性改进：更安全的空值类型、容错 API 分段、单元测试以及脱敏错误日志。"
-      },
-      "0.2.10": {
-        "en": "Published via Trusted Publishing with provenance; news limited to npm versions for Latest.",
-        "de": "Veröffentlichung über Trusted Publishing mit Provenance; News auf npm-Versionen für Latest begrenzt.",
-        "ru": "Публикация через Trusted Publishing с provenance; новости ограничены версиями npm для Latest.",
-        "pt": "Publicado via Trusted Publishing com provenance; notícias limitadas às versões npm para Latest.",
-        "nl": "Gepubliceerd via Trusted Publishing met provenance; nieuws beperkt tot npm-versies voor Latest.",
-        "fr": "Publié via Trusted Publishing avec provenance; news limitées aux versions npm pour Latest.",
-        "it": "Pubblicato via Trusted Publishing con provenance; news limitate alle versioni npm per Latest.",
-        "es": "Publicado vía Trusted Publishing con provenance; noticias limitadas a versiones npm para Latest.",
-        "pl": "Opublikowano przez Trusted Publishing z provenance; news ograniczone do wersji npm dla Latest.",
-        "uk": "Опубліковано через Trusted Publishing з provenance; новини обмежено версіями npm для Latest.",
-        "zh-cn": "通过 Trusted Publishing 发布并带有 provenance；新闻条目仅保留 npm 上的版本以加入 Latest。"
       }
     },
     "titleLang": {

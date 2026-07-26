@@ -3,6 +3,7 @@ import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import { isMissingEndpointError, isTransientSectionError } from './lib/apiAvailability';
 import { formatApiError, getAxiosStatus } from './lib/errors';
+import { countPositionPoints, extractHealthOverview, resolveTrackerIdFromPet } from './lib/health';
 import { normalizeValue, sanitizeId, toMilliseconds } from './lib/normalize';
 
 interface AdapterConfig {
@@ -23,6 +24,8 @@ class TractiveNext extends utils.Adapter {
     declare config: AdapterConfig;
 
     private readonly clientId = '5f9be055d8912eb21a4cd7ba';
+    private readonly graphBaseUrl = 'https://graph.tractive.com/3';
+    private readonly apsBaseUrl = 'https://aps-api.tractive.com/api/1';
     private readonly http: AxiosInstance;
     private accessToken = '';
     private userId = '';
@@ -33,7 +36,7 @@ class TractiveNext extends utils.Adapter {
         super({ ...options, name: 'tractive-next' });
 
         this.http = axios.create({
-            baseURL: 'https://graph.tractive.com/3',
+            baseURL: this.graphBaseUrl,
             timeout: 20_000,
             headers: { 'Content-Type': 'application/json' },
         });
@@ -138,11 +141,21 @@ class TractiveNext extends utils.Adapter {
         };
     }
 
-    private async apiGet<T>(url: string, retry = true): Promise<T> {
+    private async apiGet<T>(
+        url: string,
+        options: {
+            retry?: boolean;
+            baseURL?: string;
+            params?: Record<string, string | number>;
+        } = {},
+    ): Promise<T> {
+        const retry = options.retry !== false;
         const started = Date.now();
         try {
             const response = await this.http.get<T>(url, {
                 headers: this.authHeaders(),
+                baseURL: options.baseURL ?? this.graphBaseUrl,
+                params: options.params,
             });
             this.log.debug(`API GET ${url} -> HTTP ${response.status} (${Date.now() - started} ms)`);
             return response.data;
@@ -152,7 +165,7 @@ class TractiveNext extends utils.Adapter {
             if (retry && (status === 401 || status === 403)) {
                 this.log.warn(`Tractive returned HTTP ${status} for ${url}; refreshing token and retrying once.`);
                 await this.authenticate();
-                return this.apiGet<T>(url, false);
+                return this.apiGet<T>(url, { ...options, retry: false });
             }
 
             this.log.debug(`API GET ${url} failed after ${Date.now() - started} ms: ${formatApiError(error)}`);
@@ -174,7 +187,8 @@ class TractiveNext extends utils.Adapter {
             }
 
             const trackers = await this.apiGet<ApiRecord[]>(`/user/${this.userId}/trackers`);
-            const raw: Record<string, unknown> = { trackers, devices: {} };
+            const petIdsByTracker = await this.resolvePetIdsByTracker();
+            const raw: Record<string, unknown> = { trackers, devices: {}, pets: Object.fromEntries(petIdsByTracker) };
 
             for (const tracker of trackers) {
                 const trackerId = this.asString(tracker._id);
@@ -201,7 +215,16 @@ class TractiveNext extends utils.Adapter {
                         `/device_pos_report/${trackerId}`,
                         deviceData,
                     );
+
+                    const petId = petIdsByTracker.get(trackerId);
+                    if (petId) {
+                        await this.fetchHealthOverview(trackerId, petId, deviceData);
+                    }
+                    await this.fetchPositionHistory(trackerId, deviceData);
+                    await this.fetchGeofences(trackerId, deviceData);
+
                     await this.writeOsmMapLink(trackerId, deviceData.device_pos_report);
+                    await this.writeControlStatus(trackerId, deviceData.tracker);
                     await this.writeOverview(trackerId, this.asString(tracker.name) || trackerId, deviceData);
                     (raw.devices as Record<string, unknown>)[trackerId] = deviceData;
                 } catch (error) {
@@ -248,6 +271,284 @@ class TractiveNext extends utils.Adapter {
             // Unexpected section errors should not abort the whole poll for this tracker.
             this.log.warn(`Section ${section} failed for tracker ${trackerId}: ${formatApiError(error)}`);
         }
+    }
+
+    private async resolvePetIdsByTracker(): Promise<Map<string, string>> {
+        const map = new Map<string, string>();
+        try {
+            const pets = await this.apiGet<ApiRecord[]>(`/user/${this.userId}/trackable_objects`);
+            for (const pet of pets) {
+                const petId = this.asString(pet._id);
+                if (!petId) {
+                    continue;
+                }
+
+                let trackerId = resolveTrackerIdFromPet(pet);
+                if (!trackerId) {
+                    try {
+                        const details = await this.apiGet<ApiRecord>(`/trackable_object/${petId}`);
+                        trackerId = resolveTrackerIdFromPet(details);
+                        if (trackerId) {
+                            await this.writeRecord(`${trackerId}.pet`, details);
+                        }
+                    } catch (error) {
+                        this.log.debug(`Pet details unavailable for ${petId}: ${formatApiError(error)}`);
+                    }
+                }
+
+                if (trackerId) {
+                    map.set(trackerId, petId);
+                }
+            }
+            this.log.debug(`Mapped ${map.size} pet(s) to tracker(s).`);
+        } catch (error) {
+            this.log.debug(`trackable_objects unavailable: ${formatApiError(error)}`);
+        }
+        return map;
+    }
+
+    private async fetchHealthOverview(
+        trackerId: string,
+        petId: string,
+        target: Record<string, unknown>,
+    ): Promise<void> {
+        try {
+            const data = await this.apiGet<ApiRecord>(`/pet/${petId}/health/overview`, {
+                baseURL: this.apsBaseUrl,
+            });
+            const content = this.asRecord(data.content) ?? data;
+            target.health_overview = content;
+            await this.writeRecord(`${trackerId}.health_overview`, content);
+            await this.writeHealthStates(trackerId, content);
+            this.log.debug(`Health overview ok for tracker ${trackerId} (pet ${petId}).`);
+        } catch (error) {
+            if (isMissingEndpointError(error) || isTransientSectionError(error)) {
+                this.log.debug(`Health overview not available for tracker ${trackerId}: ${formatApiError(error)}`);
+                return;
+            }
+            this.log.warn(`Health overview failed for tracker ${trackerId}: ${formatApiError(error)}`);
+        }
+    }
+
+    private async writeHealthStates(trackerId: string, payload: unknown): Promise<void> {
+        const health = extractHealthOverview(payload);
+        const base = `${trackerId}.health`;
+        await this.ensureObject(base, 'channel', 'health');
+
+        const states: Array<{
+            id: string;
+            name: string;
+            value: ioBroker.StateValue;
+            type: ioBroker.CommonType;
+            role: string;
+        }> = [
+            {
+                id: `${base}.minutesActive`,
+                name: 'minutesActive',
+                value: health.minutesActive,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.minutesGoal`,
+                name: 'minutesGoal',
+                value: health.minutesGoal,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.minutesDaySleep`,
+                name: 'minutesDaySleep',
+                value: health.minutesDaySleep,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.minutesNightSleep`,
+                name: 'minutesNightSleep',
+                value: health.minutesNightSleep,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.minutesCalm`,
+                name: 'minutesCalm',
+                value: health.minutesCalm,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.minutesRest`,
+                name: 'minutesRest',
+                value: health.minutesRest,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.barkStatus`,
+                name: 'barkStatus',
+                value: health.barkStatus,
+                type: 'string',
+                role: 'text',
+            },
+            {
+                id: `${base}.restingHeartRateStatus`,
+                name: 'restingHeartRateStatus',
+                value: health.restingHeartRateStatus,
+                type: 'string',
+                role: 'text',
+            },
+            {
+                id: `${base}.restingRespiratoryRateStatus`,
+                name: 'restingRespiratoryRateStatus',
+                value: health.restingRespiratoryRateStatus,
+                type: 'string',
+                role: 'text',
+            },
+            {
+                id: `${base}.alertsUnseen`,
+                name: 'alertsUnseen',
+                value: health.alertsUnseen,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.activityDataSyncedAt`,
+                name: 'activityDataSyncedAt',
+                value: health.activityDataSyncedAt,
+                type: 'string',
+                role: 'text',
+            },
+        ];
+
+        for (const state of states) {
+            await this.ensureState(state.id, state.name, {
+                value: state.value,
+                type: state.type,
+                role: state.role,
+            });
+            await this.setStateAsync(state.id, { val: state.value, ack: true });
+        }
+    }
+
+    private async fetchPositionHistory(trackerId: string, target: Record<string, unknown>): Promise<void> {
+        const timeTo = Math.floor(Date.now() / 1000);
+        const timeFrom = timeTo - 24 * 60 * 60;
+        try {
+            const data = await this.apiGet<unknown>(`/tracker/${trackerId}/positions`, {
+                params: {
+                    time_from: timeFrom,
+                    time_to: timeTo,
+                    format: 'json_segments',
+                },
+            });
+            target.position_history = data;
+            const pointCount = countPositionPoints(data);
+            const base = `${trackerId}.history`;
+            await this.ensureObject(base, 'channel', 'history');
+            await this.writeTypedState(
+                `${base}.timeFrom`,
+                'timeFrom',
+                toMilliseconds(timeFrom),
+                'number',
+                'value.time',
+            );
+            await this.writeTypedState(`${base}.timeTo`, 'timeTo', toMilliseconds(timeTo), 'number', 'value.time');
+            await this.writeTypedState(`${base}.pointCount`, 'pointCount', pointCount, 'number', 'value');
+            await this.writeTypedState(
+                `${base}.positionsJson`,
+                'positionsJson',
+                JSON.stringify(data),
+                'string',
+                'json',
+            );
+            this.log.debug(`Position history ok for tracker ${trackerId} (${pointCount} point(s)).`);
+        } catch (error) {
+            if (isMissingEndpointError(error) || isTransientSectionError(error)) {
+                this.log.debug(`Position history not available for tracker ${trackerId}: ${formatApiError(error)}`);
+                return;
+            }
+            this.log.warn(`Position history failed for tracker ${trackerId}: ${formatApiError(error)}`);
+        }
+    }
+
+    private async fetchGeofences(trackerId: string, target: Record<string, unknown>): Promise<void> {
+        const candidates = [`/tracker/${trackerId}/geofences`, `/user/${this.userId}/geofences`];
+        for (const endpoint of candidates) {
+            try {
+                const data = await this.apiGet<unknown>(endpoint);
+                target.geofences = data;
+                await this.ensureObject(`${trackerId}.geofences`, 'channel', 'geofences');
+                await this.writeTypedState(
+                    `${trackerId}.geofences.json`,
+                    'json',
+                    JSON.stringify(data),
+                    'string',
+                    'json',
+                );
+                this.log.debug(`Geofences ok for tracker ${trackerId} via ${endpoint}.`);
+                return;
+            } catch (error) {
+                if (isMissingEndpointError(error) || isTransientSectionError(error)) {
+                    this.log.debug(`Geofences unavailable at ${endpoint}: ${formatApiError(error)}`);
+                    continue;
+                }
+                this.log.warn(`Geofences failed at ${endpoint}: ${formatApiError(error)}`);
+            }
+        }
+    }
+
+    private async writeControlStatus(trackerId: string, trackerDetails: unknown): Promise<void> {
+        const tracker = this.asRecord(trackerDetails);
+        if (!tracker) {
+            return;
+        }
+
+        const live = this.asRecord(tracker.live_tracking);
+        const led = this.asRecord(tracker.led_control);
+        const buzzer = this.asRecord(tracker.buzzer_control);
+        const base = `${trackerId}.controls`;
+        await this.ensureObject(base, 'channel', 'controls');
+
+        await this.writeTypedState(
+            `${base}.liveTrackingActive`,
+            'liveTrackingActive',
+            live ? Boolean(live.active) : null,
+            'boolean',
+            'indicator',
+        );
+        await this.writeTypedState(
+            `${base}.ledActive`,
+            'ledActive',
+            led ? Boolean(led.active) : null,
+            'boolean',
+            'indicator',
+        );
+        await this.writeTypedState(
+            `${base}.buzzerActive`,
+            'buzzerActive',
+            buzzer ? Boolean(buzzer.active) : null,
+            'boolean',
+            'indicator',
+        );
+        await this.writeTypedState(
+            `${base}.trackerState`,
+            'trackerState',
+            this.asString(tracker.tracker_state) || null,
+            'string',
+            'text',
+        );
+    }
+
+    private async writeTypedState(
+        id: string,
+        name: string,
+        value: ioBroker.StateValue,
+        type: ioBroker.CommonType,
+        role: string,
+    ): Promise<void> {
+        await this.ensureState(id, name, { value, type, role });
+        await this.setStateAsync(id, { val: value, ack: true });
     }
 
     private async writeOsmMapLink(trackerId: string, posReport: unknown): Promise<void> {
@@ -305,6 +606,8 @@ class TractiveNext extends utils.Adapter {
         const pos = this.asRecord(deviceData.device_pos_report);
         const hw = this.asRecord(deviceData.device_hw_report);
         const tracker = this.asRecord(deviceData.tracker);
+        const health = extractHealthOverview(deviceData.health_overview);
+        const live = this.asRecord(tracker?.live_tracking);
         const base = `${trackerId}.overview`;
 
         await this.ensureObject(base, 'channel', 'overview');
@@ -410,6 +713,27 @@ class TractiveNext extends utils.Adapter {
                 value: osmMapUrl || null,
                 type: 'string',
                 role: 'text.url',
+            },
+            {
+                id: `${base}.minutesActive`,
+                name: 'minutesActive',
+                value: health.minutesActive,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.minutesGoal`,
+                name: 'minutesGoal',
+                value: health.minutesGoal,
+                type: 'number',
+                role: 'value',
+            },
+            {
+                id: `${base}.liveTrackingActive`,
+                name: 'liveTrackingActive',
+                value: live ? Boolean(live.active) : null,
+                type: 'boolean',
+                role: 'indicator',
             },
         ];
 

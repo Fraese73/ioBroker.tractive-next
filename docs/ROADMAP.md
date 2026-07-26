@@ -26,14 +26,14 @@
 
 ## Phase 3 – Zusätzliche Daten
 
-- [ ] Aktivitätsdaten
-- [ ] Gesundheitsdaten
+- [x] Aktivitätsdaten
+- [x] Gesundheitsdaten
 - [x] Batteriestatus und Ladezustand
 - [x] Kartenlink zu OpenStreetMap
 - [x] Admin-Übersichtstab mit Karte (erste Version)
-- [ ] Positionshistorie
-- [ ] Geofence-Informationen
-- [ ] Live-Tracking-Status
+- [x] Positionshistorie (24h als JSON)
+- [x] Geofence-Informationen (JSON, sofern API liefert)
+- [x] Live-Tracking-Status (read-only)
 
 ## Phase 4 – Steuerung
 

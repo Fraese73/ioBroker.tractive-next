@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 – Zusätzliche Lesedaten (Phase 3)
+
+- Aktivitäts-/Gesundheitsübersicht über APS `health/overview` (`…health.*`)
+- stabile Overview-Felder `minutesActive` / `minutesGoal` / `liveTrackingActive`
+- 24h-Positionshistorie (`…history.positionsJson`, `pointCount`)
+- Live-Tracking-/LED-/Buzzer-Status read-only (`…controls.*`)
+- Geofence-JSON, falls die API einen Endpunkt liefert
+
 ## 0.2.11 – Stabilisierung (Phase 2)
 
 - bekannte API-Felder behalten bei `null` den richtigen Typ/Rolle
