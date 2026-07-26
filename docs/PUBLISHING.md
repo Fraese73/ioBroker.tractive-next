@@ -144,7 +144,7 @@ PR an https://github.com/ioBroker/ioBroker.repositories mit Eintrag in `sources-
 
 - [x] Über [iobroker.dev](https://www.iobroker.dev/) → Manage → **ADD TO LATEST** ausgelöst  
   → PR: https://github.com/ioBroker/ioBroker.repositories/pull/6370 (`auto-checked ✔`, keine Errors)
-- [ ] **Objektstruktur-Dump** an PR #6370 anhängen (Review-Pflicht, siehe unten)
+- [x] **Objektstruktur-Dump** an PR #6370 angehängt
 - [ ] Nach Merge: im eigenen ioBroker **Latest**-Repo aktivieren und Installation testen
 - [ ] Forum-Thread im [Tester-Bereich](https://forum.iobroker.net/category/91/tester) anlegen
 
