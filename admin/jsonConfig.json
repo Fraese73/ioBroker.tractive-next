@@ -71,6 +71,51 @@
       "default": 60,
       "newLine": true
     },
+    "enableCommands": {
+      "type": "checkbox",
+      "xs": 12,
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12,
+      "label": {
+        "en": "Enable tracker commands (live tracking / LED / buzzer)",
+        "de": "Tracker-Befehle freischalten (Live-Tracking / LED / Tonsignal)",
+        "ru": "Enable tracker commands (live tracking / LED / buzzer)",
+        "pt": "Enable tracker commands (live tracking / LED / buzzer)",
+        "nl": "Enable tracker commands (live tracking / LED / buzzer)",
+        "fr": "Enable tracker commands (live tracking / LED / buzzer)",
+        "it": "Enable tracker commands (live tracking / LED / buzzer)",
+        "es": "Enable tracker commands (live tracking / LED / buzzer)",
+        "pl": "Enable tracker commands (live tracking / LED / buzzer)",
+        "uk": "Enable tracker commands (live tracking / LED / buzzer)",
+        "zh-cn": "Enable tracker commands (live tracking / LED / buzzer)"
+      },
+      "default": false,
+      "newLine": true
+    },
+    "_commandsNotice": {
+      "type": "staticText",
+      "xs": 12,
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12,
+      "text": {
+        "en": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "de": "Befehle bleiben deaktiviert, bis die Checkbox gesetzt ist. Nicht unterstützte Tracker können Befehle ablehnen.",
+        "ru": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "pt": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "nl": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "fr": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "it": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "es": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "pl": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "uk": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
+        "zh-cn": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands."
+      },
+      "newLine": true
+    },
     "_notice": {
       "type": "staticText",
       "xs": 12,

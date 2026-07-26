@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "news": {
+      "0.4.0": {
+        "en": "Added optional tracker commands for live tracking, LED and buzzer with enableCommands safety switch.",
+        "de": "Optionale Tracker-Befehle für Live-Tracking, LED und Tonsignal mit enableCommands-Schreibschutz ergänzt.",
+        "ru": "Добавлены опциональные команды live tracking, LED и buzzer с защитным флагом enableCommands.",
+        "pt": "Adicionados comandos opcionais de live tracking, LED e buzzer com proteção enableCommands.",
+        "nl": "Optionele trackercommando’s voor live tracking, LED en zoemer toegevoegd met enableCommands-beveiliging.",
+        "fr": "Ajout de commandes optionnelles live tracking, LED et buzzer avec interrupteur de sécurité enableCommands.",
+        "it": "Aggiunti comandi opzionali live tracking, LED e buzzer con interruttore di sicurezza enableCommands.",
+        "es": "Añadidos comandos opcionales de live tracking, LED y buzzer con protección enableCommands.",
+        "pl": "Dodano opcjonalne komendy live tracking, LED i buzzera z zabezpieczeniem enableCommands.",
+        "uk": "Додано опційні команди live tracking, LED і buzzer із захисним прапорцем enableCommands.",
+        "zh-cn": "新增可选的实时追踪、LED 与蜂鸣器命令，并通过 enableCommands 安全开关保护。"
+      },
       "0.3.0": {
         "en": "Added activity/health overview, 24h position history, live-tracking status and geofence JSON (read-only).",
         "de": "Aktivitäts-/Gesundheitsübersicht, 24h-Positionshistorie, Live-Tracking-Status und Geofence-JSON ergänzt (nur lesen).",
@@ -15,19 +28,6 @@
         "pl": "Dodano przegląd aktywności/zdrowia, historię pozycji 24h, status live tracking i JSON geofence (tylko odczyt).",
         "uk": "Додано огляд активності/здоров’я, історію позицій за 24 год, статус live tracking і JSON geofence (лише читання).",
         "zh-cn": "新增活动/健康概览、24小时位置历史、实时追踪状态以及围栏 JSON（只读）。"
-      },
-      "0.2.11": {
-        "en": "Stabilization: safer null typing, tolerant API sections, unit tests and redacted error logs.",
-        "de": "Stabilisierung: robustere Null-Typen, tolerante API-Abschnitte, Unit-Tests und bereinigte Fehlerlogs.",
-        "ru": "Стабилизация: более надёжные null-типы, терпимые секции API, юнит-тесты и безопасные логи ошибок.",
-        "pt": "Estabilização: tipagem null mais segura, secções de API tolerantes, testes unitários e logs de erro redigidos.",
-        "nl": "Stabilisatie: veiligere null-typen, tolerante API-secties, unittests en gecensureerde foutlogs.",
-        "fr": "Stabilisation: typage null plus sûr, sections API tolérantes, tests unitaires et journaux d'erreur expurgés.",
-        "it": "Stabilizzazione: tipizzazione null più sicura, sezioni API tolleranti, unit test e log errori redatti.",
-        "es": "Estabilización: tipado null más seguro, secciones API tolerantes, pruebas unitarias y logs de error redactados.",
-        "pl": "Stabilizacja: bezpieczniejsze typy null, tolerancyjne sekcje API, testy jednostkowe i ocenzurowane logi błędów.",
-        "uk": "Стабілізація: надійніші null-типи, толерантні секції API, юніт-тести та безпечні логи помилок.",
-        "zh-cn": "稳定性改进：更安全的空值类型、容错 API 分段、单元测试以及脱敏错误日志。"
       }
     },
     "titleLang": {
@@ -109,7 +109,8 @@
   "native": {
     "email": "",
     "password": "",
-    "interval": 60
+    "interval": 60,
+    "enableCommands": false
   },
   "encryptedNative": [
     "password"

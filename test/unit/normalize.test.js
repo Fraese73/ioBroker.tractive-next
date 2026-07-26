@@ -1,7 +1,13 @@
 'use strict';
 
 const { expect } = require('chai');
-const { normalizeValue, sanitizeId, toMilliseconds, isUnixTimestampField } = require('../../build/lib/normalize');
+const {
+    normalizeValue,
+    sanitizeId,
+    toMilliseconds,
+    isUnixTimestampField,
+    isChargingState,
+} = require('../../build/lib/normalize');
 const { formatApiError, getApiCode, getAxiosStatus } = require('../../build/lib/errors');
 const { isMissingEndpointError, isTransientSectionError } = require('../../build/lib/apiAvailability');
 const { AxiosError } = require('axios');
@@ -63,6 +69,18 @@ describe('normalizeValue', () => {
             role: 'value',
             value: 1_700_000_000,
         });
+    });
+});
+
+describe('isChargingState', () => {
+    it('interprets Tractive charging_state strings correctly', () => {
+        expect(isChargingState('NOT_CHARGING')).to.equal(false);
+        expect(isChargingState('CHARGING')).to.equal(true);
+        expect(isChargingState('charging')).to.equal(true);
+        expect(isChargingState(true)).to.equal(true);
+        expect(isChargingState(false)).to.equal(false);
+        expect(isChargingState(null)).to.equal(false);
+        expect(isChargingState(undefined)).to.equal(false);
     });
 });
 

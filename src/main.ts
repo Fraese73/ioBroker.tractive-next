@@ -1,15 +1,17 @@
 import * as utils from '@iobroker/adapter-core';
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
+import { buildTrackerCommandPath, CONTROL_COMMANDS, parseControlStateId } from './lib/commands';
 import { isMissingEndpointError, isTransientSectionError } from './lib/apiAvailability';
 import { formatApiError, getAxiosStatus } from './lib/errors';
 import { countPositionPoints, extractHealthOverview, resolveTrackerIdFromPet } from './lib/health';
-import { normalizeValue, sanitizeId, toMilliseconds } from './lib/normalize';
+import { isChargingState, normalizeValue, sanitizeId, toMilliseconds } from './lib/normalize';
 
 interface AdapterConfig {
     email: string;
     password: string;
     interval: number;
+    enableCommands: boolean;
 }
 
 interface AuthResponse {
@@ -42,16 +44,26 @@ class TractiveNext extends utils.Adapter {
         });
 
         this.on('ready', () => void this.onReady());
+        this.on('stateChange', (id, state) => void this.onStateChange(id, state));
         this.on('unload', (callback) => this.onUnload(callback));
     }
 
     private async onReady(): Promise<void> {
         await this.ensureInstanceObjects();
         await this.setStateAsync('info.connection', false, true);
+        await this.subscribeStatesAsync('*.controls.liveTrackingActive');
+        await this.subscribeStatesAsync('*.controls.ledActive');
+        await this.subscribeStatesAsync('*.controls.buzzerActive');
 
         if (!this.config.email || !this.config.password) {
             this.log.error('Tractive email address and password are required.');
             return;
+        }
+
+        if (this.config.enableCommands) {
+            this.log.info('Tracker commands are enabled (live tracking / LED / buzzer).');
+        } else {
+            this.log.info('Tracker commands are disabled. Enable them in the instance settings to allow writes.');
         }
 
         try {
@@ -170,6 +182,85 @@ class TractiveNext extends utils.Adapter {
 
             this.log.debug(`API GET ${url} failed after ${Date.now() - started} ms: ${formatApiError(error)}`);
             throw error;
+        }
+    }
+
+    private async sendTrackerCommand(
+        trackerId: string,
+        command: 'live_tracking' | 'led_control' | 'buzzer_control',
+        active: boolean,
+    ): Promise<ApiRecord> {
+        const path = buildTrackerCommandPath(trackerId, command, active);
+        const started = Date.now();
+        try {
+            // aiotractive / Home Assistant use GET for these command endpoints.
+            const response = await this.http.get<ApiRecord>(path, {
+                headers: this.authHeaders(),
+                baseURL: this.graphBaseUrl,
+            });
+            this.log.debug(`API CMD ${path} -> HTTP ${response.status} (${Date.now() - started} ms)`);
+            return response.data && typeof response.data === 'object' ? response.data : {};
+        } catch (error) {
+            const status = getAxiosStatus(error);
+            if (status === 401 || status === 403) {
+                this.log.warn(`Tractive returned HTTP ${status} for ${path}; refreshing token and retrying once.`);
+                await this.authenticate();
+                const response = await this.http.get<ApiRecord>(path, {
+                    headers: this.authHeaders(),
+                    baseURL: this.graphBaseUrl,
+                });
+                return response.data && typeof response.data === 'object' ? response.data : {};
+            }
+            throw error;
+        }
+    }
+
+    private async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void> {
+        if (!state || state.ack) {
+            return;
+        }
+
+        const parsed = parseControlStateId(id);
+        if (!parsed) {
+            return;
+        }
+
+        const command = CONTROL_COMMANDS[parsed.controlKey];
+        if (!command) {
+            return;
+        }
+
+        const active = Boolean(state.val);
+
+        if (!this.config.enableCommands) {
+            this.log.warn(`Ignored command for ${id}: enableCommands is disabled in instance settings.`);
+            try {
+                const details = await this.apiGet<ApiRecord>(`/tracker/${parsed.trackerId}`);
+                await this.writeControlStatus(parsed.trackerId, details);
+            } catch {
+                await this.setStateAsync(id, { val: !active, ack: true });
+            }
+            return;
+        }
+
+        try {
+            const result = await this.sendTrackerCommand(parsed.trackerId, command, active);
+            const pending = Boolean(result.pending);
+            const reported = typeof result.active === 'boolean' ? result.active : active;
+            await this.setStateAsync(id, { val: reported, ack: true });
+            this.log.info(
+                `Sent ${command}/${active ? 'on' : 'off'} for tracker ${parsed.trackerId}` +
+                    `${pending ? ' (pending)' : ''}.`,
+            );
+        } catch (error) {
+            this.log.error(`Command ${command} for tracker ${parsed.trackerId} failed: ${formatApiError(error)}`);
+            try {
+                const details = await this.apiGet<ApiRecord>(`/tracker/${parsed.trackerId}`);
+                await this.writeControlStatus(parsed.trackerId, details);
+            } catch (refreshError) {
+                this.log.debug(`Could not refresh controls after failed command: ${formatApiError(refreshError)}`);
+                await this.setStateAsync(id, { val: !active, ack: true });
+            }
         }
     }
 
@@ -515,21 +606,24 @@ class TractiveNext extends utils.Adapter {
             'liveTrackingActive',
             live ? Boolean(live.active) : null,
             'boolean',
-            'indicator',
+            'switch',
+            true,
         );
         await this.writeTypedState(
             `${base}.ledActive`,
             'ledActive',
             led ? Boolean(led.active) : null,
             'boolean',
-            'indicator',
+            'switch',
+            true,
         );
         await this.writeTypedState(
             `${base}.buzzerActive`,
             'buzzerActive',
             buzzer ? Boolean(buzzer.active) : null,
             'boolean',
-            'indicator',
+            'switch',
+            true,
         );
         await this.writeTypedState(
             `${base}.trackerState`,
@@ -537,6 +631,7 @@ class TractiveNext extends utils.Adapter {
             this.asString(tracker.tracker_state) || null,
             'string',
             'text',
+            false,
         );
     }
 
@@ -546,8 +641,9 @@ class TractiveNext extends utils.Adapter {
         value: ioBroker.StateValue,
         type: ioBroker.CommonType,
         role: string,
+        write = false,
     ): Promise<void> {
-        await this.ensureState(id, name, { value, type, role });
+        await this.ensureState(id, name, { value, type, role }, write);
         await this.setStateAsync(id, { val: value, ack: true });
     }
 
@@ -621,7 +717,7 @@ class TractiveNext extends utils.Adapter {
         const batteryLevel = Number(hw?.battery_level ?? tracker?.battery_level ?? NaN);
         const sensorUsed = this.asString(pos?.sensor_used);
         const batteryState = this.asString(tracker?.battery_state ?? hw?.battery_state);
-        const charging = Boolean(tracker?.charging_state ?? false);
+        const charging = isChargingState(tracker?.charging_state ?? hw?.charging_state);
         const addressObj = this.asRecord(pos?.address);
         const address = this.asString(addressObj?.full_address);
         const name = this.asString(tracker?.name) || fallbackName;
@@ -778,6 +874,7 @@ class TractiveNext extends utils.Adapter {
             type: ioBroker.CommonType;
             role: string;
         },
+        write = false,
     ): Promise<void> {
         const existing = await this.getObjectAsync(id);
 
@@ -789,7 +886,7 @@ class TractiveNext extends utils.Adapter {
                     type: normalized.type,
                     role: normalized.role,
                     read: true,
-                    write: false,
+                    write,
                 },
                 native: {
                     pendingConcreteValue: normalized.value === null,
@@ -798,23 +895,30 @@ class TractiveNext extends utils.Adapter {
             return;
         }
 
-        if (existing.type !== 'state' || normalized.value === null) {
+        if (existing.type !== 'state') {
             return;
         }
 
-        const typeChanged = existing.common.type !== normalized.type;
-        const roleChanged = existing.common.role !== normalized.role;
+        const typeChanged = normalized.value !== null && existing.common.type !== normalized.type;
+        const roleChanged = normalized.value !== null && existing.common.role !== normalized.role;
+        const writeChanged = existing.common.write !== write;
 
-        // Update when a null field becomes concrete, or when a timestamp role is inferred later.
-        if (typeChanged || roleChanged) {
-            existing.common.type = normalized.type;
-            existing.common.role = normalized.role;
+        if (typeChanged || roleChanged || writeChanged) {
+            if (typeChanged) {
+                existing.common.type = normalized.type;
+            }
+            if (roleChanged) {
+                existing.common.role = normalized.role;
+            }
+            existing.common.write = write;
             existing.native = {
                 ...(existing.native || {}),
-                pendingConcreteValue: false,
+                pendingConcreteValue: normalized.value === null ? existing.native?.pendingConcreteValue : false,
             };
             await this.setObjectAsync(id, existing);
-            this.log.debug(`Updated inferred type/role of ${id} to ${normalized.type}/${normalized.role}.`);
+            this.log.debug(
+                `Updated object ${id} (type/role/write=${existing.common.type}/${existing.common.role}/${write}).`,
+            );
         }
     }
 

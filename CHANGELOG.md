@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0 – Steuerung (Phase 4)
+
+- optionale Schreibbefehle: Live-Tracking, LED, Tonsignal (`…controls.*`)
+- Schreibschutz über Instanzoption `enableCommands` (Standard: aus)
+- Fehlerhafte/gesperrte Befehle setzen den State wieder per API-Refresh zurück
+- Fix: `overview.charging` wertet `NOT_CHARGING` korrekt als `false`
+
 ## 0.3.0 – Zusätzliche Lesedaten (Phase 3)
 
 - Aktivitäts-/Gesundheitsübersicht über APS `health/overview` (`…health.*`)

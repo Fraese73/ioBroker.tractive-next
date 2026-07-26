@@ -83,3 +83,18 @@ export function normalizeValue(key: string, value: unknown): NormalizedValue {
     }
     return { value: JSON.stringify(value), type: 'string', role: 'json' };
 }
+
+/** Tractive charging_state is often a string like NOT_CHARGING / CHARGING. */
+export function isChargingState(value: unknown): boolean {
+    if (typeof value === 'boolean') {
+        return value;
+    }
+    if (typeof value === 'number') {
+        return value === 1;
+    }
+    if (typeof value === 'string') {
+        const normalized = value.trim().toUpperCase();
+        return normalized === 'CHARGING' || normalized === 'TRUE' || normalized === '1';
+    }
+    return false;
+}

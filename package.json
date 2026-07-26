@@ -1,6 +1,6 @@
 {
   "name": "iobroker.tractive-next",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Unofficial Tractive GPS adapter for ioBroker with automatic state discovery and an admin overview tab.",
   "author": {
     "name": "Michael Fraessdorf",

@@ -37,11 +37,11 @@
 
 ## Phase 4 – Steuerung
 
-- [ ] Live-Tracking starten und stoppen
-- [ ] Tracker-Licht schalten
-- [ ] Tonsignal auslösen
-- [ ] Schreibschutz und Bestätigungslogik
-- [ ] Fehlerbehandlung für nicht unterstützte Tracker
+- [x] Live-Tracking starten und stoppen
+- [x] Tracker-Licht schalten
+- [x] Tonsignal auslösen
+- [x] Schreibschutz und Bestätigungslogik (`enableCommands`)
+- [x] Fehlerbehandlung für nicht unterstützte Tracker
 
 ## Phase 5 – Veröffentlichung
 

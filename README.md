@@ -2,30 +2,19 @@
 
 Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 
-## Features in 0.3.0
+## Features in 0.4.0
 
 - Tractive account login
 - Automatic token renewal
 - One automatic retry after HTTP 401 or 403
-- Tracker list
-- Tracker details
-- Hardware report
-- Current position report
-- Activity and health overview (`…health.*`, overview minutes)
+- Tracker list / details / hardware / position
+- Activity and health overview (`…health.*`)
 - 24h position history (`…history.*`)
-- Live-tracking / LED / buzzer status (`…controls.*`, read-only)
+- Optional commands for live tracking, LED and buzzer (`…controls.*`, gated by `enableCommands`)
 - Geofence payload as JSON when the API provides it
-- OpenStreetMap link per tracker (`device_pos_report.osmMapUrl`)
-- Admin sidebar tab with map cards per tracker
-- Overview states (`…overview.*`) for name, position, battery, sensor and address
-- Automatic ioBroker object creation
-- Automatic data-type inference for new API fields
-- Unix timestamp fields converted to milliseconds with role `value.time` for readable display
-- `temperature_state` and future API fields no longer require a hard-coded definition
-- Raw JSON state for diagnostics
-- Pi update script (`UPDATE_ON_PI.sh`) for pull, install, build and restart
-- Password stored encrypted via `encryptedNative` / `protectedNative`
-- ESLint (`npm run lint`), package/unit tests and GitHub Actions CI
+- OpenStreetMap link and admin map overview tab
+- Automatic ioBroker object creation and datatype inference
+- Encrypted password, ESLint, package/unit tests, GitHub Actions CI
 
 ## Important
 
@@ -81,11 +70,17 @@ Then open the instance configuration and enter the Tractive email address and pa
 
 After updating to 0.2.2 or newer, open the instance settings once and save the password again so it is stored encrypted.
 
+To send live-tracking / LED / buzzer commands, enable **Enable tracker commands** in the instance settings. The writable states are under each tracker at `…controls.liveTrackingActive`, `…controls.ledActive` and `…controls.buzzerActive`.
+
 ## Development status
 
 This is an initial development build. Read-only API access is implemented. Live tracking, history, virtual fences, LED and sound commands are intentionally not yet enabled.
 
 ## Changelog
+
+### 0.4.0
+* (Michael Fraessdorf) Optional live-tracking / LED / buzzer commands with enableCommands safety switch
+* (Michael Fraessdorf) Fixed overview.charging for NOT_CHARGING string values
 
 ### 0.3.0
 * (Michael Fraessdorf) Activity/health overview, 24h history, live-tracking status, geofence JSON (read-only)

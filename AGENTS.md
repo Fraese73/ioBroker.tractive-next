@@ -42,7 +42,7 @@ Der Adapter soll:
 
 ## Aktuelle Prioritäten
 
-1. Aktivitäts-/Gesundheitsdaten im Betrieb validieren
-2. Geofence-Endpunkte und Historie-Formate gegen reale Konten prüfen
-3. Schreibende Funktionen (Live-Tracking, Licht, Ton) bewusst danach
-4. Dokumentation EN/DE und Forum-Testthread
+1. Steuerbefehle am realen Tracker testen (`enableCommands`)
+2. Aktivitäts-/Gesundheitsdaten und Historie im Betrieb validieren
+3. Dokumentation EN/DE und Forum-Testthread
+4. Optional Admin-Tab um Control-Schalter ergänzen
