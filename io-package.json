@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.2.10",
+    "version": "0.2.11",
     "news": {
+      "0.2.11": {
+        "en": "Stabilization: safer null typing, tolerant API sections, unit tests and redacted error logs.",
+        "de": "Stabilisierung: robustere Null-Typen, tolerante API-Abschnitte, Unit-Tests und bereinigte Fehlerlogs.",
+        "ru": "Стабилизация: более надёжные null-типы, терпимые секции API, юнит-тесты и безопасные логи ошибок.",
+        "pt": "Estabilização: tipagem null mais segura, secções de API tolerantes, testes unitários e logs de erro redigidos.",
+        "nl": "Stabilisatie: veiligere null-typen, tolerante API-secties, unittests en gecensureerde foutlogs.",
+        "fr": "Stabilisation: typage null plus sûr, sections API tolérantes, tests unitaires et journaux d'erreur expurgés.",
+        "it": "Stabilizzazione: tipizzazione null più sicura, sezioni API tolleranti, unit test e log errori redatti.",
+        "es": "Estabilización: tipado null más seguro, secciones API tolerantes, pruebas unitarias y logs de error redactados.",
+        "pl": "Stabilizacja: bezpieczniejsze typy null, tolerancyjne sekcje API, testy jednostkowe i ocenzurowane logi błędów.",
+        "uk": "Стабілізація: надійніші null-типи, толерантні секції API, юніт-тести та безпечні логи помилок.",
+        "zh-cn": "稳定性改进：更安全的空值类型、容错 API 分段、单元测试以及脱敏错误日志。"
+      },
       "0.2.10": {
         "en": "Published via Trusted Publishing with provenance; news limited to npm versions for Latest.",
         "de": "Veröffentlichung über Trusted Publishing mit Provenance; News auf npm-Versionen für Latest begrenzt.",
@@ -15,19 +28,6 @@
         "pl": "Opublikowano przez Trusted Publishing z provenance; news ograniczone do wersji npm dla Latest.",
         "uk": "Опубліковано через Trusted Publishing з provenance; новини обмежено версіями npm для Latest.",
         "zh-cn": "通过 Trusted Publishing 发布并带有 provenance；新闻条目仅保留 npm 上的版本以加入 Latest。"
-      },
-      "0.2.9": {
-        "en": "Fixed nogit flag, news translations and deploy Node.js 24 for the adapter checker.",
-        "de": "nogit-Flag, News-Übersetzungen und Deploy mit Node.js 24 für den Adapter-Checker korrigiert.",
-        "ru": "Исправлены флаг nogit, переводы новостей и Node.js 24 для deploy в проверке адаптера.",
-        "pt": "Corrigidos o sinalizador nogit, as traduções de notícias e o Node.js 24 no deploy para o verificador.",
-        "nl": "nogit-vlag, nieuwsvertalingen en Node.js 24 voor deploy in de adapter-checker gecorrigeerd.",
-        "fr": "Correction du drapeau nogit, des traductions des news et de Node.js 24 pour le déploiement du checker.",
-        "it": "Corretti il flag nogit, le traduzioni delle news e Node.js 24 per il deploy del checker.",
-        "es": "Corregidos el indicador nogit, las traducciones de noticias y Node.js 24 en el deploy del checker.",
-        "pl": "Poprawiono flagę nogit, tłumaczenia news oraz Node.js 24 w deploy dla checkera.",
-        "uk": "Виправлено прапорець nogit, переклади новин і Node.js 24 для deploy у перевірці адаптера.",
-        "zh-cn": "修复了适配器检查器的 nogit 标志、新闻翻译以及部署使用的 Node.js 24。"
       }
     },
     "titleLang": {

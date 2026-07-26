@@ -1,6 +1,6 @@
 {
   "name": "iobroker.tractive-next",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Unofficial Tractive GPS adapter for ioBroker with automatic state discovery and an admin overview tab.",
   "author": {
     "name": "Michael Fraessdorf",
@@ -47,8 +47,9 @@
     "check": "tsc -p src/tsconfig.json --noEmit",
     "lint": "eslint -c eslint.config.mjs .",
     "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --exit",
-    "test": "npm run test:package"
+    "test": "npm run build && npm run test:unit && npm run test:package"
   },
   "files": [
     "admin",

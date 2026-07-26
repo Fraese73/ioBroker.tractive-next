@@ -17,11 +17,11 @@
 
 - [ ] API-Endpunkte mit realem Tractive-Konto testen
 - [ ] Token-Ablaufzeit und Antwortformat validieren
-- [ ] Fehlende Endpunkte tolerant behandeln
-- [ ] Objekttypen bei `null`-Werten verbessern
+- [x] Fehlende Endpunkte tolerant behandeln
+- [x] Objekttypen bei `null`-Werten verbessern
 - [x] Unix-Zeitstempel als `value.time` (ms) für lesbare Anzeige
-- [ ] strukturierte Debug-Protokolle
-- [ ] Unit-Tests für Datentyp-Erkennung
+- [x] strukturierte Debug-Protokolle
+- [x] Unit-Tests für Datentyp-Erkennung
 - [x] Adapter-Checker-Befunde (0.2.8) und Linting ergänzt
 
 ## Phase 3 – Zusätzliche Daten

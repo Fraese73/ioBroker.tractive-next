@@ -1,6 +1,9 @@
 import * as utils from '@iobroker/adapter-core';
+import axios from 'axios';
 import type { AxiosInstance } from 'axios';
-import axios, { AxiosError } from 'axios';
+import { isMissingEndpointError, isTransientSectionError } from './lib/apiAvailability';
+import { formatApiError, getAxiosStatus } from './lib/errors';
+import { normalizeValue, sanitizeId, toMilliseconds } from './lib/normalize';
 
 interface AdapterConfig {
     email: string;
@@ -52,7 +55,7 @@ class TractiveNext extends utils.Adapter {
             await this.authenticate();
             await this.poll();
         } catch (error) {
-            this.log.error(`Startup failed: ${this.errorText(error)}`);
+            this.log.error(`Startup failed: ${formatApiError(error)}`);
         }
     }
 
@@ -101,6 +104,7 @@ class TractiveNext extends utils.Adapter {
     }
 
     private async authenticate(): Promise<void> {
+        const started = Date.now();
         const response = await this.http.post<AuthResponse>(
             '/auth/token',
             {
@@ -121,7 +125,9 @@ class TractiveNext extends utils.Adapter {
             throw new Error('Authentication response did not contain access_token and user_id.');
         }
 
-        this.log.debug(`Authenticated as Tractive user ${this.userId}; token expires at ${this.expiresAt}.`);
+        this.log.debug(
+            `Authenticated as Tractive user ${this.userId}; token expires at ${this.expiresAt} (${Date.now() - started} ms).`,
+        );
     }
 
     private authHeaders(): Record<string, string> {
@@ -133,20 +139,23 @@ class TractiveNext extends utils.Adapter {
     }
 
     private async apiGet<T>(url: string, retry = true): Promise<T> {
+        const started = Date.now();
         try {
             const response = await this.http.get<T>(url, {
                 headers: this.authHeaders(),
             });
+            this.log.debug(`API GET ${url} -> HTTP ${response.status} (${Date.now() - started} ms)`);
             return response.data;
         } catch (error) {
-            const status = error instanceof AxiosError ? error.response?.status : undefined;
+            const status = getAxiosStatus(error);
 
             if (retry && (status === 401 || status === 403)) {
-                this.log.warn(`Tractive returned HTTP ${status}; refreshing token and retrying once.`);
+                this.log.warn(`Tractive returned HTTP ${status} for ${url}; refreshing token and retrying once.`);
                 await this.authenticate();
                 return this.apiGet<T>(url, false);
             }
 
+            this.log.debug(`API GET ${url} failed after ${Date.now() - started} ms: ${formatApiError(error)}`);
             throw error;
         }
     }
@@ -155,6 +164,9 @@ class TractiveNext extends utils.Adapter {
         if (this.timer) {
             this.clearTimeout(this.timer);
         }
+
+        const started = Date.now();
+        this.log.debug('Poll started.');
 
         try {
             if (!this.accessToken || (this.expiresAt > 0 && this.expiresAt <= Math.floor(Date.now() / 1000) + 60)) {
@@ -171,24 +183,40 @@ class TractiveNext extends utils.Adapter {
                     continue;
                 }
 
-                await this.ensureObject(trackerId, 'device', this.asString(tracker.name) || trackerId);
-                await this.writeRecord(`${trackerId}.summary`, tracker);
+                try {
+                    await this.ensureObject(trackerId, 'device', this.asString(tracker.name) || trackerId);
+                    await this.writeRecord(`${trackerId}.summary`, tracker);
 
-                const deviceData: Record<string, unknown> = {};
-                await this.fetchSection(trackerId, 'tracker', `/tracker/${trackerId}`, deviceData);
-                await this.fetchSection(trackerId, 'device_hw_report', `/device_hw_report/${trackerId}`, deviceData);
-                await this.fetchSection(trackerId, 'device_pos_report', `/device_pos_report/${trackerId}`, deviceData);
-                await this.writeOsmMapLink(trackerId, deviceData.device_pos_report);
-                await this.writeOverview(trackerId, this.asString(tracker.name) || trackerId, deviceData);
-                (raw.devices as Record<string, unknown>)[trackerId] = deviceData;
+                    const deviceData: Record<string, unknown> = {};
+                    await this.fetchSection(trackerId, 'tracker', `/tracker/${trackerId}`, deviceData);
+                    await this.fetchSection(
+                        trackerId,
+                        'device_hw_report',
+                        `/device_hw_report/${trackerId}`,
+                        deviceData,
+                    );
+                    await this.fetchSection(
+                        trackerId,
+                        'device_pos_report',
+                        `/device_pos_report/${trackerId}`,
+                        deviceData,
+                    );
+                    await this.writeOsmMapLink(trackerId, deviceData.device_pos_report);
+                    await this.writeOverview(trackerId, this.asString(tracker.name) || trackerId, deviceData);
+                    (raw.devices as Record<string, unknown>)[trackerId] = deviceData;
+                } catch (error) {
+                    // Keep other trackers / later polls alive if one device fails unexpectedly.
+                    this.log.warn(`Tracker ${trackerId} update incomplete: ${formatApiError(error)}`);
+                }
             }
 
             await this.setStateAsync('rawJson', JSON.stringify(raw), true);
             await this.setStateAsync('info.lastUpdate', Date.now(), true);
             await this.setStateAsync('info.connection', true, true);
+            this.log.debug(`Poll finished successfully in ${Date.now() - started} ms (${trackers.length} tracker(s)).`);
         } catch (error) {
             await this.setStateAsync('info.connection', false, true);
-            this.log.error(`Polling failed: ${this.errorText(error)}`);
+            this.log.error(`Polling failed: ${formatApiError(error)}`);
         } finally {
             const seconds = Math.max(30, Number(this.config.interval) || 60);
             this.timer = this.setTimeout(() => void this.poll(), seconds * 1000);
@@ -205,15 +233,20 @@ class TractiveNext extends utils.Adapter {
             const data = await this.apiGet<ApiRecord>(endpoint);
             target[section] = data;
             await this.writeRecord(`${trackerId}.${section}`, data);
+            this.log.debug(`Section ${section} ok for tracker ${trackerId}.`);
         } catch (error) {
-            const axiosError = error instanceof AxiosError ? error : undefined;
-            const apiCode = (axiosError?.response?.data as { code?: number } | undefined)?.code;
-
-            if (apiCode === 4002 || axiosError?.response?.status === 404) {
-                this.log.debug(`${section} is not available for tracker ${trackerId}.`);
+            if (isMissingEndpointError(error)) {
+                this.log.debug(`Section ${section} not available for tracker ${trackerId}: ${formatApiError(error)}`);
                 return;
             }
-            throw error;
+            if (isTransientSectionError(error)) {
+                this.log.warn(
+                    `Section ${section} temporarily unavailable for tracker ${trackerId}: ${formatApiError(error)}`,
+                );
+                return;
+            }
+            // Unexpected section errors should not abort the whole poll for this tracker.
+            this.log.warn(`Section ${section} failed for tracker ${trackerId}: ${formatApiError(error)}`);
         }
     }
 
@@ -280,7 +313,7 @@ class TractiveNext extends utils.Adapter {
         const lat = Array.isArray(latlong) ? Number(latlong[0]) : NaN;
         const lon = Array.isArray(latlong) ? Number(latlong[1]) : NaN;
         const lastSeenRaw = Number(pos?.time ?? pos?.time_pos ?? 0);
-        const lastSeen = lastSeenRaw > 0 ? this.toMilliseconds(lastSeenRaw) : 0;
+        const lastSeen = lastSeenRaw > 0 ? toMilliseconds(lastSeenRaw) : 0;
         const accuracy = Number(pos?.pos_uncertainty ?? 0);
         const batteryLevel = Number(hw?.battery_level ?? tracker?.battery_level ?? NaN);
         const sensorUsed = this.asString(pos?.sensor_used);
@@ -406,65 +439,11 @@ class TractiveNext extends utils.Adapter {
                 continue;
             }
 
-            const id = `${baseId}.${this.sanitizeId(key)}`;
-            const normalized = this.normalizeValue(key, value);
+            const id = `${baseId}.${sanitizeId(key)}`;
+            const normalized = normalizeValue(key, value);
             await this.ensureState(id, key, normalized);
             await this.setStateAsync(id, { val: normalized.value, ack: true });
         }
-    }
-
-    private normalizeValue(
-        key: string,
-        value: unknown,
-    ): { value: ioBroker.StateValue; type: ioBroker.CommonType; role: string } {
-        if (value === null || value === undefined) {
-            // API fields such as temperature_state can legitimately be null.
-            // A nullable unknown field is represented as string until a concrete value arrives.
-            return { value: null, type: 'string', role: 'state' };
-        }
-        if (typeof value === 'boolean') {
-            return { value, type: 'boolean', role: 'indicator' };
-        }
-        if (typeof value === 'number') {
-            if (this.isUnixTimestampField(key, value)) {
-                return {
-                    value: this.toMilliseconds(value),
-                    type: 'number',
-                    role: 'value.time',
-                };
-            }
-            return { value, type: 'number', role: 'value' };
-        }
-        if (typeof value === 'string') {
-            return { value, type: 'string', role: 'text' };
-        }
-        return { value: JSON.stringify(value), type: 'string', role: 'json' };
-    }
-
-    private isUnixTimestampField(key: string, value: number): boolean {
-        if (!Number.isFinite(value) || value <= 0) {
-            return false;
-        }
-
-        const keyHint =
-            /(?:^|_)(time|timestamp|date|expires|created|updated|last_seen|time_pos|time_rcvd)(?:_|$)/i.test(key) ||
-            /_(at|ts)$/i.test(key) ||
-            /^(time|timestamp|date)$/i.test(key);
-
-        if (!keyHint) {
-            return false;
-        }
-
-        // Unix seconds (~2001–2286) or milliseconds in the same era.
-        return (
-            (value >= 1_000_000_000 && value < 10_000_000_000) ||
-            (value >= 1_000_000_000_000 && value < 10_000_000_000_000)
-        );
-    }
-
-    private toMilliseconds(value: number): number {
-        // Tractive timestamps are typically Unix seconds; ioBroker value.time expects ms.
-        return value < 10_000_000_000 ? Math.round(value * 1000) : Math.round(value);
     }
 
     private async ensureState(
@@ -488,7 +467,9 @@ class TractiveNext extends utils.Adapter {
                     read: true,
                     write: false,
                 },
-                native: {},
+                native: {
+                    pendingConcreteValue: normalized.value === null,
+                },
             });
             return;
         }
@@ -504,8 +485,12 @@ class TractiveNext extends utils.Adapter {
         if (typeChanged || roleChanged) {
             existing.common.type = normalized.type;
             existing.common.role = normalized.role;
+            existing.native = {
+                ...(existing.native || {}),
+                pendingConcreteValue: false,
+            };
             await this.setObjectAsync(id, existing);
-            this.log.info(`Updated inferred type/role of ${id} to ${normalized.type}/${normalized.role}.`);
+            this.log.debug(`Updated inferred type/role of ${id} to ${normalized.type}/${normalized.role}.`);
         }
     }
 
@@ -518,19 +503,6 @@ class TractiveNext extends utils.Adapter {
             common: { name },
             native: {},
         });
-    }
-
-    private sanitizeId(value: string): string {
-        return value.replace(/[.\s]+/g, '_').replace(/[^A-Za-z0-9_-]/g, '');
-    }
-
-    private errorText(error: unknown): string {
-        if (error instanceof AxiosError) {
-            const status = error.response?.status;
-            const data = error.response?.data;
-            return `${error.message}${status ? ` (HTTP ${status})` : ''}${data ? `: ${JSON.stringify(data)}` : ''}`;
-        }
-        return error instanceof Error ? error.message : String(error);
     }
 
     private onUnload(callback: () => void): void {

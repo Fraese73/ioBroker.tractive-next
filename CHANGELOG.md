@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.11 – Stabilisierung (Phase 2)
+
+- bekannte API-Felder behalten bei `null` den richtigen Typ/Rolle
+- fehlende/temporäre API-Abschnitte brechen den Poll nicht mehr ab
+- Fehlerlogs redaktieren sensible Felder; strukturierte API-Debug-Logs
+- reine Helper in `src/lib/` + Unit-Tests (`npm run test:unit`)
+
 ## 0.2.10 – Trusted Publishing / Latest-Vorbereitung
 
 - `common.news` nur noch für auf npm existierende Versionen (`0.2.10`, `0.2.9`)
