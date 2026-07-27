@@ -1,0 +1,59 @@
+/* Tractive Overview – Vis-2 Material (Tablet landscape) */
+
+.tr-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 0 8px;
+    color: #e2e8f0;
+    font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.tr-hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: #f8fafc;
+    line-height: 1.15;
+}
+
+.tr-hero-sub {
+    margin-top: 6px;
+    font-size: 15px;
+    color: #94a3b8;
+}
+
+.tr-info {
+    padding: 4px 8px 8px;
+    color: #e2e8f0;
+    font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+}
+
+.tr-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.tr-row span {
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.tr-row strong {
+    text-align: right;
+    font-weight: 600;
+    color: #f1f5f9;
+    word-break: break-word;
+}
+
+.tr-note {
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #64748b;
+}

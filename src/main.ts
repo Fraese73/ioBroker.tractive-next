@@ -1,10 +1,20 @@
 import * as utils from '@iobroker/adapter-core';
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
-import { buildTrackerCommandPath, CONTROL_COMMANDS, parseControlStateId } from './lib/commands';
+import {
+    buildTrackerCommandPath,
+    COMMAND_STATUS_GRACE_MS,
+    CONTROL_COMMANDS,
+    controlPendingKey,
+    parseControlStateId,
+    resolveCommandReportedActive,
+    resolvePolledControlActive,
+    type ControlStateKey,
+} from './lib/commands';
 import { isMissingEndpointError, isTransientSectionError } from './lib/apiAvailability';
 import { formatApiError, getAxiosStatus } from './lib/errors';
 import { countPositionPoints, extractHealthOverview, resolveTrackerIdFromPet } from './lib/health';
+import { computeTrackDistanceKm, extractTrackPoints } from './lib/history';
 import { isChargingState, normalizeValue, sanitizeId, toMilliseconds } from './lib/normalize';
 
 interface AdapterConfig {
@@ -33,6 +43,8 @@ class TractiveNext extends utils.Adapter {
     private userId = '';
     private expiresAt = 0;
     private timer?: ioBroker.Timeout;
+    /** Optimistic control values until poll catches up or grace expires. */
+    private readonly pendingControls = new Map<string, { desired: boolean; until: number }>();
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({ ...options, name: 'tractive-next' });
@@ -246,7 +258,8 @@ class TractiveNext extends utils.Adapter {
         try {
             const result = await this.sendTrackerCommand(parsed.trackerId, command, active);
             const pending = Boolean(result.pending);
-            const reported = typeof result.active === 'boolean' ? result.active : active;
+            const reported = resolveCommandReportedActive(active, result);
+            this.rememberPendingControl(parsed.trackerId, parsed.controlKey, reported, result);
             await this.setStateAsync(id, { val: reported, ack: true });
             this.log.info(
                 `Sent ${command}/${active ? 'on' : 'off'} for tracker ${parsed.trackerId}` +
@@ -535,6 +548,8 @@ class TractiveNext extends utils.Adapter {
             });
             target.position_history = data;
             const pointCount = countPositionPoints(data);
+            const trackPoints = extractTrackPoints(data);
+            const distanceKm = computeTrackDistanceKm(trackPoints);
             const base = `${trackerId}.history`;
             await this.ensureObject(base, 'channel', 'history');
             await this.writeTypedState(
@@ -546,6 +561,7 @@ class TractiveNext extends utils.Adapter {
             );
             await this.writeTypedState(`${base}.timeTo`, 'timeTo', toMilliseconds(timeTo), 'number', 'value.time');
             await this.writeTypedState(`${base}.pointCount`, 'pointCount', pointCount, 'number', 'value');
+            await this.writeTypedState(`${base}.distanceKm`, 'distanceKm', distanceKm, 'number', 'value');
             await this.writeTypedState(
                 `${base}.positionsJson`,
                 'positionsJson',
@@ -553,7 +569,7 @@ class TractiveNext extends utils.Adapter {
                 'string',
                 'json',
             );
-            this.log.debug(`Position history ok for tracker ${trackerId} (${pointCount} point(s)).`);
+            this.log.debug(`Position history ok for tracker ${trackerId} (${pointCount} point(s), ${distanceKm} km).`);
         } catch (error) {
             if (isMissingEndpointError(error) || isTransientSectionError(error)) {
                 this.log.debug(`Position history not available for tracker ${trackerId}: ${formatApiError(error)}`);
@@ -589,6 +605,36 @@ class TractiveNext extends utils.Adapter {
         }
     }
 
+    private rememberPendingControl(
+        trackerId: string,
+        controlKey: ControlStateKey,
+        desired: boolean,
+        result: ApiRecord,
+    ): void {
+        const timeoutSec =
+            typeof result.timeout === 'number' && Number.isFinite(result.timeout) ? result.timeout : null;
+        const graceMs =
+            timeoutSec !== null ? Math.min(Math.max(timeoutSec * 1000, 30_000), 180_000) : COMMAND_STATUS_GRACE_MS;
+        this.pendingControls.set(controlPendingKey(trackerId, controlKey), {
+            desired,
+            until: Date.now() + graceMs,
+        });
+    }
+
+    private resolveControlWriteValue(
+        trackerId: string,
+        controlKey: ControlStateKey,
+        section: ApiRecord | null | undefined,
+    ): boolean | null {
+        const polled = section ? Boolean(section.active) : null;
+        const key = controlPendingKey(trackerId, controlKey);
+        const resolved = resolvePolledControlActive(polled, this.pendingControls.get(key));
+        if (resolved.clearPending) {
+            this.pendingControls.delete(key);
+        }
+        return resolved.value;
+    }
+
     private async writeControlStatus(trackerId: string, trackerDetails: unknown): Promise<void> {
         const tracker = this.asRecord(trackerDetails);
         if (!tracker) {
@@ -604,7 +650,7 @@ class TractiveNext extends utils.Adapter {
         await this.writeTypedState(
             `${base}.liveTrackingActive`,
             'liveTrackingActive',
-            live ? Boolean(live.active) : null,
+            this.resolveControlWriteValue(trackerId, 'liveTrackingActive', live),
             'boolean',
             'switch',
             true,
@@ -612,7 +658,7 @@ class TractiveNext extends utils.Adapter {
         await this.writeTypedState(
             `${base}.ledActive`,
             'ledActive',
-            led ? Boolean(led.active) : null,
+            this.resolveControlWriteValue(trackerId, 'ledActive', led),
             'boolean',
             'switch',
             true,
@@ -620,7 +666,7 @@ class TractiveNext extends utils.Adapter {
         await this.writeTypedState(
             `${base}.buzzerActive`,
             'buzzerActive',
-            buzzer ? Boolean(buzzer.active) : null,
+            this.resolveControlWriteValue(trackerId, 'buzzerActive', buzzer),
             'boolean',
             'switch',
             true,

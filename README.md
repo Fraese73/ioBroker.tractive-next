@@ -12,7 +12,9 @@ Development version of a modern, unofficial Tractive GPS adapter for ioBroker.
 - 24h position history (`…history.*`)
 - Optional commands for live tracking, LED and buzzer (`…controls.*`, gated by `enableCommands`)
 - Geofence payload as JSON when the API provides it
-- OpenStreetMap link and admin map overview tab
+- OpenStreetMap link and admin map overview tab with live-tracking / LED / buzzer buttons
+- Admin day track: path, heatmap toggle, time slider playback
+- Optional Vis-2 Material overview project (`docs/vis-2/`)
 - Automatic ioBroker object creation and datatype inference
 - Encrypted password, ESLint, package/unit tests, GitHub Actions CI
 
@@ -72,11 +74,21 @@ After updating to 0.2.2 or newer, open the instance settings once and save the p
 
 To send live-tracking / LED / buzzer commands, enable **Enable tracker commands** in the instance settings. The writable states are under each tracker at `…controls.liveTrackingActive`, `…controls.ledActive` and `…controls.buzzerActive`.
 
+Commands go through the Tractive cloud API. Inside a **Power Saving / home zone** the cloud often accepts the request as `pending` but does not activate LED, buzzer or live tracking on the device (the official app can still use Bluetooth Radar locally). Outside that zone, commands work; the adapter keeps an optimistic control value while the API reports `pending`, so the UI does not flip back to `false` before you can turn the feature off again.
+
 ## Development status
 
-This is an initial development build. Read-only API access is implemented. Live tracking, history, virtual fences, LED and sound commands are intentionally not yet enabled.
+Read access (trackers, position, hardware, health/activity, history, geofences) and optional write commands (live tracking / LED / buzzer) are implemented. Commands require `enableCommands` in the instance settings.
 
 ## Changelog
+
+### 0.5.0
+* (Michael Fraessdorf) Admin day track with heatmap toggle and time-slider playback; history.distanceKm
+
+### 0.4.1
+* (Michael Fraessdorf) Keep optimistic control state while commands are pending; avoid premature poll overwrite
+* (Michael Fraessdorf) Admin overview: control on/off buttons and taller map
+* (Michael Fraessdorf) Added importable vis-2 Material overview project for tablet landscape
 
 ### 0.4.0
 * (Michael Fraessdorf) Optional live-tracking / LED / buzzer commands with enableCommands safety switch

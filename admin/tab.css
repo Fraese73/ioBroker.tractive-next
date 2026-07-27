@@ -66,7 +66,7 @@
 }
 
 .tracker-map {
-    height: 220px;
+    height: 440px;
     background: #263238;
 }
 
@@ -75,6 +75,59 @@
     width: 100%;
     height: 100%;
     border: 0;
+}
+
+.tracker-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 4px 16px 12px;
+}
+
+.tracker-controls .control-btn {
+    flex: 1 1 30%;
+    min-width: 96px;
+    border: 1px solid #455a64;
+    background: #263238;
+    color: #eee;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1.2;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.tracker-controls .control-btn.on {
+    background: #1b5e20;
+    border-color: #66bb6a;
+    color: #e8f5e9;
+}
+
+.tracker-controls .control-btn:hover:not(:disabled) {
+    border-color: #90caf9;
+}
+
+.tracker-controls .control-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.tracker-controls .control-btn .control-label {
+    display: block;
+    font-weight: 600;
+}
+
+.tracker-controls .control-btn .control-state {
+    display: block;
+    opacity: 0.85;
+    font-size: 12px;
+}
+
+.controls-hint {
+    padding: 0 16px 12px;
+    font-size: 12px;
+    opacity: 0.7;
 }
 
 .tracker-meta {
@@ -119,10 +172,57 @@
     color: #e57373;
 }
 
-.empty-state {
-    padding: 24px;
-    text-align: center;
-    opacity: 0.8;
+.tracker-history {
+    padding: 4px 16px 16px;
+    border-top: 1px solid #2c2c2c;
+}
+
+.tracker-history h6 {
+    margin: 8px 0 10px;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.history-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.history-toolbar label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    opacity: 0.9;
+    cursor: pointer;
+    user-select: none;
+}
+
+.history-meta {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-bottom: 8px;
+}
+
+.history-slider {
+    width: 100%;
+    accent-color: #2196f3;
+}
+
+.history-time {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 6px;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.history-empty {
+    font-size: 13px;
+    opacity: 0.7;
 }
 
 .hide {

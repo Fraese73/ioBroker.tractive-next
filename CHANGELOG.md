@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.0 – Tagesverlauf im Admin
+
+- Admin-Übersicht: 24h-Weg als Polyline, Heatmap ein/aus, Zeit-Slider für Positions-Playback
+- neuer Datenpunkt `…history.distanceKm`
+- Parser/Tests für Track-Punkte (`src/lib/history.ts`)
+
+## 0.4.1 – Command-Status Sync
+
+- Bei `pending` behält der Adapter den angeforderten Control-Wert (wie Home Assistant)
+- Kurze Grace-Zeit nach Befehlen, damit der Poll den State nicht vorzeitig auf `false` zurücksetzt
+- Hinweis: In Power-Saving-/Home-Zonen blockiert die Tractive-Cloud LED/Buzzer/Live-Tracking (App nutzt Bluetooth/Radar)
+- Admin-Übersicht: An/Aus-Buttons für Live-Tracking, LED und Buzzer; Karte auf doppelte Höhe
+- Vis-2 Importprojekt `docs/vis-2/TractiveOverview.zip` (Material, Tablet quer)
+
 ## 0.4.0 – Steuerung (Phase 4)
 
 - optionale Schreibbefehle: Live-Tracking, LED, Tonsignal (`…controls.*`)

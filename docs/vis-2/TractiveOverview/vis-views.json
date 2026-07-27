@@ -1,0 +1,143 @@
+{
+  "___settings": {
+    "folders": [],
+    "openedViews": ["overview"],
+    "versions": {},
+    "reloadOnEdit": true,
+    "darkReconnect": false,
+    "destroyViewsAfter": 30,
+    "statesDebounceTime": 100,
+    "scripts": "",
+    "bodyOverflow": "hidden",
+    "ts": "1753550000.000001",
+    "title": "Tractive Overview",
+    "favicon": ""
+  },
+  "overview": {
+    "name": "overview",
+    "settings": {
+      "sizex": 1280,
+      "sizey": 800,
+      "useAsDefault": true,
+      "useBackground": true,
+      "background_class": "",
+      "background_color": "#0f172a",
+      "style": {},
+      "gridSize": 8,
+      "snapType": 0,
+      "filterType": 0
+    },
+    "widgets": {
+      "wHeader": {
+        "tpl": "tplMaterial2Static",
+        "widgetSet": "vis-2-widgets-material",
+        "data": {
+          "noCard": true,
+          "widgetTitle": "",
+          "html": "<div class=\"tr-hero\"><div class=\"tr-hero-title\">{tractive-next.0.XLYLJQDD.overview.name}</div><div class=\"tr-hero-sub\">Zuletzt gesehen: {tractive-next.0.XLYLJQDD.overview.lastSeen;date(DD.MM.YYYY HH:mm:ss)} · Sensor: {tractive-next.0.XLYLJQDD.overview.sensorUsed}</div></div>"
+        },
+        "style": {
+          "left": "24px",
+          "top": "16px",
+          "width": "1232px",
+          "height": "72px",
+          "z-index": "10"
+        }
+      },
+      "wMap": {
+        "tpl": "tplMaterial2Map",
+        "widgetSet": "vis-2-widgets-material",
+        "data": {
+          "noCard": false,
+          "widgetTitle": "Live-Position",
+          "markersCount": 1,
+          "theme": "default",
+          "defaultZoom": 16,
+          "noUserInteractions": false,
+          "hideZoomButtons": false,
+          "hideFullScreenButton": false,
+          "latitude1": "tractive-next.0.XLYLJQDD.overview.latitude",
+          "longitude1": "tractive-next.0.XLYLJQDD.overview.longitude",
+          "radius1": "tractive-next.0.XLYLJQDD.overview.accuracy",
+          "name1": "Tracker",
+          "color1": "#22c55e",
+          "useHistory1": false
+        },
+        "style": {
+          "left": "24px",
+          "top": "104px",
+          "width": "760px",
+          "height": "672px",
+          "z-index": "5"
+        }
+      },
+      "wBattery": {
+        "tpl": "tplMaterial2SimpleState",
+        "widgetSet": "vis-2-widgets-material",
+        "data": {
+          "noCard": false,
+          "widgetTitle": "Batterie",
+          "oid": "tractive-next.0.XLYLJQDD.overview.batteryLevel",
+          "values_count": 0,
+          "unit": "%",
+          "readOnly": true,
+          "title": "Batterie",
+          "color": "#22c55e"
+        },
+        "style": {
+          "left": "808px",
+          "top": "104px",
+          "width": "448px",
+          "height": "120px",
+          "z-index": "6"
+        }
+      },
+      "wControls": {
+        "tpl": "tplMaterial2Switches",
+        "widgetSet": "vis-2-widgets-material",
+        "data": {
+          "noCard": false,
+          "widgetTitle": "Steuerung",
+          "count": 3,
+          "type": "buttons",
+          "orientation": "v",
+          "buttonsWidth": 140,
+          "allSwitch": false,
+          "oid1": "tractive-next.0.XLYLJQDD.controls.liveTrackingActive",
+          "title1": "Live-Tracking",
+          "oid2": "tractive-next.0.XLYLJQDD.controls.ledActive",
+          "title2": "LED",
+          "oid3": "tractive-next.0.XLYLJQDD.controls.buzzerActive",
+          "title3": "Buzzer",
+          "colorEnabled1": "#22c55e",
+          "colorEnabled2": "#fbbf24",
+          "colorEnabled3": "#38bdf8"
+        },
+        "style": {
+          "left": "808px",
+          "top": "240px",
+          "width": "448px",
+          "height": "280px",
+          "z-index": "6"
+        }
+      },
+      "wInfo": {
+        "tpl": "tplMaterial2Static",
+        "widgetSet": "vis-2-widgets-material",
+        "data": {
+          "noCard": false,
+          "widgetTitle": "Status",
+          "html": "<div class=\"tr-info\"><div class=\"tr-row\"><span>Adresse</span><strong>{tractive-next.0.XLYLJQDD.overview.address}</strong></div><div class=\"tr-row\"><span>Genauigkeit</span><strong>{tractive-next.0.XLYLJQDD.overview.accuracy} m</strong></div><div class=\"tr-row\"><span>Batterie-Status</span><strong>{tractive-next.0.XLYLJQDD.overview.batteryState}</strong></div><div class=\"tr-row\"><span>Laden</span><strong>{tractive-next.0.XLYLJQDD.overview.charging;beautify}</strong></div><div class=\"tr-row\"><span>Live-Tracking</span><strong>{tractive-next.0.XLYLJQDD.overview.liveTrackingActive;beautify}</strong></div><div class=\"tr-note\">Hinweis: In der Power-Saving-/Home-Zone blockiert Tractive Cloud-Befehle oft. enableCommands muss in der Adapter-Instanz aktiv sein.</div></div>"
+        },
+        "style": {
+          "left": "808px",
+          "top": "536px",
+          "width": "448px",
+          "height": "240px",
+          "z-index": "6"
+        }
+      }
+    },
+    "activeWidgets": {}
+  }
+}

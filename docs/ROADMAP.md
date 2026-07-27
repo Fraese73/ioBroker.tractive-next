@@ -42,6 +42,10 @@
 - [x] Tonsignal auslösen
 - [x] Schreibschutz und Bestätigungslogik (`enableCommands`)
 - [x] Fehlerbehandlung für nicht unterstützte Tracker
+- [x] Optimistischer Status bei `pending` + Poll-Grace (0.4.1)
+- [x] Admin-Übersicht: Control-Buttons + höhere Karte (0.4.1)
+- [x] Vis-2 Material-Übersicht zum Import (`docs/vis-2/`)
+- [x] Admin-Tagesverlauf: Track, Heatmap, Zeit-Slider (0.5.0)
 
 ## Phase 5 – Veröffentlichung
 
