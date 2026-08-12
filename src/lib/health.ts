@@ -67,23 +67,8 @@ export function resolveTrackerIdFromPet(details: unknown): string | null {
     return nested;
 }
 
+import { extractTrackPoints } from './history';
+
 export function countPositionPoints(payload: unknown): number {
-    if (Array.isArray(payload)) {
-        return payload.length;
-    }
-    const root = asRecord(payload);
-    if (!root) {
-        return 0;
-    }
-    if (Array.isArray(root.positions)) {
-        return root.positions.length;
-    }
-    if (Array.isArray(root.segments)) {
-        return root.segments.reduce((sum, segment) => {
-            const rec = asRecord(segment);
-            const points = rec?.positions ?? rec?.points;
-            return sum + (Array.isArray(points) ? points.length : 0);
-        }, 0);
-    }
-    return 0;
+    return extractTrackPoints(payload).length;
 }

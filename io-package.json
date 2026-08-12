@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "news": {
+      "0.5.3": {
+        "en": "Fix day-track parser for nested json_segments ([[points]]).",
+        "de": "Tagesverlauf-Parser für verschachtelte json_segments ([[Punkte]]) behoben.",
+        "ru": "Исправлен парсер дневного трека для вложенных json_segments ([[points]]).",
+        "pt": "Corrigido o parser do percurso diário para json_segments aninhados ([[points]]).",
+        "nl": "Parser voor dagsroute gefixt voor geneste json_segments ([[points]]).",
+        "fr": "Correction du parseur de parcours journalier pour json_segments imbriqués ([[points]]).",
+        "it": "Corretto il parser del percorso giornaliero per json_segments annidati ([[points]]).",
+        "es": "Corregido el parser del recorrido diario para json_segments anidados ([[points]]).",
+        "pl": "Naprawiono parser dziennej trasy dla zagnieżdżonych json_segments ([[points]]).",
+        "uk": "Виправлено парсер денного треку для вкладених json_segments ([[points]]).",
+        "zh-cn": "修复嵌套 json_segments（[[points]]）的日轨迹解析。"
+      },
       "0.5.2": {
         "en": "README install via Admin only; changelog lives in README (repository checker E6013/W6018).",
         "de": "README-Installation nur über Admin; Changelog nur noch in der README (Repository-Checker E6013/W6018).",

@@ -47,6 +47,7 @@
 - [x] Vis-2 Material-Übersicht zum Import (`docs/vis-2/`)
 - [x] Admin-Tagesverlauf: Track, Heatmap, Zeit-Slider (0.5.0)
 - [x] Repository-Checker-Fixes für Latest-PR (0.5.1 / 0.5.2)
+- [x] Parser für verschachtelte `json_segments` (`[[points]]`) (0.5.3)
 
 ## Phase 5 – Veröffentlichung
 

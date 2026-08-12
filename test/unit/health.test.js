@@ -61,14 +61,44 @@ describe('resolveTrackerIdFromPet', () => {
 });
 
 describe('countPositionPoints', () => {
-    it('counts arrays and segment payloads', () => {
-        expect(countPositionPoints([{ a: 1 }, { a: 2 }])).to.equal(2);
-        expect(countPositionPoints({ positions: [1, 2, 3] })).to.equal(3);
+    it('counts valid track points in arrays and segment payloads', () => {
+        expect(
+            countPositionPoints([
+                { latlong: [1, 2], time: 1000 },
+                { latlong: [3, 4], time: 2000 },
+            ]),
+        ).to.equal(2);
         expect(
             countPositionPoints({
-                segments: [{ positions: [1, 2] }, { points: [3] }],
+                positions: [
+                    { lat: 1, lon: 2, time: 1000 },
+                    { lat: 3, lon: 4, time: 2000 },
+                    { lat: 5, lon: 6, time: 3000 },
+                ],
             }),
         ).to.equal(3);
+        expect(
+            countPositionPoints({
+                segments: [
+                    {
+                        positions: [
+                            { latlong: [1, 2], time: 1000 },
+                            { latlong: [3, 4], time: 2000 },
+                        ],
+                    },
+                    { points: [{ latlong: [5, 6], time: 3000 }] },
+                ],
+            }),
+        ).to.equal(3);
+        expect(
+            countPositionPoints([
+                [
+                    { latlong: [1, 2], time: 1000 },
+                    { latlong: [3, 4], time: 2000 },
+                ],
+            ]),
+        ).to.equal(2);
         expect(countPositionPoints({})).to.equal(0);
+        expect(countPositionPoints([{ a: 1 }, { a: 2 }])).to.equal(0);
     });
 });

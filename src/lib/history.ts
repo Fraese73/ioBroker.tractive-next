@@ -40,9 +40,31 @@ function pointFromUnknown(value: unknown): TrackPoint | null {
     return { lat, lon, timeMs };
 }
 
+/**
+ * Flatten Tractive json_segments payloads: [[point, point], [point]] → [point, ...].
+ * Also accepts already-flat point arrays and nested segment objects.
+ */
+function flattenPositionItems(list: unknown[]): unknown[] {
+    const items: unknown[] = [];
+    for (const item of list) {
+        if (Array.isArray(item)) {
+            items.push(...flattenPositionItems(item));
+            continue;
+        }
+        const rec = asRecord(item);
+        const nested = rec?.positions ?? rec?.points;
+        if (Array.isArray(nested)) {
+            items.push(...flattenPositionItems(nested));
+            continue;
+        }
+        items.push(item);
+    }
+    return items;
+}
+
 function collectFromList(list: unknown[]): TrackPoint[] {
     const points: TrackPoint[] = [];
-    for (const item of list) {
+    for (const item of flattenPositionItems(list)) {
         const point = pointFromUnknown(item);
         if (point) {
             points.push(point);
@@ -63,13 +85,7 @@ export function extractTrackPoints(payload: unknown): TrackPoint[] {
             if (Array.isArray(root.positions)) {
                 points = collectFromList(root.positions);
             } else if (Array.isArray(root.segments)) {
-                for (const segment of root.segments) {
-                    const rec = asRecord(segment);
-                    const list = rec?.positions ?? rec?.points;
-                    if (Array.isArray(list)) {
-                        points = points.concat(collectFromList(list));
-                    }
-                }
+                points = collectFromList(root.segments);
             }
         }
     }

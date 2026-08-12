@@ -14,6 +14,18 @@ describe('extractTrackPoints', () => {
         expect(points[0].timeMs).to.equal(1_700_000_000_000);
     });
 
+    it('reads nested json_segments arrays ([[points]])', () => {
+        const points = extractTrackPoints([
+            [
+                { latlong: [48.74, 9.12], time: 1_786_506_502 },
+                { latlong: [48.739, 9.126], time: 1_786_506_526 },
+            ],
+        ]);
+        expect(points).to.have.length(2);
+        expect(points[0].lat).to.equal(48.74);
+        expect(points[0].timeMs).to.equal(1_786_506_502_000);
+    });
+
     it('reads json_segments payloads', () => {
         const points = extractTrackPoints({
             segments: [

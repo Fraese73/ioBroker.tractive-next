@@ -121,9 +121,28 @@ function pointFromUnknown(value) {
     return { lat, lon, timeMs };
 }
 
+function flattenPositionItems(list) {
+    const items = [];
+    list.forEach((item) => {
+        if (Array.isArray(item)) {
+            items.push(...flattenPositionItems(item));
+            return;
+        }
+        if (item && typeof item === "object") {
+            const nested = item.positions || item.points;
+            if (Array.isArray(nested)) {
+                items.push(...flattenPositionItems(nested));
+                return;
+            }
+        }
+        items.push(item);
+    });
+    return items;
+}
+
 function collectFromList(list) {
     const points = [];
-    list.forEach((item) => {
+    flattenPositionItems(list).forEach((item) => {
         const point = pointFromUnknown(item);
         if (point) {
             points.push(point);
@@ -140,12 +159,7 @@ function extractTrackPoints(payload) {
         if (Array.isArray(payload.positions)) {
             points = collectFromList(payload.positions);
         } else if (Array.isArray(payload.segments)) {
-            payload.segments.forEach((segment) => {
-                const list = segment && (segment.positions || segment.points);
-                if (Array.isArray(list)) {
-                    points = points.concat(collectFromList(list));
-                }
-            });
+            points = collectFromList(payload.segments);
         }
     }
     points.sort((a, b) => a.timeMs - b.timeMs);

@@ -43,6 +43,9 @@ On a development host you can sync a local clone with `UPDATE_ON_PI.sh` (for mai
 
 ## Changelog
 
+### 0.5.3
+* (Michael Fraessdorf) Fix day-track / history parser for nested `json_segments` (`[[points]]`)
+
 ### 0.5.2
 * (Michael Fraessdorf) E6013/W6018: README install via Admin only; remove root CHANGELOG.md (changelog in README)
 
