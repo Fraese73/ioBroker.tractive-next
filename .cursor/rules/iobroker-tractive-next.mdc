@@ -20,4 +20,4 @@ alwaysApply: true
 - Behandele `null`, Arrays und verschachtelte Objekte robust.
 - Ändere keine existierenden Datenpunkt-IDs ohne Migrationsstrategie.
 - Führe nach Änderungen `npm run build` aus.
-- Ergänze bei neuen Funktionen README, CHANGELOG und ROADMAP.
+- Ergänze bei neuen Funktionen README (Changelog-Abschnitt) und ROADMAP.

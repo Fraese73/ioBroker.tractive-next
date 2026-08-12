@@ -1,6 +1,6 @@
 # Older changelog entries
 
-Kept for history. Recent changes are in [README.md](README.md) and [CHANGELOG.md](CHANGELOG.md).
+Kept for history. Recent changes are in [README.md](../README.md).
 
 ## 0.2.11 – Stabilisierung (Phase 2)
 

@@ -38,7 +38,7 @@ Der Adapter soll:
 7. Logs dürfen keine Passwörter oder Access-Tokens enthalten.
 8. Nach Änderungen mindestens `npm run build` ausführen.
 9. Bestehende Datenpunkt-IDs möglichst stabil halten.
-10. Änderungen in `CHANGELOG.md` und bei größeren Funktionen in `docs/ROADMAP.md` dokumentieren.
+10. Änderungen im README-Changelog und bei größeren Funktionen in `docs/ROADMAP.md` dokumentieren.
 
 ## Aktuelle Prioritäten
 

@@ -30,7 +30,7 @@ Offizielle Quellen:
 | Adapter-Checker / ESLint / Tests | Errors bis auf E2000 erledigt; nach npm erneut prüfen |
 | Metadaten (`news`, `author`, Keywords, …) | erledigt (`nogit`, max. 7 news, Übersetzungen) |
 | Passwort-Verschlüsselung (`encryptedNative`) | erledigt (0.2.2) |
-| Eintrag Latest/Stable | PR [#6370](https://github.com/ioBroker/ioBroker.repositories/pull/6370) – Checker-Fixes in 0.5.1; `RE-CHECK!` nach npm-Publish |
+| Eintrag Latest/Stable | PR [#6370](https://github.com/ioBroker/ioBroker.repositories/pull/6370) – Checker-Fixes in 0.5.2; nach npm-Publish `RE-CHECK!` |
 
 ---
 

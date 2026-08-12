@@ -1,20 +1,33 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "news": {
+      "0.5.2": {
+        "en": "README install via Admin only; changelog lives in README (repository checker E6013/W6018).",
+        "de": "README-Installation nur über Admin; Changelog nur noch in der README (Repository-Checker E6013/W6018).",
+        "ru": "Установка только через Admin; changelog только в README (checker E6013/W6018).",
+        "pt": "Instalação apenas via Admin; changelog apenas no README (checker E6013/W6018).",
+        "nl": "Installatie alleen via Admin; changelog alleen in README (checker E6013/W6018).",
+        "fr": "Installation uniquement via Admin; changelog uniquement dans le README (checker E6013/W6018).",
+        "it": "Installazione solo tramite Admin; changelog solo nel README (checker E6013/W6018).",
+        "es": "Instalación solo vía Admin; changelog solo en el README (checker E6013/W6018).",
+        "pl": "Instalacja tylko przez Admin; changelog tylko w README (checker E6013/W6018).",
+        "uk": "Встановлення лише через Admin; changelog лише в README (checker E6013/W6018).",
+        "zh-cn": "仅通过 Admin 安装；变更日志仅保留在 README（检查项 E6013/W6018）。"
+      },
       "0.5.1": {
-        "en": "Repository checker fixes: news only for published npm versions; install via iobroker url.",
-        "de": "Repository-Checker-Fixes: news nur für veröffentlichte npm-Versionen; Installation über iobroker url.",
-        "ru": "Исправления checker: news только для опубликованных npm-версий; установка через iobroker url.",
-        "pt": "Correções do checker: news apenas para versões npm publicadas; instalação via iobroker url.",
-        "nl": "Checker-fixes: news alleen voor gepubliceerde npm-versies; installatie via iobroker url.",
-        "fr": "Corrections checker: news uniquement pour les versions npm publiées; installation via iobroker url.",
-        "it": "Correzioni checker: news solo per versioni npm pubblicate; installazione tramite iobroker url.",
-        "es": "Correcciones del checker: news solo para versiones npm publicadas; instalación con iobroker url.",
-        "pl": "Poprawki checkera: news tylko dla opublikowanych wersji npm; instalacja przez iobroker url.",
-        "uk": "Виправлення checker: news лише для опублікованих npm-версій; встановлення через iobroker url.",
-        "zh-cn": "仓库检查修复：news 仅保留已发布的 npm 版本；通过 iobroker url 安装。"
+        "en": "Repository checker fixes: news only for published npm versions.",
+        "de": "Repository-Checker-Fixes: news nur für veröffentlichte npm-Versionen.",
+        "ru": "Исправления checker: news только для опубликованных npm-версий.",
+        "pt": "Correções do checker: news apenas para versões npm publicadas.",
+        "nl": "Checker-fixes: news alleen voor gepubliceerde npm-versies.",
+        "fr": "Corrections checker: news uniquement pour les versions npm publiées.",
+        "it": "Correzioni checker: news solo per versioni npm pubblicate.",
+        "es": "Correcciones del checker: news solo para versiones npm publicadas.",
+        "pl": "Poprawki checkera: news tylko dla opublikowanych wersji npm.",
+        "uk": "Виправлення checker: news лише для опублікованих npm-версій.",
+        "zh-cn": "仓库检查修复：news 仅保留已发布的 npm 版本。"
       },
       "0.5.0": {
         "en": "Admin day track with heatmap toggle and time slider playback; history.distanceKm.",
@@ -28,19 +41,6 @@
         "pl": "Dzienna trasa w admin z heatmapą i suwakiem czasu; history.distanceKm.",
         "uk": "Денний трек в admin з heatmap і слайдером часу; history.distanceKm.",
         "zh-cn": "管理页日轨迹支持热力图与时间滑块回放；新增 history.distanceKm。"
-      },
-      "0.4.0": {
-        "en": "Added optional tracker commands for live tracking, LED and buzzer with enableCommands safety switch.",
-        "de": "Optionale Tracker-Befehle für Live-Tracking, LED und Tonsignal mit enableCommands-Schreibschutz ergänzt.",
-        "ru": "Добавлены опциональные команды live tracking, LED и buzzer с защитным флагом enableCommands.",
-        "pt": "Adicionados comandos opcionais de live tracking, LED e buzzer com proteção enableCommands.",
-        "nl": "Optionele trackercommando’s voor live tracking, LED en zoemer toegevoegd met enableCommands-beveiliging.",
-        "fr": "Ajout de commandes optionnelles live tracking, LED et buzzer avec interrupteur de sécurité enableCommands.",
-        "it": "Aggiunti comandi opzionali live tracking, LED e buzzer con interruttore di sicurezza enableCommands.",
-        "es": "Añadidos comandos opcionales de live tracking, LED y buzzer con protección enableCommands.",
-        "pl": "Dodano opcjonalne komendy live tracking, LED i buzzera z zabezpieczeniem enableCommands.",
-        "uk": "Додано опційні команди live tracking, LED і buzzer із захисним прапорцем enableCommands.",
-        "zh-cn": "新增可选的实时追踪、LED 与蜂鸣器命令，并通过 enableCommands 安全开关保护。"
       }
     },
     "titleLang": {

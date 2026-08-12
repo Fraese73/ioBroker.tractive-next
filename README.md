@@ -25,35 +25,9 @@ Tractive does not provide a documented public consumer API for these trackers. T
 
 ## Installation
 
-Until the adapter is listed in the official ioBroker **Latest** repository, install it with the ioBroker CLI (not with a direct global `npm install` of the adapter):
+Install and update the adapter via the **ioBroker Admin** adapter list once it is available in the official **Latest** repository.
 
-```bash
-iobroker url iobroker.tractive-next
-```
-
-Or from GitHub:
-
-```bash
-iobroker url https://github.com/Fraese73/ioBroker.tractive-next/tarball/main
-```
-
-Then open the instance configuration and enter the Tractive email address and password.
-
-After the first install or after password encryption changes, open the instance settings once and save the password again so it is stored encrypted.
-
-Publishing checklist: [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
-
-## Update (development / Raspberry Pi)
-
-From a git clone on the host (developer workflow):
-
-```bash
-cd ~/ioBroker.tractive-next
-chmod +x UPDATE_ON_PI.sh
-./UPDATE_ON_PI.sh
-```
-
-The script pulls the repo, syncs files into the ioBroker adapter directory, builds, uploads the admin UI and restarts the instance.
+After adding an instance, open the configuration and enter the Tractive email address and password. After the first setup (and after password-encryption changes), save the password once so it is stored encrypted.
 
 ## Configuration
 
@@ -61,14 +35,19 @@ To send live-tracking / LED / buzzer commands, enable **Enable tracker commands*
 
 Commands go through the Tractive cloud API. Inside a **Power Saving / home zone** the cloud often accepts the request as `pending` but does not activate LED, buzzer or live tracking on the device (the official app can still use Bluetooth Radar locally). Outside that zone, commands work; the adapter keeps an optimistic control value while the API reports `pending`, so the UI does not flip back to `false` before you can turn the feature off again.
 
-## Development status
+## Development
 
-Read access (trackers, position, hardware, health/activity, history, geofences) and optional write commands (live tracking / LED / buzzer) are implemented. Commands require `enableCommands` in the instance settings.
+Contributor notes and publishing checklist: [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
+
+On a development host you can sync a local clone with `UPDATE_ON_PI.sh` (for maintainers only, not for end-user installation).
 
 ## Changelog
 
+### 0.5.2
+* (Michael Fraessdorf) E6013/W6018: README install via Admin only; remove root CHANGELOG.md (changelog in README)
+
 ### 0.5.1
-* (Michael Fraessdorf) Repository checker fixes: news only for published npm versions; install docs use `iobroker url`
+* (Michael Fraessdorf) Repository checker fixes: news only for published npm versions
 
 ### 0.5.0
 * (Michael Fraessdorf) Admin day track with heatmap toggle and time-slider playback; history.distanceKm
@@ -87,7 +66,7 @@ Read access (trackers, position, hardware, health/activity, history, geofences) 
 ### 0.2.10
 * (Michael Fraessdorf) Trusted Publishing release with provenance; news limited to npm versions
 
-Older entries: [`CHANGELOG_OLD.md`](CHANGELOG_OLD.md)
+Older entries: [`docs/CHANGELOG_OLD.md`](docs/CHANGELOG_OLD.md)
 
 ## License
 
