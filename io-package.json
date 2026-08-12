@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "news": {
+      "0.5.1": {
+        "en": "Repository checker fixes: news only for published npm versions; install via iobroker url.",
+        "de": "Repository-Checker-Fixes: news nur für veröffentlichte npm-Versionen; Installation über iobroker url.",
+        "ru": "Исправления checker: news только для опубликованных npm-версий; установка через iobroker url.",
+        "pt": "Correções do checker: news apenas para versões npm publicadas; instalação via iobroker url.",
+        "nl": "Checker-fixes: news alleen voor gepubliceerde npm-versies; installatie via iobroker url.",
+        "fr": "Corrections checker: news uniquement pour les versions npm publiées; installation via iobroker url.",
+        "it": "Correzioni checker: news solo per versioni npm pubblicate; installazione tramite iobroker url.",
+        "es": "Correcciones del checker: news solo para versiones npm publicadas; instalación con iobroker url.",
+        "pl": "Poprawki checkera: news tylko dla opublikowanych wersji npm; instalacja przez iobroker url.",
+        "uk": "Виправлення checker: news лише для опублікованих npm-версій; встановлення через iobroker url.",
+        "zh-cn": "仓库检查修复：news 仅保留已发布的 npm 版本；通过 iobroker url 安装。"
+      },
       "0.5.0": {
         "en": "Admin day track with heatmap toggle and time slider playback; history.distanceKm.",
         "de": "Admin-Tagesverlauf mit Heatmap-Schalter und Zeit-Slider; history.distanceKm.",
@@ -15,19 +28,6 @@
         "pl": "Dzienna trasa w admin z heatmapą i suwakiem czasu; history.distanceKm.",
         "uk": "Денний трек в admin з heatmap і слайдером часу; history.distanceKm.",
         "zh-cn": "管理页日轨迹支持热力图与时间滑块回放；新增 history.distanceKm。"
-      },
-      "0.4.1": {
-        "en": "Optimistic pending control state; admin overview buttons for live tracking / LED / buzzer; taller map.",
-        "de": "Optimistischer pending-Control-Status; Admin-Übersicht mit An/Aus-Buttons für Live-Tracking / LED / Buzzer; höhere Karte.",
-        "ru": "Оптимистичный pending-статус управления; кнопки live tracking / LED / buzzer в обзоре admin; выше карта.",
-        "pt": "Estado otimista pending; botões live tracking / LED / buzzer na visão admin; mapa mais alto.",
-        "nl": "Optimistische pending-controlestatus; admin-overzichtknoppen voor live tracking / LED / zoemer; hogere kaart.",
-        "fr": "État pending optimiste; boutons live tracking / LED / buzzer dans l’aperçu admin; carte plus haute.",
-        "it": "Stato pending ottimistico; pulsanti live tracking / LED / buzzer nella panoramica admin; mappa più alta.",
-        "es": "Estado pending optimista; botones live tracking / LED / buzzer en la vista admin; mapa más alto.",
-        "pl": "Optymistyczny status pending; przyciski live tracking / LED / buzzer w podglądzie admin; wyższa mapa.",
-        "uk": "Оптимістичний pending-статус; кнопки live tracking / LED / buzzer в огляді admin; вища карта.",
-        "zh-cn": "命令 pending 时保留乐观控制状态；管理概览增加实时追踪/LED/蜂鸣器开关；地图加高。"
       },
       "0.4.0": {
         "en": "Added optional tracker commands for live tracking, LED and buzzer with enableCommands safety switch.",

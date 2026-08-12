@@ -46,6 +46,7 @@
 - [x] Admin-Übersicht: Control-Buttons + höhere Karte (0.4.1)
 - [x] Vis-2 Material-Übersicht zum Import (`docs/vis-2/`)
 - [x] Admin-Tagesverlauf: Track, Heatmap, Zeit-Slider (0.5.0)
+- [x] Repository-Checker-Fixes für Latest-PR (0.5.1)
 
 ## Phase 5 – Veröffentlichung
 
