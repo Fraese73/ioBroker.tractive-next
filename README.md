@@ -43,6 +43,10 @@ On a development host you can sync a local clone with `UPDATE_ON_PI.sh` (for mai
 
 ## Changelog
 
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
+
 ### 0.5.3
 * (Michael Fraessdorf) Fix day-track / history parser for nested `json_segments` (`[[points]]`)
 
