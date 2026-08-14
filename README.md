@@ -71,6 +71,8 @@ On a development host you can sync a local clone with `UPDATE_ON_PI.sh` (for mai
 
 Older entries: [`docs/CHANGELOG_OLD.md`](docs/CHANGELOG_OLD.md)
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 MIT License
