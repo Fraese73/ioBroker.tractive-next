@@ -26,16 +26,16 @@ describe('normalizeValue', () => {
         });
         expect(normalizeValue('charging_state', null)).to.deep.equal({
             value: null,
-            type: 'boolean',
-            role: 'indicator',
+            type: 'string',
+            role: 'text',
         });
     });
 
-    it('falls back to string/state for unknown null fields', () => {
+    it('falls back to string/text for unknown null fields', () => {
         expect(normalizeValue('future_unknown_field', null)).to.deep.equal({
             value: null,
             type: 'string',
-            role: 'state',
+            role: 'text',
         });
     });
 
@@ -43,6 +43,14 @@ describe('normalizeValue', () => {
         expect(normalizeValue('online', true)).to.include({ type: 'boolean', role: 'indicator', value: true });
         expect(normalizeValue('count', 12)).to.include({ type: 'number', role: 'value', value: 12 });
         expect(normalizeValue('name', 'Rex')).to.include({ type: 'string', role: 'text', value: 'Rex' });
+    });
+
+    it('applies battery_level role for concrete numbers', () => {
+        expect(normalizeValue('battery_level', 87)).to.deep.equal({
+            value: 87,
+            type: 'number',
+            role: 'value.battery',
+        });
     });
 
     it('stringifies objects and arrays as json', () => {
@@ -64,7 +72,7 @@ describe('normalizeValue', () => {
     });
 
     it('does not treat large non-time numbers as timestamps', () => {
-        expect(normalizeValue('battery_level', 1_700_000_000)).to.include({
+        expect(normalizeValue('other_counter', 1_700_000_000)).to.include({
             type: 'number',
             role: 'value',
             value: 1_700_000_000,

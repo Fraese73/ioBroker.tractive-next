@@ -345,7 +345,7 @@ class TractiveNext extends utils.Adapter {
             await this.setStateAsync('info.connection', false, true);
             this.log.error(`Polling failed: ${formatApiError(error)}`);
         } finally {
-            const seconds = Math.max(30, Number(this.config.interval) || 60);
+            const seconds = Math.min(3600, Math.max(30, Number(this.config.interval) || 60));
             this.timer = this.setTimeout(() => void this.poll(), seconds * 1000);
         }
     }
@@ -945,8 +945,11 @@ class TractiveNext extends utils.Adapter {
             return;
         }
 
-        const typeChanged = normalized.value !== null && existing.common.type !== normalized.type;
-        const roleChanged = normalized.value !== null && existing.common.role !== normalized.role;
+        const pendingNull = normalized.value === null || Boolean(existing.native?.pendingConcreteValue);
+        const typeChanged = existing.common.type !== normalized.type && (normalized.value !== null || pendingNull);
+        const roleChanged =
+            existing.common.role !== normalized.role &&
+            (normalized.value !== null || existing.common.role === 'state' || pendingNull);
         const writeChanged = existing.common.write !== write;
 
         if (typeChanged || roleChanged || writeChanged) {

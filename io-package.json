@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.5.3",
+    "version": "0.5.4",
     "news": {
+      "0.5.4": {
+        "en": "Latest review fixes: English admin tab, valid roles, interval cap, jsonConfig i18n; day-track range slider.",
+        "de": "Latest-Review-Fixes: englischer Admin-Tab, gültige Rollen, Intervall-Limit, jsonConfig-i18n; Tagesverlauf-Bereichsslider.",
+        "ru": "Исправления Latest-review: английский admin tab, роли, лимит интервала, i18n jsonConfig; слайдер диапазона трека.",
+        "pt": "Correções Latest-review: aba admin em inglês, papéis válidos, limite de intervalo, i18n jsonConfig; slider de intervalo.",
+        "nl": "Latest-review-fixes: Engelse admin-tab, geldige rollen, intervalcap, jsonConfig-i18n; bereikslider dagroute.",
+        "fr": "Correctifs Latest-review: onglet admin anglais, rôles valides, plafond d'intervalle, i18n jsonConfig; curseur de plage.",
+        "it": "Fix Latest-review: tab admin in inglese, ruoli validi, tetto intervallo, i18n jsonConfig; slider intervallo.",
+        "es": "Correcciones Latest-review: pestaña admin en inglés, roles válidos, tope de intervalo, i18n jsonConfig; control de rango.",
+        "pl": "Poprawki Latest-review: angielska karta admin, poprawne role, limit interwału, i18n jsonConfig; suwak zakresu.",
+        "uk": "Виправлення Latest-review: англійський admin tab, валідні ролі, ліміт інтервалу, i18n jsonConfig; слайдер діапазону.",
+        "zh-cn": "Latest 审核修复：英文管理页、有效角色、间隔上限、jsonConfig 多语言；日轨迹范围滑块。"
+      },
       "0.5.3": {
         "en": "Fix day-track parser for nested json_segments ([[points]]).",
         "de": "Tagesverlauf-Parser für verschachtelte json_segments ([[Punkte]]) behoben.",

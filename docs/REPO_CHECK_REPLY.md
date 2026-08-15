@@ -1,21 +1,29 @@
 # Reply draft for ioBroker.repositories PR #6370
 
-Post this comment after `v0.5.2` is on npm:
+Post this comment after `v0.5.4` is on GitHub (and npm if applicable), with a **new object dump** attached:
 
 ```text
-RE-CHECK!
+READY FOR RE_REVIEW
 
-Fixed remaining repository checker findings in release 0.5.2:
+Fixed findings from the Claude/adapter review in release 0.5.4:
 
-**Errors**
-- E6013: removed all `iobroker url` / GitHub tarball / direct npm adapter install instructions from README.md. End users are directed to install via ioBroker Admin (Latest) only.
+**Admin tab UI**
+- `admin/tab_m.html`: `lang="en"`; all user-visible strings in English
+- `admin/tab.js`: all user-visible strings translated to English (status, controls, day track, meta labels)
 
-**Warnings**
-- W6017 / W6018: removed root `CHANGELOG.md`; user-facing changelog is only in README.md; older history lives under `docs/CHANGELOG_OLD.md` (not both root changelog files)
-- W4001: please ignore – this PR adds the adapter to Latest
-- W5051: false positive – `sleep` in `src/lib/health.ts` is Tractive sleep/activity payload (`content.sleep`), not a wait/delay helper
-- W5015: `i18n: false` kept intentionally; jsonConfig labels already provide inline multilingual objects
-- W0062 (`@alcalzone/release-script`, `@iobroker/adapter-dev`): planned for a later release; current CI uses GitHub Actions + Trusted Publishing
+**Roles / normalize**
+- Unknown null fields now use role `text` (no longer invalid `state`)
+- `battery_level` always gets `value.battery` (also for concrete numbers)
+- `charging_state` hint corrected to string/text
+- Existing objects with invalid `role=state` (or pending null hints) are updated on next poll
 
-Object structure dump was already attached earlier and checked ✔.
+**Polling**
+- Interval capped in code: `Math.min(3600, Math.max(30, …))`
+
+**jsonConfig**
+- Real translations for all 11 languages (email, password, interval, enableCommands, notices)
+
+Also included: admin day-track from–to range slider.
+
+Please find a fresh object dump attached (after running 0.5.4 with history/health/controls present if possible).
 ```

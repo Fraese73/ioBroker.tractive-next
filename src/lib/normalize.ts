@@ -6,12 +6,12 @@ export interface NormalizedValue {
     role: string;
 }
 
-/** Known API fields keep a concrete type even while the value is still null. */
-const NULL_FIELD_HINTS: Record<string, { type: CommonType; role: string }> = {
+/** Known API fields keep a concrete type/role even while the value is still null. */
+const FIELD_HINTS: Record<string, { type: CommonType; role: string }> = {
     temperature_state: { type: 'string', role: 'text' },
     battery_level: { type: 'number', role: 'value.battery' },
     battery_state: { type: 'string', role: 'text' },
-    charging_state: { type: 'boolean', role: 'indicator' },
+    charging_state: { type: 'string', role: 'text' },
     clip_mounted_state: { type: 'boolean', role: 'indicator' },
     power_saving_zone_id: { type: 'string', role: 'text' },
     pos_uncertainty: { type: 'number', role: 'value' },
@@ -25,6 +25,9 @@ const NULL_FIELD_HINTS: Record<string, { type: CommonType; role: string }> = {
     model_number: { type: 'string', role: 'text' },
     _type: { type: 'string', role: 'text' },
     _version: { type: 'string', role: 'text' },
+    bluetooth_mac: { type: 'string', role: 'text' },
+    hw_status: { type: 'string', role: 'text' },
+    nearby_user_id: { type: 'string', role: 'text' },
 };
 
 export function sanitizeId(value: string): string {
@@ -58,15 +61,16 @@ export function isUnixTimestampField(key: string, value: number): boolean {
 
 export function normalizeValue(key: string, value: unknown): NormalizedValue {
     if (value === null || value === undefined) {
-        const hint = NULL_FIELD_HINTS[key];
+        const hint = FIELD_HINTS[key];
         if (hint) {
             return { value: null, type: hint.type, role: hint.role };
         }
         // Unknown nullable fields stay string until a concrete value arrives.
-        return { value: null, type: 'string', role: 'state' };
+        return { value: null, type: 'string', role: 'text' };
     }
     if (typeof value === 'boolean') {
-        return { value, type: 'boolean', role: 'indicator' };
+        const hint = FIELD_HINTS[key];
+        return { value, type: 'boolean', role: hint?.type === 'boolean' ? hint.role : 'indicator' };
     }
     if (typeof value === 'number') {
         if (isUnixTimestampField(key, value)) {
@@ -76,12 +80,24 @@ export function normalizeValue(key: string, value: unknown): NormalizedValue {
                 role: 'value.time',
             };
         }
+        const hint = FIELD_HINTS[key];
+        if (hint?.type === 'number') {
+            return { value, type: 'number', role: hint.role };
+        }
         return { value, type: 'number', role: 'value' };
     }
     if (typeof value === 'string') {
+        const hint = FIELD_HINTS[key];
+        if (hint?.type === 'string') {
+            return { value, type: 'string', role: hint.role };
+        }
         return { value, type: 'string', role: 'text' };
     }
-    return { value: JSON.stringify(value), type: 'string', role: 'json' };
+    return {
+        value: JSON.stringify(value),
+        type: 'string',
+        role: 'json',
+    };
 }
 
 /** Tractive charging_state is often a string like NOT_CHARGING / CHARGING. */

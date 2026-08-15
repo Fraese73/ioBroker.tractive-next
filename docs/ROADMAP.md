@@ -48,6 +48,8 @@
 - [x] Admin-Tagesverlauf: Track, Heatmap, Zeit-Slider (0.5.0)
 - [x] Repository-Checker-Fixes für Latest-PR (0.5.1 / 0.5.2)
 - [x] Parser für verschachtelte `json_segments` (`[[points]]`) (0.5.3)
+- [x] Admin-Tagesverlauf: Von–Bis-Bereichsslider (0.5.4)
+- [x] Latest-Review-Fixes (Admin EN, Rollen, Intervall-Cap, jsonConfig-i18n) (0.5.4)
 
 ## Phase 5 – Veröffentlichung
 

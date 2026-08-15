@@ -12,15 +12,15 @@
       "label": {
         "en": "Tractive email address",
         "de": "Tractive-E-Mail-Adresse",
-        "ru": "Tractive email address",
-        "pt": "Tractive email address",
-        "nl": "Tractive email address",
-        "fr": "Tractive email address",
-        "it": "Tractive email address",
-        "es": "Tractive email address",
-        "pl": "Tractive email address",
-        "uk": "Tractive email address",
-        "zh-cn": "Tractive email address"
+        "ru": "Адрес электронной почты Tractive",
+        "pt": "Endereço de e-mail Tractive",
+        "nl": "Tractive e-mailadres",
+        "fr": "Adresse e-mail Tractive",
+        "it": "Indirizzo e-mail Tractive",
+        "es": "Dirección de correo de Tractive",
+        "pl": "Adres e-mail Tractive",
+        "uk": "Адреса електронної пошти Tractive",
+        "zh-cn": "Tractive 电子邮箱"
       },
       "newLine": true
     },
@@ -34,15 +34,15 @@
       "label": {
         "en": "Tractive password",
         "de": "Tractive-Passwort",
-        "ru": "Tractive password",
-        "pt": "Tractive password",
-        "nl": "Tractive password",
-        "fr": "Tractive password",
-        "it": "Tractive password",
-        "es": "Tractive password",
-        "pl": "Tractive password",
-        "uk": "Tractive password",
-        "zh-cn": "Tractive password"
+        "ru": "Пароль Tractive",
+        "pt": "Senha Tractive",
+        "nl": "Tractive-wachtwoord",
+        "fr": "Mot de passe Tractive",
+        "it": "Password Tractive",
+        "es": "Contraseña de Tractive",
+        "pl": "Hasło Tractive",
+        "uk": "Пароль Tractive",
+        "zh-cn": "Tractive 密码"
       },
       "newLine": true
     },
@@ -56,15 +56,15 @@
       "label": {
         "en": "Polling interval (seconds)",
         "de": "Abfrageintervall (Sekunden)",
-        "ru": "Polling interval (seconds)",
-        "pt": "Polling interval (seconds)",
-        "nl": "Polling interval (seconds)",
-        "fr": "Polling interval (seconds)",
-        "it": "Polling interval (seconds)",
-        "es": "Polling interval (seconds)",
-        "pl": "Polling interval (seconds)",
-        "uk": "Polling interval (seconds)",
-        "zh-cn": "Polling interval (seconds)"
+        "ru": "Интервал опроса (секунды)",
+        "pt": "Intervalo de consulta (segundos)",
+        "nl": "Opvraaginterval (seconden)",
+        "fr": "Intervalle d'interrogation (secondes)",
+        "it": "Intervallo di polling (secondi)",
+        "es": "Intervalo de consulta (segundos)",
+        "pl": "Interwał odpytywania (sekundy)",
+        "uk": "Інтервал опитування (секунди)",
+        "zh-cn": "轮询间隔（秒）"
       },
       "min": 30,
       "max": 3600,
@@ -81,15 +81,15 @@
       "label": {
         "en": "Enable tracker commands (live tracking / LED / buzzer)",
         "de": "Tracker-Befehle freischalten (Live-Tracking / LED / Tonsignal)",
-        "ru": "Enable tracker commands (live tracking / LED / buzzer)",
-        "pt": "Enable tracker commands (live tracking / LED / buzzer)",
-        "nl": "Enable tracker commands (live tracking / LED / buzzer)",
-        "fr": "Enable tracker commands (live tracking / LED / buzzer)",
-        "it": "Enable tracker commands (live tracking / LED / buzzer)",
-        "es": "Enable tracker commands (live tracking / LED / buzzer)",
-        "pl": "Enable tracker commands (live tracking / LED / buzzer)",
-        "uk": "Enable tracker commands (live tracking / LED / buzzer)",
-        "zh-cn": "Enable tracker commands (live tracking / LED / buzzer)"
+        "ru": "Включить команды трекера (live tracking / LED / звуковой сигнал)",
+        "pt": "Ativar comandos do rastreador (live tracking / LED / buzzer)",
+        "nl": "Trackercommando's inschakelen (live tracking / LED / zoemer)",
+        "fr": "Activer les commandes du tracker (suivi en direct / LED / buzzer)",
+        "it": "Abilita comandi tracker (live tracking / LED / buzzer)",
+        "es": "Activar comandos del rastreador (seguimiento en vivo / LED / zumbador)",
+        "pl": "Włącz polecenia trackera (live tracking / LED / brzęczyk)",
+        "uk": "Увімкнути команди трекера (live tracking / LED / звуковий сигнал)",
+        "zh-cn": "启用追踪器命令（实时追踪 / LED / 蜂鸣器）"
       },
       "default": false,
       "newLine": true
@@ -104,15 +104,15 @@
       "text": {
         "en": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
         "de": "Befehle bleiben deaktiviert, bis die Checkbox gesetzt ist. Nicht unterstützte Tracker können Befehle ablehnen.",
-        "ru": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "pt": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "nl": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "fr": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "it": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "es": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "pl": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "uk": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands.",
-        "zh-cn": "Commands stay disabled until you enable the checkbox. Unsupported trackers may reject commands."
+        "ru": "Команды отключены, пока не отмечен флажок. Неподдерживаемые трекеры могут отклонять команды.",
+        "pt": "Os comandos ficam desativados até marcar a caixa. Rastreadores não suportados podem rejeitar comandos.",
+        "nl": "Commando's blijven uitgeschakeld tot u het selectievakje inschakelt. Niet-ondersteunde trackers kunnen commando's weigeren.",
+        "fr": "Les commandes restent désactivées tant que la case n'est pas cochée. Les trackers non pris en charge peuvent refuser les commandes.",
+        "it": "I comandi restano disabilitati finché non attivi la casella. I tracker non supportati possono rifiutare i comandi.",
+        "es": "Los comandos permanecen desactivados hasta que marques la casilla. Los rastreadores no compatibles pueden rechazar comandos.",
+        "pl": "Polecenia pozostają wyłączone, dopóki nie zaznaczysz pola. Nieobsługiwane trackery mogą odrzucać polecenia.",
+        "uk": "Команди вимкнені, доки не позначено прапорець. Непідтримувані трекери можуть відхиляти команди.",
+        "zh-cn": "在勾选该选项之前，命令保持禁用。不受支持的追踪器可能会拒绝命令。"
       },
       "newLine": true
     },
@@ -126,15 +126,15 @@
       "text": {
         "en": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
         "de": "Dieser Adapter verwendet eine inoffizielle Tractive-API. Tractive kann sie jederzeit ändern.",
-        "ru": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "pt": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "nl": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "fr": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "it": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "es": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "pl": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "uk": "This adapter uses an unofficial Tractive API. Tractive may change it without notice.",
-        "zh-cn": "This adapter uses an unofficial Tractive API. Tractive may change it without notice."
+        "ru": "Этот адаптер использует неофициальный API Tractive. Tractive может изменить его без уведомления.",
+        "pt": "Este adaptador usa uma API não oficial da Tractive. A Tractive pode alterá-la sem aviso.",
+        "nl": "Deze adapter gebruikt een onofficiële Tractive-API. Tractive kan deze zonder kennisgeving wijzigen.",
+        "fr": "Cet adaptateur utilise une API Tractive non officielle. Tractive peut la modifier sans préavis.",
+        "it": "Questo adapter usa un'API Tractive non ufficiale. Tractive può modificarla senza preavviso.",
+        "es": "Este adaptador usa una API no oficial de Tractive. Tractive puede cambiarla sin aviso.",
+        "pl": "Ten adapter używa nieoficjalnego API Tractive. Tractive może je zmienić bez powiadomienia.",
+        "uk": "Цей адаптер використовує неофіційний API Tractive. Tractive може змінити його без попередження.",
+        "zh-cn": "本适配器使用非官方 Tractive API。Tractive 可能会在不另行通知的情况下更改该接口。"
       },
       "newLine": true
     }

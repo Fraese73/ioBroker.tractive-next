@@ -7,7 +7,7 @@ const CONTROL_DEFS = [
 ];
 
 const maps = {};
-/** @type {Record<string, { index: number, showHeat: boolean, showTrack: boolean }>} */
+/** @type {Record<string, { index: number, rangeFrom: number, rangeTo: number, showHeat: boolean, showTrack: boolean }>} */
 const historyUi = {};
 let socket = null;
 let enableCommands = false;
@@ -215,7 +215,7 @@ function parsePositionsJson(raw) {
 
 function connectSocket(callback) {
     if (typeof io === "undefined") {
-        setStatus("Socket.io konnte nicht geladen werden.", "bad");
+        setStatus("Socket.io could not be loaded.", "bad");
         return;
     }
 
@@ -223,7 +223,7 @@ function connectSocket(callback) {
     socket = url ? io.connect(url) : io.connect();
 
     const timeout = setTimeout(() => {
-        setStatus("Keine Antwort vom ioBroker-Socket.", "bad");
+        setStatus("No response from the ioBroker socket.", "bad");
     }, 8000);
 
     socket.on("connect", () => {
@@ -233,7 +233,7 @@ function connectSocket(callback) {
 
     socket.on("connect_error", (error) => {
         clearTimeout(timeout);
-        setStatus(`Socket-Fehler: ${error && error.message ? error.message : error}`, "bad");
+        setStatus(`Socket error: ${error && error.message ? error.message : error}`, "bad");
     });
 
     socket.on("reconnect", () => {
@@ -375,7 +375,7 @@ function loadOverviewStates(devices, callback) {
     socket.emit("getStates", ids, (err, states) => {
         if (err) {
             console.error(err);
-            setStatus(`States konnten nicht geladen werden: ${err}`, "bad");
+            setStatus(`Failed to load states: ${err}`, "bad");
             callback({});
             return;
         }
@@ -389,9 +389,9 @@ function renderConnection(states) {
     const lastUpdate = val(states, `${ADAPTER}.${instance}.info.lastUpdate`);
 
     if (connected) {
-        setStatus(`Verbunden · letzter Update: ${formatTime(lastUpdate)}`, "ok");
+        setStatus(`Connected · last update: ${formatTime(lastUpdate)}`, "ok");
     } else {
-        setStatus("Adapter meldet: nicht verbunden", "bad");
+        setStatus("Adapter reports: not connected", "bad");
     }
 }
 
@@ -454,20 +454,54 @@ function ensureMap(mapId, lat, lon, accuracy) {
         trackLine: null,
         heatLayer: null,
         playMarker: null,
-        points: [],
+        allPoints: [],
     };
     setTimeout(() => map.invalidateSize(), 100);
     return maps[mapId];
 }
 
-function applyHistoryLayers(mapId, points, ui) {
+function normalizeHistoryUi(ui, pointCount) {
+    const max = Math.max(0, pointCount - 1);
+    if (typeof ui.rangeFrom !== "number" || !Number.isFinite(ui.rangeFrom)) {
+        ui.rangeFrom = 0;
+    }
+    if (typeof ui.rangeTo !== "number" || !Number.isFinite(ui.rangeTo)) {
+        ui.rangeTo = max;
+    }
+    ui.rangeFrom = Math.max(0, Math.min(Math.round(ui.rangeFrom), max));
+    ui.rangeTo = Math.max(0, Math.min(Math.round(ui.rangeTo), max));
+    if (ui.rangeFrom > ui.rangeTo) {
+        const swap = ui.rangeFrom;
+        ui.rangeFrom = ui.rangeTo;
+        ui.rangeTo = swap;
+    }
+    if (typeof ui.index !== "number" || !Number.isFinite(ui.index)) {
+        ui.index = ui.rangeTo;
+    }
+    ui.index = Math.max(ui.rangeFrom, Math.min(Math.round(ui.index), ui.rangeTo));
+    if (typeof ui.showHeat !== "boolean") {
+        ui.showHeat = false;
+    }
+    if (typeof ui.showTrack !== "boolean") {
+        ui.showTrack = true;
+    }
+    return ui;
+}
+
+function visibleHistoryPoints(allPoints, ui) {
+    return allPoints.slice(ui.rangeFrom, ui.rangeTo + 1);
+}
+
+function applyHistoryLayers(mapId, allPoints, ui) {
     const entry = maps[mapId];
-    if (!entry || !points.length) {
+    if (!entry || !allPoints.length) {
         return;
     }
 
     clearMapLayers(entry);
-    entry.points = points;
+    entry.allPoints = allPoints;
+    normalizeHistoryUi(ui, allPoints.length);
+    const points = visibleHistoryPoints(allPoints, ui);
     const latLngs = points.map((p) => [p.lat, p.lon]);
 
     if (ui.showTrack) {
@@ -485,8 +519,7 @@ function applyHistoryLayers(mapId, points, ui) {
         ).addTo(entry.map);
     }
 
-    const idx = Math.max(0, Math.min(ui.index, points.length - 1));
-    const point = points[idx];
+    const point = allPoints[ui.index];
     entry.playMarker = L.circleMarker([point.lat, point.lon], {
         radius: 9,
         color: "#0d47a1",
@@ -502,26 +535,92 @@ function applyHistoryLayers(mapId, points, ui) {
     }
 }
 
-function setPlaybackIndex(trackerId, mapId, index) {
-    const entry = maps[mapId];
-    const ui = historyUi[trackerId];
-    if (!entry || !ui || !entry.points.length) {
-        return;
+function updateHistoryRangeLabels(trackerId, allPoints, ui) {
+    const points = visibleHistoryPoints(allPoints, ui);
+    const meta = document.getElementById(`history-meta-${trackerId}`);
+    if (meta && points.length) {
+        const dist = computeTrackDistanceKm(points);
+        const total = allPoints.length;
+        const rangeLabel =
+            ui.rangeFrom === 0 && ui.rangeTo === total - 1
+                ? `${points.length} points · ${dist} km`
+                : `${points.length}/${total} points · ${dist} km`;
+        meta.textContent = `${rangeLabel} · ${formatTime(points[0].timeMs)} – ${formatTime(points[points.length - 1].timeMs)}`;
     }
-    const idx = Math.max(0, Math.min(index, entry.points.length - 1));
-    ui.index = idx;
-    const point = entry.points[idx];
-    if (entry.playMarker) {
-        entry.playMarker.setLatLng([point.lat, point.lon]);
+
+    const fromEl = document.getElementById(`history-from-${trackerId}`);
+    if (fromEl) {
+        fromEl.textContent = formatTime(allPoints[ui.rangeFrom].timeMs);
+    }
+    const toEl = document.getElementById(`history-to-${trackerId}`);
+    if (toEl) {
+        toEl.textContent = formatTime(allPoints[ui.rangeTo].timeMs);
     }
     const current = document.getElementById(`history-current-${trackerId}`);
     if (current) {
-        current.textContent = formatTime(point.timeMs);
+        current.textContent = formatTime(allPoints[ui.index].timeMs);
     }
-    const slider = document.getElementById(`history-slider-${trackerId}`);
-    if (slider && Number(slider.value) !== idx) {
-        slider.value = String(idx);
+
+    const fromSlider = document.getElementById(`history-range-from-${trackerId}`);
+    if (fromSlider && Number(fromSlider.value) !== ui.rangeFrom) {
+        fromSlider.value = String(ui.rangeFrom);
     }
+    const toSlider = document.getElementById(`history-range-to-${trackerId}`);
+    if (toSlider && Number(toSlider.value) !== ui.rangeTo) {
+        toSlider.value = String(ui.rangeTo);
+    }
+    const playSlider = document.getElementById(`history-slider-${trackerId}`);
+    if (playSlider) {
+        playSlider.min = String(ui.rangeFrom);
+        playSlider.max = String(ui.rangeTo);
+        if (Number(playSlider.value) !== ui.index) {
+            playSlider.value = String(ui.index);
+        }
+    }
+}
+
+function setPlaybackIndex(trackerId, mapId, index) {
+    const entry = maps[mapId];
+    const ui = historyUi[trackerId];
+    if (!entry || !ui || !entry.allPoints.length) {
+        return;
+    }
+    normalizeHistoryUi(ui, entry.allPoints.length);
+    ui.index = Math.max(ui.rangeFrom, Math.min(Math.round(index), ui.rangeTo));
+    const point = entry.allPoints[ui.index];
+    if (entry.playMarker) {
+        entry.playMarker.setLatLng([point.lat, point.lon]);
+    }
+    updateHistoryRangeLabels(trackerId, entry.allPoints, ui);
+}
+
+function setHistoryRange(trackerId, mapId, which, value) {
+    const entry = maps[mapId];
+    const ui = historyUi[trackerId];
+    if (!entry || !ui || !entry.allPoints.length) {
+        return;
+    }
+    const max = entry.allPoints.length - 1;
+    const next = Math.max(0, Math.min(Math.round(value), max));
+    if (which === "from") {
+        ui.rangeFrom = next;
+        if (ui.rangeFrom > ui.rangeTo) {
+            ui.rangeTo = ui.rangeFrom;
+        }
+    } else {
+        ui.rangeTo = next;
+        if (ui.rangeTo < ui.rangeFrom) {
+            ui.rangeFrom = ui.rangeTo;
+        }
+    }
+    if (ui.index < ui.rangeFrom) {
+        ui.index = ui.rangeFrom;
+    }
+    if (ui.index > ui.rangeTo) {
+        ui.index = ui.rangeTo;
+    }
+    applyHistoryLayers(mapId, entry.allPoints, ui);
+    updateHistoryRangeLabels(trackerId, entry.allPoints, ui);
 }
 
 function controlButtonHtml(trackerId, control, active) {
@@ -535,44 +634,60 @@ function controlButtonHtml(trackerId, control, active) {
             data-control="${escapeAttr(control.key)}"
             data-active="${on ? "1" : "0"}"
             ${disabledAttr}
-            title="${enableCommands ? "Umschalten" : "enableCommands ist in den Instanz-Einstellungen deaktiviert"}">
+            title="${enableCommands ? "Toggle" : "enableCommands is disabled in the instance settings"}">
             <span class="control-label">${escapeHtml(control.label)}</span>
-            <span class="control-state">${on ? "AN" : "AUS"}</span>
+            <span class="control-state">${on ? "ON" : "OFF"}</span>
         </button>
     `;
 }
 
 function historySectionHtml(trackerId, points, distanceKm) {
     if (!points.length) {
-        return `<div class="tracker-history"><h6>Tagesverlauf (24h)</h6><div class="history-empty">Keine Verlaufspunkte verfügbar.</div></div>`;
+        return `<div class="tracker-history"><h6>Day track (24h)</h6><div class="history-empty">No history points available.</div></div>`;
     }
 
-    const ui = historyUi[trackerId] || { index: points.length - 1, showHeat: false, showTrack: true };
+    const ui = historyUi[trackerId] || {
+        index: points.length - 1,
+        rangeFrom: 0,
+        rangeTo: points.length - 1,
+        showHeat: false,
+        showTrack: true,
+    };
     historyUi[trackerId] = ui;
-    if (ui.index >= points.length) {
-        ui.index = points.length - 1;
-    }
+    normalizeHistoryUi(ui, points.length);
 
-    const first = points[0];
-    const last = points[points.length - 1];
-    const dist =
+    const visible = visibleHistoryPoints(points, ui);
+    const fullDist =
         typeof distanceKm === "number" && Number.isFinite(distanceKm)
             ? distanceKm
             : computeTrackDistanceKm(points);
+    const dist = ui.rangeFrom === 0 && ui.rangeTo === points.length - 1 ? fullDist : computeTrackDistanceKm(visible);
+    const rangeLabel =
+        ui.rangeFrom === 0 && ui.rangeTo === points.length - 1
+            ? `${visible.length} points · ${dist} km`
+            : `${visible.length}/${points.length} points · ${dist} km`;
 
     return `
         <div class="tracker-history" data-tracker="${escapeAttr(trackerId)}">
-            <h6>Tagesverlauf (24h)</h6>
-            <div class="history-meta">${points.length} Punkte · ${dist} km · ${formatTime(first.timeMs)} – ${formatTime(last.timeMs)}</div>
+            <h6>Day track (24h)</h6>
+            <div class="history-meta" id="history-meta-${escapeAttr(trackerId)}">${rangeLabel} · ${formatTime(visible[0].timeMs)} – ${formatTime(visible[visible.length - 1].timeMs)}</div>
             <div class="history-toolbar">
-                <label><input type="checkbox" class="history-toggle-track" data-tracker="${escapeAttr(trackerId)}" ${ui.showTrack ? "checked" : ""}/> Weg anzeigen</label>
+                <label><input type="checkbox" class="history-toggle-track" data-tracker="${escapeAttr(trackerId)}" ${ui.showTrack ? "checked" : ""}/> Show path</label>
                 <label><input type="checkbox" class="history-toggle-heat" data-tracker="${escapeAttr(trackerId)}" ${ui.showHeat ? "checked" : ""}/> Heatmap</label>
             </div>
-            <input class="history-slider" id="history-slider-${escapeAttr(trackerId)}" type="range" min="0" max="${points.length - 1}" value="${ui.index}" data-tracker="${escapeAttr(trackerId)}"/>
+            <div class="history-range-label">Time range (from – to)</div>
+            <div class="history-dual-range">
+                <input class="history-range-from" id="history-range-from-${escapeAttr(trackerId)}" type="range" min="0" max="${points.length - 1}" value="${ui.rangeFrom}" data-tracker="${escapeAttr(trackerId)}" aria-label="Range from"/>
+                <input class="history-range-to" id="history-range-to-${escapeAttr(trackerId)}" type="range" min="0" max="${points.length - 1}" value="${ui.rangeTo}" data-tracker="${escapeAttr(trackerId)}" aria-label="Range to"/>
+            </div>
+            <div class="history-time history-range-time">
+                <span id="history-from-${escapeAttr(trackerId)}">${formatTime(points[ui.rangeFrom].timeMs)}</span>
+                <span id="history-to-${escapeAttr(trackerId)}">${formatTime(points[ui.rangeTo].timeMs)}</span>
+            </div>
+            <div class="history-range-label">Playback</div>
+            <input class="history-slider" id="history-slider-${escapeAttr(trackerId)}" type="range" min="${ui.rangeFrom}" max="${ui.rangeTo}" value="${ui.index}" data-tracker="${escapeAttr(trackerId)}" aria-label="Playback position"/>
             <div class="history-time">
-                <span>${formatTime(first.timeMs)}</span>
                 <span id="history-current-${escapeAttr(trackerId)}">${formatTime(points[ui.index].timeMs)}</span>
-                <span>${formatTime(last.timeMs)}</span>
             </div>
         </div>
     `;
@@ -617,7 +732,7 @@ function renderCards(devices, states) {
         const hasCoords = typeof lat === "number" && typeof lon === "number";
         const batteryText =
             typeof batteryLevel === "number"
-                ? `${batteryLevel}%${batteryState ? ` (${batteryState})` : ""}${charging ? " · lädt" : ""}`
+                ? `${batteryLevel}%${batteryState ? ` (${batteryState})` : ""}${charging ? " · charging" : ""}`
                 : batteryState || "–";
 
         const points = parsePositionsJson(val(states, historyStateId(device.trackerId, "positionsJson")));
@@ -637,20 +752,20 @@ function renderCards(devices, states) {
             ${
                 enableCommands
                     ? ""
-                    : `<div class="controls-hint">Steuerung deaktiviert – in den Instanz-Einstellungen „Enable tracker commands“ aktivieren.</div>`
+                    : `<div class="controls-hint">Controls disabled – enable “Enable tracker commands” in the instance settings.</div>`
             }
             ${historySectionHtml(device.trackerId, points, distanceKm)}
             <div class="tracker-meta">
                 <div class="meta-row"><span class="meta-label">Latitude</span><span class="meta-value">${hasCoords ? lat : "–"}</span></div>
                 <div class="meta-row"><span class="meta-label">Longitude</span><span class="meta-value">${hasCoords ? lon : "–"}</span></div>
                 <div class="meta-row"><span class="meta-label">Radius</span><span class="meta-value">${typeof accuracy === "number" ? `${accuracy} m` : "–"}</span></div>
-                <div class="meta-row"><span class="meta-label">Zuletzt gesehen</span><span class="meta-value">${formatTime(lastSeen)}</span></div>
-                <div class="meta-row"><span class="meta-label">Batterie</span><span class="meta-value ${batteryClass(batteryLevel)}">${escapeHtml(batteryText)}</span></div>
+                <div class="meta-row"><span class="meta-label">Last seen</span><span class="meta-value">${formatTime(lastSeen)}</span></div>
+                <div class="meta-row"><span class="meta-label">Battery</span><span class="meta-value ${batteryClass(batteryLevel)}">${escapeHtml(batteryText)}</span></div>
                 <div class="meta-row"><span class="meta-label">Sensor</span><span class="meta-value">${escapeHtml(String(sensorUsed || "–"))}</span></div>
-                <div class="meta-row"><span class="meta-label">Adresse</span><span class="meta-value">${escapeHtml(String(address || "–"))}</span></div>
-                <div class="meta-row"><span class="meta-label">Karte</span><span class="meta-value">${
+                <div class="meta-row"><span class="meta-label">Address</span><span class="meta-value">${escapeHtml(String(address || "–"))}</span></div>
+                <div class="meta-row"><span class="meta-label">Map</span><span class="meta-value">${
                     osmMapUrl
-                        ? `<a href="${escapeAttr(osmMapUrl)}" target="_blank" rel="noopener noreferrer">OpenStreetMap öffnen</a>`
+                        ? `<a href="${escapeAttr(osmMapUrl)}" target="_blank" rel="noopener noreferrer">Open OpenStreetMap</a>`
                         : "–"
                 }</span></div>
             </div>
@@ -665,7 +780,7 @@ function renderCards(devices, states) {
                 applyHistoryLayers(mapId, points, historyUi[device.trackerId]);
             }
         } else {
-            document.getElementById(mapId).textContent = "Keine Position verfügbar";
+            document.getElementById(mapId).textContent = "No position available";
         }
     });
 }
@@ -676,17 +791,17 @@ function updateControlButton(button, active) {
     button.classList.toggle("on", on);
     const stateEl = button.querySelector(".control-state");
     if (stateEl) {
-        stateEl.textContent = on ? "AN" : "AUS";
+        stateEl.textContent = on ? "ON" : "OFF";
     }
 }
 
 function toggleControl(trackerId, controlKey, currentlyActive, button) {
     if (!enableCommands) {
-        setStatus("Steuerung ist deaktiviert (enableCommands).", "bad");
+        setStatus("Controls are disabled (enableCommands).", "bad");
         return;
     }
     if (!socket || !socket.connected) {
-        setStatus("Socket nicht verbunden.", "bad");
+        setStatus("Socket not connected.", "bad");
         return;
     }
 
@@ -700,10 +815,10 @@ function toggleControl(trackerId, controlKey, currentlyActive, button) {
         if (err) {
             console.error(err);
             updateControlButton(button, currentlyActive);
-            setStatus(`Befehl fehlgeschlagen: ${err}`, "bad");
+            setStatus(`Command failed: ${err}`, "bad");
             return;
         }
-        setStatus(`Befehl gesendet: ${controlKey} → ${next ? "AN" : "AUS"}`, "ok");
+        setStatus(`Command sent: ${controlKey} → ${next ? "ON" : "OFF"}`, "ok");
     });
 }
 
@@ -721,18 +836,18 @@ function escapeAttr(text) {
 
 function refresh() {
     if (!socket || !socket.connected) {
-        setStatus("Socket nicht verbunden.", "bad");
+        setStatus("Socket not connected.", "bad");
         return;
     }
 
-    setStatus("Lade Tracker…");
+    setStatus("Loading trackers…");
     loadEnableCommands(() => {
         loadTrackers((devices) => {
             loadOverviewStates(devices, (states) => {
                 renderConnection(states);
                 renderCards(devices, states);
                 if (!devices.length) {
-                    setStatus("Verbunden, aber keine Tracker-Objekte gefunden.", "bad");
+                    setStatus("Connected, but no tracker objects found.", "bad");
                 }
             });
         });
@@ -758,24 +873,36 @@ function init() {
         setPlaybackIndex(trackerId, mapId, Number(this.value) || 0);
     });
 
+    $("#tracker-grid").on("input", ".history-range-from", function onHistoryRangeFrom() {
+        const trackerId = this.getAttribute("data-tracker");
+        const mapId = `map-${trackerId}`;
+        setHistoryRange(trackerId, mapId, "from", Number(this.value) || 0);
+    });
+
+    $("#tracker-grid").on("input", ".history-range-to", function onHistoryRangeTo() {
+        const trackerId = this.getAttribute("data-tracker");
+        const mapId = `map-${trackerId}`;
+        setHistoryRange(trackerId, mapId, "to", Number(this.value) || 0);
+    });
+
     $("#tracker-grid").on("change", ".history-toggle-track, .history-toggle-heat", function onHistoryToggle() {
         const trackerId = this.getAttribute("data-tracker");
         const ui = historyUi[trackerId];
         const mapId = `map-${trackerId}`;
         const entry = maps[mapId];
-        if (!ui || !entry) {
+        if (!ui || !entry || !entry.allPoints.length) {
             return;
         }
         const trackEl = document.querySelector(`.history-toggle-track[data-tracker="${trackerId}"]`);
         const heatEl = document.querySelector(`.history-toggle-heat[data-tracker="${trackerId}"]`);
         ui.showTrack = Boolean(trackEl && trackEl.checked);
         ui.showHeat = Boolean(heatEl && heatEl.checked);
-        applyHistoryLayers(mapId, entry.points, ui);
-        setPlaybackIndex(trackerId, mapId, ui.index);
+        applyHistoryLayers(mapId, entry.allPoints, ui);
+        updateHistoryRangeLabels(trackerId, entry.allPoints, ui);
     });
 
     connectSocket(() => {
-        setStatus("Socket verbunden, lade Daten…", "ok");
+        setStatus("Socket connected, loading data…", "ok");
         refresh();
         setInterval(refresh, 30000);
     });

@@ -12,7 +12,7 @@ Unofficial Tractive GPS adapter for ioBroker.
 - Optional commands for live tracking, LED and buzzer (`…controls.*`, gated by `enableCommands`)
 - Geofence payload as JSON when the API provides it
 - OpenStreetMap link and admin map overview tab with live-tracking / LED / buzzer buttons
-- Admin day track: path, heatmap toggle, time slider playback
+- Admin day track: path, heatmap toggle, from–to range slider and playback
 - Optional Vis-2 Material overview project (`docs/vis-2/`)
 - Automatic ioBroker object creation and datatype inference
 - Encrypted password, ESLint, package/unit tests, GitHub Actions CI
@@ -42,6 +42,10 @@ Contributor notes and publishing checklist: [`docs/PUBLISHING.md`](docs/PUBLISHI
 On a development host you can sync a local clone with `UPDATE_ON_PI.sh` (for maintainers only, not for end-user installation).
 
 ## Changelog
+
+### 0.5.4
+* (Michael Fraessdorf) Latest review fixes: English admin tab UI, valid state roles (`text` / `value.battery`), poll interval upper bound, full jsonConfig translations
+* (Michael Fraessdorf) Admin day track: from–to range slider to limit visible track points
 
 ### 0.5.3
 * (Michael Fraessdorf) Fix day-track / history parser for nested `json_segments` (`[[points]]`)
