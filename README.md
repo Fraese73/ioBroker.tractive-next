@@ -9,6 +9,8 @@ Unofficial Tractive GPS adapter for ioBroker.
 - Tracker list / details / hardware / position
 - Activity and health overview (`…health.*`)
 - 24h position history (`…history.*`)
+- Alert states for automation (`…alerts.*`)
+- Geofence JSON plus structured geofence states (`…geofences.*`)
 - Optional commands for live tracking, LED and buzzer (`…controls.*`, gated by `enableCommands`)
 - Geofence payload as JSON when the API provides it
 - OpenStreetMap link and admin map overview tab with live-tracking / LED / buzzer buttons
@@ -43,35 +45,39 @@ On a development host you can sync a local clone with `UPDATE_ON_PI.sh` (for mai
 
 ## Changelog
 
+### 0.5.5
+* (Fraese73) Add alert states per tracker (`alerts.trackerOffline`, `alerts.lowBattery`, `alerts.noRecentPosition`, `alerts.minutesSinceLastSeen`)
+* (Fraese73) Add structured geofence states per tracker (`geofences.<id>.id|name|active|enteredAt|leftAt`, plus `count`/`idsJson`)
+
 ### 0.5.4
-* (Michael Fraessdorf) Latest review fixes: English admin tab UI, valid state roles (`text` / `value.battery`), poll interval upper bound, full jsonConfig translations
-* (Michael Fraessdorf) Admin day track: from–to range slider to limit visible track points
+* (Fraese73) Latest review fixes: English admin tab UI, valid state roles (`text` / `value.battery`), poll interval upper bound, full jsonConfig translations
+* (Fraese73) Admin day track: from–to range slider to limit visible track points
 
 ### 0.5.3
-* (Michael Fraessdorf) Fix day-track / history parser for nested `json_segments` (`[[points]]`)
+* (Fraese73) Fix day-track / history parser for nested `json_segments` (`[[points]]`)
 
 ### 0.5.2
-* (Michael Fraessdorf) E6013/W6018: README install via Admin only; remove root CHANGELOG.md (changelog in README)
+* (Fraese73) E6013/W6018: README install via Admin only; remove root CHANGELOG.md (changelog in README)
 
 ### 0.5.1
-* (Michael Fraessdorf) Repository checker fixes: news only for published npm versions
+* (Fraese73) Repository checker fixes: news only for published npm versions
 
 ### 0.5.0
-* (Michael Fraessdorf) Admin day track with heatmap toggle and time-slider playback; history.distanceKm
+* (Fraese73) Admin day track with heatmap toggle and time-slider playback; history.distanceKm
 
 ### 0.4.0
-* (Michael Fraessdorf) Optional live-tracking / LED / buzzer commands with enableCommands safety switch
-* (Michael Fraessdorf) Fixed overview.charging for NOT_CHARGING string values
-* (Michael Fraessdorf) Optimistic pending control state, admin control buttons, Vis-2 overview (shipped in 0.5.0)
+* (Fraese73) Optional live-tracking / LED / buzzer commands with enableCommands safety switch
+* (Fraese73) Fixed overview.charging for NOT_CHARGING string values
+* (Fraese73) Optimistic pending control state, admin control buttons, Vis-2 overview (shipped in 0.5.0)
 
 ### 0.3.0
-* (Michael Fraessdorf) Activity/health overview, 24h history, live-tracking status, geofence JSON (read-only)
+* (Fraese73) Activity/health overview, 24h history, live-tracking status, geofence JSON (read-only)
 
 ### 0.2.11
-* (Michael Fraessdorf) Stabilization: null type hints, tolerant API sections, unit tests, redacted logs
+* (Fraese73) Stabilization: null type hints, tolerant API sections, unit tests, redacted logs
 
 ### 0.2.10
-* (Michael Fraessdorf) Trusted Publishing release with provenance; news limited to npm versions
+* (Fraese73) Trusted Publishing release with provenance; news limited to npm versions
 
 Older entries: [`docs/CHANGELOG_OLD.md`](docs/CHANGELOG_OLD.md)
 
@@ -79,7 +85,7 @@ Older entries: [`docs/CHANGELOG_OLD.md`](docs/CHANGELOG_OLD.md)
 
 MIT License
 
-Copyright (c) 2026 Michael Fraessdorf
+Copyright (c) 2026 Fraese73
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

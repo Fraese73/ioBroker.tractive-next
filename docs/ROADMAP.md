@@ -67,3 +67,26 @@ Detaillierte Checkliste: [`docs/PUBLISHING.md`](PUBLISHING.md)
 - [ ] Forum-Testthread
 - [ ] vollständige Dokumentation (EN/DE) inkl. Hersteller-Link und API-Hinweis
 - [ ] später Stable nach Feedback
+
+## Geplantes Release 0.5.5 – Sinnvolle Erweiterungen
+
+Priorität: erst Automationsnutzen, dann Datenmodell, dann UX.
+
+- [x] Alarm-States für Betrieb/Monitoring
+  - `...alerts.trackerOffline`
+  - `...alerts.lowBattery`
+  - `...alerts.noRecentPosition`
+  - `...alerts.minutesSinceLastSeen`
+  - Ziel: robuste Trigger für Skripte/Benachrichtigungen
+- [x] Geofence-Struktur zusätzlich zu JSON
+  - Pro Geofence stabile Unterpunkte (`id`, `name`, `active`, `enteredAt`, `leftAt`)
+  - Ziel: ohne JSON-Parsing in ioBroker-Automationen nutzbar
+- [ ] Health/Activity als Verlaufswerte
+  - Tages-/Wochenwerte als eigene States (wo API-Daten verfügbar)
+  - Ziel: direkte Visualisierung in Vis/History/Influx
+- [ ] History-Fenster konfigurierbar
+  - Optional 6h/12h/24h/48h statt fest 24h
+  - Ziel: weniger API-Last und flexiblere Darstellung je Tracker
+- [ ] Multi-Tracker UX im Admin-Tab
+  - Filter/Suche + Sortierung (z. B. „last seen“, Batteriestand)
+  - Ziel: bessere Bedienung bei mehreren Trackern im selben Account

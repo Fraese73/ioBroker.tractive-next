@@ -11,8 +11,10 @@ import {
     resolvePolledControlActive,
     type ControlStateKey,
 } from './lib/commands';
+import { buildAlertSnapshot, LOW_BATTERY_THRESHOLD, STALE_POSITION_MINUTES } from './lib/alerts';
 import { isMissingEndpointError, isTransientSectionError } from './lib/apiAvailability';
 import { formatApiError, getAxiosStatus } from './lib/errors';
+import { extractGeofenceStates } from './lib/geofences';
 import { countPositionPoints, extractHealthOverview, resolveTrackerIdFromPet } from './lib/health';
 import { computeTrackDistanceKm, extractTrackPoints } from './lib/history';
 import { isChargingState, normalizeValue, sanitizeId, toMilliseconds } from './lib/normalize';
@@ -593,6 +595,7 @@ class TractiveNext extends utils.Adapter {
                     'string',
                     'json',
                 );
+                await this.writeGeofenceStates(trackerId, data);
                 this.log.debug(`Geofences ok for tracker ${trackerId} via ${endpoint}.`);
                 return;
             } catch (error) {
@@ -603,6 +606,28 @@ class TractiveNext extends utils.Adapter {
                 this.log.warn(`Geofences failed at ${endpoint}: ${formatApiError(error)}`);
             }
         }
+    }
+
+    private async writeGeofenceStates(trackerId: string, payload: unknown): Promise<void> {
+        const base = `${trackerId}.geofences`;
+        const geofences = extractGeofenceStates(payload);
+        const ids: string[] = [];
+
+        for (const fence of geofences) {
+            const safeId = sanitizeId(fence.id) || `geofence_${ids.length + 1}`;
+            ids.push(safeId);
+
+            const fenceBase = `${base}.${safeId}`;
+            await this.ensureObject(fenceBase, 'channel', fence.name || fence.id);
+            await this.writeTypedState(`${fenceBase}.id`, 'id', fence.id, 'string', 'text');
+            await this.writeTypedState(`${fenceBase}.name`, 'name', fence.name, 'string', 'text');
+            await this.writeTypedState(`${fenceBase}.active`, 'active', fence.active, 'boolean', 'indicator');
+            await this.writeTypedState(`${fenceBase}.enteredAt`, 'enteredAt', fence.enteredAt, 'number', 'value.time');
+            await this.writeTypedState(`${fenceBase}.leftAt`, 'leftAt', fence.leftAt, 'number', 'value.time');
+        }
+
+        await this.writeTypedState(`${base}.count`, 'count', geofences.length, 'number', 'value');
+        await this.writeTypedState(`${base}.idsJson`, 'idsJson', JSON.stringify(ids), 'string', 'json');
     }
 
     private rememberPendingControl(
@@ -750,6 +775,7 @@ class TractiveNext extends utils.Adapter {
         const tracker = this.asRecord(deviceData.tracker);
         const health = extractHealthOverview(deviceData.health_overview);
         const live = this.asRecord(tracker?.live_tracking);
+        const trackerState = this.asString(tracker?.tracker_state);
         const base = `${trackerId}.overview`;
 
         await this.ensureObject(base, 'channel', 'overview');
@@ -887,6 +913,59 @@ class TractiveNext extends utils.Adapter {
             });
             await this.setStateAsync(state.id, { val: state.value, ack: true });
         }
+
+        await this.writeAlertStates(trackerId, {
+            trackerState,
+            batteryLevel,
+            lastSeenMs: lastSeen,
+            nowMs: Date.now(),
+        });
+    }
+
+    private async writeAlertStates(
+        trackerId: string,
+        input: { trackerState: string; batteryLevel: number; lastSeenMs: number; nowMs: number },
+    ): Promise<void> {
+        const snapshot = buildAlertSnapshot(input);
+        const base = `${trackerId}.alerts`;
+
+        await this.ensureObject(base, 'channel', 'alerts');
+        await this.writeTypedState(
+            `${base}.trackerOffline`,
+            'trackerOffline',
+            snapshot.trackerOffline,
+            'boolean',
+            'indicator',
+        );
+        await this.writeTypedState(`${base}.lowBattery`, 'lowBattery', snapshot.lowBattery, 'boolean', 'indicator');
+        await this.writeTypedState(
+            `${base}.noRecentPosition`,
+            'noRecentPosition',
+            snapshot.noRecentPosition,
+            'boolean',
+            'indicator',
+        );
+        await this.writeTypedState(
+            `${base}.minutesSinceLastSeen`,
+            'minutesSinceLastSeen',
+            snapshot.minutesSinceLastSeen,
+            'number',
+            'value.interval',
+        );
+        await this.writeTypedState(
+            `${base}.lowBatteryThreshold`,
+            'lowBatteryThreshold',
+            LOW_BATTERY_THRESHOLD,
+            'number',
+            'value',
+        );
+        await this.writeTypedState(
+            `${base}.stalePositionMinutes`,
+            'stalePositionMinutes',
+            STALE_POSITION_MINUTES,
+            'number',
+            'value.interval',
+        );
     }
 
     private asRecord(value: unknown): ApiRecord | undefined {

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.5.4",
+    "version": "0.5.5",
     "news": {
+      "0.5.5": {
+        "en": "Add alert states for automation and structured geofence states per tracker.",
+        "de": "Neue Alarm-States für Automationen und strukturierte Geofence-States pro Tracker.",
+        "ru": "Добавлены состояния оповещений и структурированные состояния геозон для каждого трекера.",
+        "pt": "Adicionados estados de alerta e estados estruturados de geofence por rastreador.",
+        "nl": "Alarmstatussen en gestructureerde geofence-statussen per tracker toegevoegd.",
+        "fr": "Ajout d'états d'alerte et d'états de géofence structurés par tracker.",
+        "it": "Aggiunti stati di allerta e stati geofence strutturati per tracker.",
+        "es": "Se agregan estados de alerta y estados estructurados de geofence por rastreador.",
+        "pl": "Dodano stany alarmowe i ustrukturyzowane stany geofence dla każdego trackera.",
+        "uk": "Додано стани сповіщень і структуровані стани геозон для кожного трекера.",
+        "zh-cn": "新增自动化告警状态及按追踪器划分的结构化地理围栏状态。"
+      },
       "0.5.4": {
         "en": "Latest review fixes: English admin tab, valid roles, interval cap, jsonConfig i18n; day-track range slider.",
         "de": "Latest-Review-Fixes: englischer Admin-Tab, gültige Rollen, Intervall-Limit, jsonConfig-i18n; Tagesverlauf-Bereichsslider.",
@@ -96,7 +109,7 @@
       "zh-cn": "非官方 Tractive GPS 集成，支持自动状态发现。"
     },
     "authors": [
-      "Michael Fraessdorf <coding@michael-fr.eu>"
+      "Fraese73 <coding@michael-fr.eu>"
     ],
     "keywords": [
       "tractive",
