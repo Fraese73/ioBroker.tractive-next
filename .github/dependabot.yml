@@ -1,0 +1,20 @@
+# Dependabot configuration
+
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 15
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 20
+    versioning-strategy: increase
+    ignore:
+      - dependency-name: "@types/node"
+        update-types:
+          - version-update:semver-major

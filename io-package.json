@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "tractive-next",
-    "version": "0.5.5",
+    "version": "0.5.6",
     "news": {
+      "0.5.6": {
+        "en": "Repository checker updates: Node 26 tests, current testing stack, full LICENSE text.",
+        "de": "Repository-Checker-Updates: Tests mit Node 26, aktueller Testing-Stack, vollständiger LICENSE-Text.",
+        "ru": "Обновления checker: тесты Node 26, актуальный testing stack, полный текст LICENSE.",
+        "pt": "Atualizações do checker: testes Node 26, stack de testes atual, texto LICENSE completo.",
+        "nl": "Checker-updates: tests met Node 26, actuele teststack, volledige LICENSE-tekst.",
+        "fr": "Mises à jour checker: tests Node 26, pile de tests actuelle, texte LICENSE complet.",
+        "it": "Aggiornamenti checker: test Node 26, stack di test aggiornato, testo LICENSE completo.",
+        "es": "Actualizaciones del checker: pruebas Node 26, stack de pruebas actual, texto LICENSE completo.",
+        "pl": "Aktualizacje checkera: testy Node 26, aktualny stos testów, pełny tekst LICENSE.",
+        "uk": "Оновлення checker: тести Node 26, актуальний testing stack, повний текст LICENSE.",
+        "zh-cn": "仓库检查更新：Node 26 测试、最新测试栈、完整 LICENSE 文本。"
+      },
       "0.5.5": {
         "en": "Add alert states for automation and structured geofence states per tracker.",
         "de": "Neue Alarm-States für Automationen und strukturierte Geofence-States pro Tracker.",
@@ -143,7 +156,16 @@
       "singleton": true,
       "name": {
         "en": "Tractive Next",
-        "de": "Tractive Next"
+        "de": "Tractive Next",
+        "ru": "Tractive Next",
+        "pt": "Tractive Next",
+        "nl": "Tractive Next",
+        "fr": "Tractive Next",
+        "it": "Tractive Next",
+        "es": "Tractive Next",
+        "pl": "Tractive Next",
+        "uk": "Tractive Next",
+        "zh-cn": "Tractive Next"
       },
       "link": ""
     },
@@ -154,7 +176,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.6.20"
+        "admin": ">=7.8.23"
       }
     ]
   },

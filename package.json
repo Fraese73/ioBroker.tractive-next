@@ -1,6 +1,6 @@
 {
   "name": "iobroker.tractive-next",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Unofficial Tractive GPS adapter for ioBroker with automatic state discovery and an admin overview tab.",
   "author": {
     "name": "Fraese73",
@@ -31,12 +31,13 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.4.1",
+    "@iobroker/adapter-core": "^3.4.3",
     "axios": "^1.11.0"
   },
   "devDependencies": {
     "@iobroker/eslint-config": "^2.2.0",
-    "@iobroker/testing": "^5.2.2",
+    "@iobroker/testing": "^6.3.1",
+    "@tsconfig/node22": "^22.0.6",
     "@types/node": "^22.0.0",
     "rimraf": "^6.0.0",
     "typescript": "^5.9.0"
