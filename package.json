@@ -39,7 +39,7 @@
     "@iobroker/testing": "^6.3.1",
     "@tsconfig/node22": "^22.0.6",
     "@types/node": "^22.0.0",
-    "rimraf": "^6.0.0",
+    "rimraf": "^6.1.4",
     "typescript": "^5.9.0"
   },
   "scripts": {
